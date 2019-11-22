@@ -1,0 +1,64 @@
+{
+  "groups": [
+    {
+      "id": 1,
+      "name": "Plan",
+      "tasks": [
+        {
+          "name": "Brainstorm ideas",
+          "status": "Working on it",
+          "dueDate": "20 NOV 2019",
+          "priority": "High",
+          "owner": "Shaneen"
+        },
+        {
+          "name": "Authentication",
+          "status": "Working on it",
+          "dueDate": "26 NOV 2019",
+          "priority": "Medium",
+          "owner": "Jin"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Done",
+      "tasks": [
+        {
+          "name": "Decide what app to do",
+          "status": "Done",
+          "dueDate": "23 NOV 2019",
+          "priority": "High",
+          "owner": "Shaneen"
+        },
+        {
+          "name": "Authentication",
+          "status": "Done",
+          "dueDate": "30 NOV 2019",
+          "priority": "Medium",
+          "owner": "Jeffrey"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Plan",
+      "tasks": [
+        {
+          "name": "Brainstorm ideas",
+          "status": "Working on it",
+          "dueDate": "20 NOV 2019",
+          "priority": "High",
+          "owner": "Shaneen"
+        },
+        {
+          "name": "Authentication",
+          "status": "Working on it",
+          "dueDate": "26 NOV 2019",
+          "priority": "Medium",
+          "owner": "Jin"
+        }
+      ]
+    }
+  ]
+}

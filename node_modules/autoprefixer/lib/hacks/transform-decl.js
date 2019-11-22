@@ -60,7 +60,7 @@ function (_Declaration) {
 
       var func = _ref;
 
-      if (decl.value.indexOf(func + "(") !== -1) {
+      if (decl.value.includes(func + "(")) {
         return true;
       }
     }

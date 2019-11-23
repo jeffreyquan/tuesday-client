@@ -6,16 +6,31 @@ const SERVER_URL = 'http://localhost:3000/groups'
 export default class Dashboard extends Component {
     
     state = {
-        groups: []
+        groups: [],
+        groupName: ''
     }
 
     componentDidMount() {
-        console.log("component did run when loaded");
         axios.get(SERVER_URL).then((results) => {
-            console.log(results.data);
-            
             this.setState({groups: results.data});
-            
+        })
+    }
+
+    saveGroupName = (event) => {
+        event.preventDefault();
+        console.log("groupName", this.state.groupName)
+
+        const postRequest = {
+            "name": this.state.groupName,
+            "tasks": []
+          }
+
+        axios.post(SERVER_URL, postRequest).then((result) => {
+           
+            axios.get(SERVER_URL).then((results) => {
+                this.setState({ groups: results.data });
+            })
+
         })
     }
 
@@ -24,18 +39,46 @@ export default class Dashboard extends Component {
 
         return(
             <div>
+                <form onSubmit={this.saveGroupName}>
+                    <input placeholder="Group Name" onChange={(event) => this.setState({ groupName: event.target.value })} />
+                    <input type="submit" value="Add Group" />
+                </form>
+
                 {this.state.groups.map(group => (
                     <div>
-                        <h2>{group.name}</h2>
-                        {group.tasks.map(task => (
-                                <p>Task: {task.name} | Status: {task.status} | Due date: {task.dueDate} | Priority: {task.priority} | Owner: {task.owner}</p>
-                        ))}
+                        <table>
+                            <tr>
+                                <th>{group.name}</th>
+                                <th>Owner</th>
+                                <th>Status</th>
+                                <th>Due Date</th>
+                                <th>Priority</th>
+                            </tr>
+                            
+                            {group.tasks.map(task => (
+                                <tr>
+                                    <td>
+                                        <input type="text" value={task.name} />
+                                    </td>
+                                    <td>
+                                        <input type="text" value={task.owner} />
+                                    </td>
+                                    <td>
+                                        <input type="text" value={task.status} />
+                                    </td>
+                                    <td>
+                                        <input type="text" value={task.dueDate} />
+                                    </td>
+                                    <td>
+                                        <input type="text" value={task.priority} />
+                                    </td>
+                                </tr>
+                            ))}
+                            
+                        </table>
                     </div>
                 ))}
             </div>
         )
     }
-
-
-
 }

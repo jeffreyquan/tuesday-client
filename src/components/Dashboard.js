@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-const SERVER_URL = 'http://localhost:3000/groups'
+// const SERVER_URL = 'https://tuesday-server.herokuapp.com/tasks'
+const SERVER_URL = "http://localhost:3000/groups"
 
 export default class Dashboard extends Component {
     

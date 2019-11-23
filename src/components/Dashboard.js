@@ -34,19 +34,15 @@ export default class Dashboard extends Component {
         })
     }
 
-    onClickHandler = (e) => {
-        console.log("e", e.target.value)
-    }
-
-    // 
-    onChangeHandler = (e, { id }, task, taskIndex, field) => {
-        e.persist() // Need this, read https://reactjs.org/docs/events.html#event-pooling 
+    // When you type or edit a task it will get updated/saved
+    onChangeHandler = (event, { id }, task, taskIndex, field) => {
+        event.persist() // Need this, read https://reactjs.org/docs/events.html#event-pooling 
         
         this.setState((prevState) => {
             const selectedGroupIndex = prevState.groups.findIndex((group) => group.id === id)
 
             const updatedGroups = prevState.groups
-            updatedGroups[selectedGroupIndex].tasks[taskIndex][field] = e.target.value
+            updatedGroups[selectedGroupIndex].tasks[taskIndex][field] = event.target.value
 
             return ({ groups: updatedGroups })
 
@@ -66,11 +62,17 @@ export default class Dashboard extends Component {
                 axios.get(SERVER_URL).then((results) => {
                     this.setState({ groups: results.data });
                 })
-    
             })
-
         })
+    }
 
+    deleteGroup = (event, group) => {
+        axios.delete(`${SERVER_URL}/${group.id}`).then((result) => {
+           
+            axios.get(SERVER_URL).then((results) => {
+                this.setState({ groups: results.data });
+            })
+        })
     }
 
     render() {
@@ -86,6 +88,7 @@ export default class Dashboard extends Component {
                 {this.state.groups.map(group => (
                     <div>
                         <table>
+                            <button onClick={(event) => this.deleteGroup(event, group)}>x</button>
                             <tr>
                                 <th>{group.name}</th>
                                 <th>Owner</th>
@@ -97,7 +100,7 @@ export default class Dashboard extends Component {
                             {group.tasks.map((task, taskIndex) => (
                                 <tr onClick={this.onClickHandler}>
                                     <td>
-                                        <input type="text" value={task.name} onChange={(e) => this.onChangeHandler(e, group, task, taskIndex, "name")} />
+                                        <input type="text" value={task.name} onChange={(event) => this.onChangeHandler(event, group, task, taskIndex, "name")} />
                                     </td>
                                     <td>
                                         <input type="text" value={task.owner} />

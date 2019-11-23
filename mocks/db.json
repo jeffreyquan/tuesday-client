@@ -5,14 +5,14 @@
       "name": "Plan",
       "tasks": [
         {
-          "name": "Morni Goodg",
+          "name": "Brainstorm Ideas",
           "status": "Working on it",
           "dueDate": "20 NOV 2019",
           "priority": "High",
           "owner": "Shaneen"
         },
         {
-          "name": "Poop",
+          "name": "Authentication",
           "status": "Working on it",
           "dueDate": "26 NOV 2019",
           "priority": "Medium",
@@ -39,26 +39,6 @@
           "owner": "Jeffrey"
         }
       ]
-    },
-    {
-      "name": "Shaneen",
-      "tasks": [
-        {
-          "name": "Brainstorm ideas",
-          "status": "Working on it",
-          "dueDate": "20 NOV 2019",
-          "priority": "High",
-          "owner": "Shaneen"
-        },
-        {
-          "name": "Authentication123",
-          "status": "Working on it",
-          "dueDate": "26 NOV 2019",
-          "priority": "Medium",
-          "owner": "Jin"
-        }
-      ],
-      "id": 3
     }
   ]
 }

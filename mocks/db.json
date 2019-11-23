@@ -5,14 +5,14 @@
       "name": "Plan",
       "tasks": [
         {
-          "name": "Brainstorm ideas",
+          "name": "Morni Goodg",
           "status": "Working on it",
           "dueDate": "20 NOV 2019",
           "priority": "High",
           "owner": "Shaneen"
         },
         {
-          "name": "Authentication",
+          "name": "Poop",
           "status": "Working on it",
           "dueDate": "26 NOV 2019",
           "priority": "Medium",
@@ -41,29 +41,24 @@
       ]
     },
     {
-      "id": 3,
-      "name": "Extra features",
+      "name": "Shaneen",
       "tasks": [
         {
-          "name": "Inbox",
-          "status": "Pending",
+          "name": "Brainstorm ideas",
+          "status": "Working on it",
           "dueDate": "20 NOV 2019",
           "priority": "High",
-          "owner": "Jin"
+          "owner": "Shaneen"
         },
         {
-          "name": "Invitation",
-          "status": "Pending",
+          "name": "Authentication123",
+          "status": "Working on it",
           "dueDate": "26 NOV 2019",
           "priority": "Medium",
           "owner": "Jin"
         }
-      ]
-    },
-    {
-      "name": "Optional",
-      "tasks": [],
-      "id": 4
+      ],
+      "id": 3
     }
   ]
 }

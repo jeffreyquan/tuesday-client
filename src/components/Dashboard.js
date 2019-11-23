@@ -34,6 +34,45 @@ export default class Dashboard extends Component {
         })
     }
 
+    onClickHandler = (e) => {
+        console.log("e", e.target.value)
+    }
+
+    // 
+    onChangeHandler = (e, { id }, task, taskIndex, field) => {
+        e.persist() // Need this, read https://reactjs.org/docs/events.html#event-pooling 
+        
+        this.setState((prevState) => {
+            const selectedGroupIndex = prevState.groups.findIndex((group) => group.id === id)
+
+            const updatedGroups = prevState.groups
+            updatedGroups[selectedGroupIndex].tasks[taskIndex][field] = e.target.value
+
+            return ({ groups: updatedGroups })
+
+        }, () => {
+            // This second anonymous function is a callback function which is called after a
+            // successful setState call
+
+            // NOTE TODO
+            // This should actually be done when onBlur
+            // And not onChange, only need to call it when the user leaves the field to do something else
+            // And not on every keystroke
+
+            const updatedGroup = this.state.groups.find((group) => group.id === id)
+
+            axios.put(`${SERVER_URL}/${id}`, updatedGroup).then((result) => {
+           
+                axios.get(SERVER_URL).then((results) => {
+                    this.setState({ groups: results.data });
+                })
+    
+            })
+
+        })
+
+    }
+
     render() {
         if (!this.state.groups.length) return (<h3>Loading</h3>);
 
@@ -55,10 +94,10 @@ export default class Dashboard extends Component {
                                 <th>Priority</th>
                             </tr>
                             
-                            {group.tasks.map(task => (
-                                <tr>
+                            {group.tasks.map((task, taskIndex) => (
+                                <tr onClick={this.onClickHandler}>
                                     <td>
-                                        <input type="text" value={task.name} />
+                                        <input type="text" value={task.name} onChange={(e) => this.onChangeHandler(e, group, task, taskIndex, "name")} />
                                     </td>
                                     <td>
                                         <input type="text" value={task.owner} />

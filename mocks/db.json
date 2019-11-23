@@ -42,18 +42,18 @@
     },
     {
       "id": 3,
-      "name": "Plan",
+      "name": "Extra features",
       "tasks": [
         {
-          "name": "Brainstorm ideas",
-          "status": "Working on it",
+          "name": "Inbox",
+          "status": "Pending",
           "dueDate": "20 NOV 2019",
           "priority": "High",
-          "owner": "Shaneen"
+          "owner": "Jin"
         },
         {
-          "name": "Authentication",
-          "status": "Working on it",
+          "name": "Invitation",
+          "status": "Pending",
           "dueDate": "26 NOV 2019",
           "priority": "Medium",
           "owner": "Jin"

@@ -3,8 +3,8 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
-// const SERVER_URL = 'https://tuesday-server.herokuapp.com/tasks'
-const SERVER_URL = "http://localhost:3000/groups"
+const SERVER_URL = 'https://tuesday-server.herokuapp.com/projects/1/tasks' // need to fix this for later - depends what project id a user has
+// const SERVER_URL = "http://localhost:3000/groups"
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -27,6 +27,8 @@ function Dashboard(props) {
 
     useEffect(() => {
         axios.get(SERVER_URL).then((results) => {
+            console.log(results.data);
+            
             setGroups(results.data);
         })
     }, [])
@@ -90,19 +92,23 @@ function Dashboard(props) {
                         <input type="submit" value="Add Group" />
                     </form>
 
-                    { groups.map(group => (
+                    { groups.map(group => {
+                        console.log("group", group)
+                        return (
                         <div>
                             <table>
                                 <button onClick={(event) => deleteGroup(event, group)}>x</button>
                                 <tr>
-                                    <th>{group.name}</th>
-                                    <th>Owner</th>
-                                    <th>Status</th>
-                                    <th>Due Date</th>
-                                    <th>Priority</th>
+                                    <th>Group name: {group.name}</th>
+                                    {/*
+                                        <th>Owner</th>
+                                        <th>Status</th>
+                                        <th>Due Date</th>
+                                        <th>Priority</th>
+                                    */}
                                 </tr>
                                 
-                                { group.tasks.map((task, taskIndex) => (
+                                { group.tasks && group.tasks.map((task, taskIndex) => (
                                     <tr>
                                         <td>
                                             <TextField
@@ -158,7 +164,7 @@ function Dashboard(props) {
                                 ))}   
                             </table>
                         </div>
-                    ))}
+                    )})}
                 </div>
             )}
         </div>

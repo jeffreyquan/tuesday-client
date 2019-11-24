@@ -87,7 +87,8 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-axios.defaults.headers.common['Authorization'] = 'Bearer '+ JSON.parse(localStorage.getItem('jwt'));
+// axios.defaults.headers.common['Authorization'] = 'Bearer '+ JSON.parse(localStorage.getItem('jwt'));
+axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`;
 
 function App(props) {
 

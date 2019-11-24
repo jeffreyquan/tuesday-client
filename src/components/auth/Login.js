@@ -36,7 +36,7 @@ export default class Login extends Component {
             {withCredentials: true}
         ).then(response => {
             if (response.data.logged_in){
-            window.localStorage.setItem('jwt', JSON.stringify(response.data.jwt));
+            window.localStorage.setItem('jwt', response.data.jwt);
             this.props.handleSuccessfulAuth(response.data);
         }
         }).catch(error => {

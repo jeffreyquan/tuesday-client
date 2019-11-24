@@ -92,7 +92,7 @@ function App(props) {
     const [open, setOpen] = React.useState(false);
     const [loggedInStatus, setLoggedInStatus] = useState('NOT_LOGGED_IN');
     const [user, setUser] = useState(null);
-    
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -196,7 +196,7 @@ function App(props) {
                 </Switch>
             </BrowserRouter>
       </main>
-            
+
         </div>
     )
 }

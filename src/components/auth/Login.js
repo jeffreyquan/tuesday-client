@@ -18,7 +18,6 @@ export default class Login extends Component {
         this.setState({
             [event.target.name]:event.target.value
         })
-
     }
 
     handleSubmit(event){
@@ -36,6 +35,7 @@ export default class Login extends Component {
             },
             {withCredentials: true}
         ).then(response => {
+            console.log(response.data);
             if (response.data.logged_in){
             this.props.handleSuccessfulAuth(response.data);
         }

@@ -3,7 +3,7 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
-const SERVER_URL = 'https://tuesday-server.herokuapp.com/projects/1/tasks' // need to fix this for later - depends what project id a user has
+const SERVER_URL = 'https://tuesday-server.herokuapp.com/projects/1/groups' // need to fix this for later - depends what project id a user has
 // const SERVER_URL = "http://localhost:3000/groups"
 
 const useStyles = makeStyles(theme => ({
@@ -28,7 +28,7 @@ function Dashboard(props) {
     useEffect(() => {
         axios.get(SERVER_URL).then((results) => {
             console.log(results.data);
-            
+
             setGroups(results.data);
         })
     }, [])
@@ -42,7 +42,7 @@ function Dashboard(props) {
           }
 
         axios.post(SERVER_URL, postRequest).then((result) => {
-           
+
             axios.get(SERVER_URL).then((results) => {
                 setGroups(results.data);
             })
@@ -52,7 +52,7 @@ function Dashboard(props) {
 
     // When you type or edit a task it will get updated/saved
     const onChangeHandler = (event, { id }, task, taskIndex, field) => {
-        event.persist() // Need this, read https://reactjs.org/docs/events.html#event-pooling 
+        event.persist() // Need this, read https://reactjs.org/docs/events.html#event-pooling
 
         // NOTE TODO
         // This should actually be done when onBlur
@@ -68,7 +68,7 @@ function Dashboard(props) {
         const updatedGroup = groups.find((group) => group.id === id)
 
         axios.put(`${SERVER_URL}/${id}`, updatedGroup).then((result) => {
-        
+
             axios.get(SERVER_URL).then((results) => {
                 setGroups(results.data);
             })
@@ -107,7 +107,7 @@ function Dashboard(props) {
                                         <th>Priority</th>
                                     */}
                                 </tr>
-                                
+
                                 { group.tasks && group.tasks.map((task, taskIndex) => (
                                     <tr>
                                         <td>
@@ -161,7 +161,7 @@ function Dashboard(props) {
                                             />
                                         </td>
                                     </tr>
-                                ))}   
+                                ))}
                             </table>
                         </div>
                     )})}

@@ -22,6 +22,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
+
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -85,6 +87,8 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
+
+
 function App(props) {
 
     const classes = useStyles();
@@ -92,7 +96,8 @@ function App(props) {
     const [open, setOpen] = React.useState(false);
     const [loggedInStatus, setLoggedInStatus] = useState('NOT_LOGGED_IN');
     const [user, setUser] = useState(null);
-
+    
+axios.defaults.headers.common['Authorization'] = 'Bearer '+jwt;
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -103,11 +108,13 @@ function App(props) {
 
     const handleLogin = (data) => {
         setLoggedInStatus("LOGGED_IN")
+        setJWT(data.jwt)
         setUser(data.user)
     }
 
     const handleLogout = () => {
         setLoggedInStatus("NOT_LOGGED_IN")
+        setJWT("")
         setUser(null)
     }
 
@@ -190,6 +197,7 @@ function App(props) {
                                 {...props}
                                 user={user}
                                 loggedInStatus={loggedInStatus}
+                                jwt={jwt}
                             />
                         )}
                     />

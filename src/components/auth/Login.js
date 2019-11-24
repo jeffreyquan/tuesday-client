@@ -31,12 +31,13 @@ export default class Login extends Component {
             user: {
                 email: email,
                 password: password,
-                }
+            },
             },
             {withCredentials: true}
         ).then(response => {
             console.log(response.data);
             if (response.data.logged_in){
+            window.localStorage.setItem('jwt', JSON.stringify(response.data.jwt));
             this.props.handleSuccessfulAuth(response.data);
         }
         }).catch(error => {

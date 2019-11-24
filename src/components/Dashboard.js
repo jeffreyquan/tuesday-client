@@ -43,7 +43,7 @@ function Dashboard(props) {
 
         axios.post(SERVER_URL, postRequest).then((result) => {
 
-            axios.get(SERVER_URL).then((results) => {
+            axios.get({SERVER_URL}).then((results) => {
                 setGroups(results.data);
             })
 

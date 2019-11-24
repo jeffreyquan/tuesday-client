@@ -3,7 +3,7 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
-const SERVER_URL = 'https://tuesday-server.herokuapp.com/projects/1/groups' // need to fix this for later - depends what project id a user has
+const SERVER_URL = 'http://localhost:3000/projects/1/groups' // need to fix this for later - depends what project id a user has
 // const SERVER_URL = "http://localhost:3000/groups"
 
 const useStyles = makeStyles(theme => ({

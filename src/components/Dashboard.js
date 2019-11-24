@@ -143,7 +143,7 @@ function Dashboard(props) {
                                         <td>
                                             <TextField
                                                 id="filled-read-only-input"
-                                                value={task.dueDate}
+                                                value={new Date(task.due_date)}
                                                 className={classes.textField}
                                                 margin="normal"
                                                 variant="outlined"

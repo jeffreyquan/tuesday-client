@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Home from './Home'
 import Dashboard from './Dashboard'
+import Group from './Group'
 import axios from 'axios'
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -87,7 +88,7 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-axios.defaults.headers.common['Authorization'] = 'Bearer '+ JSON.parse(localStorage.getItem('jwt'));
+axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`;
 
 function App(props) {
 
@@ -192,6 +193,17 @@ function App(props) {
                         path={"/dashboard"}
                         render={props => (
                             <Dashboard
+                                {...props}
+                                user={user}
+                                loggedInStatus={loggedInStatus}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path={"/groups"}
+                        render={props => (
+                            <Group
                                 {...props}
                                 user={user}
                                 loggedInStatus={loggedInStatus}

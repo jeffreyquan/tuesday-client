@@ -87,7 +87,7 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-
+axios.defaults.headers.common['Authorization'] = 'Bearer '+ JSON.parse(localStorage.getItem('jwt'));
 
 function App(props) {
 
@@ -96,8 +96,8 @@ function App(props) {
     const [open, setOpen] = React.useState(false);
     const [loggedInStatus, setLoggedInStatus] = useState('NOT_LOGGED_IN');
     const [user, setUser] = useState(null);
-    
-axios.defaults.headers.common['Authorization'] = 'Bearer '+jwt;
+
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -108,13 +108,11 @@ axios.defaults.headers.common['Authorization'] = 'Bearer '+jwt;
 
     const handleLogin = (data) => {
         setLoggedInStatus("LOGGED_IN")
-        setJWT(data.jwt)
         setUser(data.user)
     }
 
     const handleLogout = () => {
         setLoggedInStatus("NOT_LOGGED_IN")
-        setJWT("")
         setUser(null)
     }
 
@@ -197,7 +195,6 @@ axios.defaults.headers.common['Authorization'] = 'Bearer '+jwt;
                                 {...props}
                                 user={user}
                                 loggedInStatus={loggedInStatus}
-                                jwt={jwt}
                             />
                         )}
                     />

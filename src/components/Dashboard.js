@@ -5,11 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Nav from './Nav'
 import Control from './Control'
+import GroupNameField from './GroupNameField'
 
 const SERVER_URL = "http://localhost:3000/projects/1"
 
-let URL = (model) => {
-    return `http://localhost:3000/${model}.json`
+let URL = (model, id = '') => {
+    return `http://localhost:3000/${model}/${id}`
 }; // need to fix this for later - depends what project id a user has
 // const SERVER_URL = "http://localhost:3000/groups"
 
@@ -69,6 +70,14 @@ function Dashboard(props) {
         })
     }
 
+    const deleteTask = (event, task) => {
+        axios.delete(`http://localhost:3000/tasks/${task.id}`).then((result) => {
+            axios.get(SERVER_URL).then((results) => {
+                setGroups(results.data["groups"]);
+            })
+        })
+    }
+
     return (
         <div>
         <Nav {...props} handleLogout={props.handleLogout} />
@@ -86,13 +95,7 @@ function Dashboard(props) {
                         <div>
                             <table>
                                 <tr>
-                                    <th><TextField
-                                            id="filled-read-only-input"
-                                            value={group.name}
-                                            className={classes.textField}
-                                            margin="normal"
-                                            variant="outlined"
-                                        />
+                                    <th><GroupNameField groupName={group.name} id={group.id} />
                                         <button onClick={(event) => deleteGroup(event, group)}>x</button>
                                     </th>
 
@@ -106,6 +109,7 @@ function Dashboard(props) {
                                 { group.tasks && group.tasks.map((task, taskIndex) => (
                                     <tr>
                                         <td>
+                                            <button onClick={(event) => deleteTask(event, task)}>x</button>
                                             <TextField
                                                 id="filled-read-only-input"
                                                 value={task.name}

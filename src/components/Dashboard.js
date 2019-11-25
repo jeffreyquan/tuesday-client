@@ -82,13 +82,13 @@ function Dashboard(props) {
 
       const Wrapper = styled.div`
             display: grid;
-            grid-template-columns: 10% 10% 80%;
+            grid-template-columns: 66px auto auto;
       `;
     return (
         <Wrapper>
         <Nav {...props} handleLogout={props.handleLogout} />
         <Control {...props} user = {props.user} loggedInStatus={props.loggedInStatus}/>
-        <div>
+        <div style={{backgroundColor: 'white'}}>
             { !groups.length ? <h3>Loading</h3> : (
                 <div>
                     <form onSubmit={saveGroupName}>

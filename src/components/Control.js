@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class Control extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      user_id: 1,
       memberships: null
     };
+
+    if (props.user) {
+      this.state.user_id = props.user.id;
+    }
 
     const fetchMemberships = () => {
       axios.get(`http://localhost:3000/users/${ this.state.user_id }.json`).then( ( results ) => {

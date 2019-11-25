@@ -51,20 +51,15 @@ function App(props) {
         });
     }, [])
 
-
-
-
     return (
         <BrowserRouter>
         {!jwt ? <Redirect to ="/" /> : null}
-
         <Switch>
         <Route exact path={"/"}
         render={props => (
             <Home {...props} handleLogin={handleLogin} loggedInStatus={loggedInStatus} />
         )}
         />
-
         <Route exact path={"/dashboard"}
         render={props => (
             <Dashboard {...props} user={user}

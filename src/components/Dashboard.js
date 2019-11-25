@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
 
 import Nav from './Nav'
 import Control from './Control'
@@ -71,18 +72,23 @@ function Dashboard(props) {
 
     const deleteTask = (event, group, task) => {
         console.log(task, "task");
-        
+
         axios.delete(`http://localhost:3000/groups/${group.id}/tasks/${task.id}`).then((result) => {
             axios.get(SERVER_URL).then((results) => {
                 setGroups(results.data["groups"]);
             })
         })
-      }    
+      }
 
+      const Wrapper = styled.div`
+            display: grid;
+            grid-template-columns: 10% 10% 80%;
+      `;
     return (
-        <div>
+        <Wrapper>
         <Nav {...props} handleLogout={props.handleLogout} />
         <Control {...props} user = {props.user} loggedInStatus={props.loggedInStatus}/>
+        <div>
             { !groups.length ? <h3>Loading</h3> : (
                 <div>
                     <form onSubmit={saveGroupName}>
@@ -115,7 +121,8 @@ function Dashboard(props) {
                     )})}
                 </div>
             )}
-            </div>
+        </div>
+            </Wrapper>
     )
 }
 

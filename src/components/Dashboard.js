@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Nav from './Nav'
 import Control from './Control'
 import GroupNameField from './GroupNameField'
+import Task from './Task'
 
-const SERVER_URL = "http://localhost:3000/projects/1"
+const SERVER_URL = "http://localhost:3000/projects/1" // need to fix this for later - depends what project id a user has
 
 let URL = (model, id = '') => {
     return `http://localhost:3000/${model}/${id}`
-}; // need to fix this for later - depends what project id a user has
-// const SERVER_URL = "http://localhost:3000/groups"
+};
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -70,13 +69,15 @@ function Dashboard(props) {
         })
     }
 
-    const deleteTask = (event, task) => {
-        axios.delete(`http://localhost:3000/tasks/${task.id}`).then((result) => {
+    const deleteTask = (event, group, task) => {
+        console.log(task, "task");
+        
+        axios.delete(`http://localhost:3000/groups/${group.id}/tasks/${task.id}`).then((result) => {
             axios.get(SERVER_URL).then((results) => {
                 setGroups(results.data["groups"]);
             })
         })
-    }
+      }    
 
     return (
         <div>
@@ -106,60 +107,8 @@ function Dashboard(props) {
                                     
                                 </tr>
 
-                                { group.tasks && group.tasks.map((task, taskIndex) => (
-                                    <tr>
-                                        <td>
-                                            <button onClick={(event) => deleteTask(event, task)}>x</button>
-                                            <TextField
-                                                id="filled-read-only-input"
-                                                value={task.name}
-                                                className={classes.textField}
-                                                margin="normal"
-                                                variant="outlined"
-                                                // onChange={(event) => onChangeHandler(event, group, task, taskIndex, "name")}
-                                            />
-                                        </td>
-                                        <td>
-                                            <TextField
-                                                id="filled-read-only-input"
-                                                value={task.owner}
-                                                className={classes.textField}
-                                                margin="normal"
-                                                variant="outlined"
-                                                // onChange={(event) => onChangeHandler(event, group, task, taskIndex, "name")}
-                                            />
-                                        </td>
-                                        <td>
-                                            <TextField
-                                                id="filled-read-only-input"
-                                                value={task.status}
-                                                className={classes.textField}
-                                                margin="normal"
-                                                variant="outlined"
-                                                // onChange={(event) => onChangeHandler(event, group, task, taskIndex, "name")}
-                                            />
-                                        </td>
-                                        <td>
-                                            <TextField
-                                                id="filled-read-only-input"
-                                                value={new Date(task.due_date)}
-                                                className={classes.textField}
-                                                margin="normal"
-                                                variant="outlined"
-                                                // onChange={(event) => onChangeHandler(event, group, task, taskIndex, "name")}
-                                            />
-                                        </td>
-                                        <td>
-                                            <TextField
-                                                id="filled-read-only-input"
-                                                value={task.priority}
-                                                className={classes.textField}
-                                                margin="normal"
-                                                variant="outlined"
-                                                // onChange={(event) => onChangeHandler(event, group, task, taskIndex, "name")}
-                                            />
-                                        </td>
-                                    </tr>
+                                { group.tasks && group.tasks.map((task) => (
+                                    <Task task={task} group={group} deleteTask={deleteTask}/>
                                 ))}
                             </table>
                         </div>

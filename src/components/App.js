@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
-import Home from './Home'
-import Dashboard from './Dashboard'
-import Group from './Group'
-<<<<<<< HEAD
-=======
-
->>>>>>> 99b0c306c6f24b5ad0306618da103f678cb1e1b9
-import axios from 'axios'
+import Home from './Home';
+import Dashboard from './Dashboard';
+import Group from './Group';
+import axios from 'axios';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 

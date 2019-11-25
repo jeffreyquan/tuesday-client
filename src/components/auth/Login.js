@@ -47,8 +47,8 @@ export default class Login extends Component {
     render(){
         return(
             <div>
-                <form onSubmit= {this.handleSubmit}>
-                <input
+                <form onSubmit= {this.handleSubmit} className="col-md-9 form-inline" >
+                <input className="form-control ml-3"
                     type='email'
                     name='email'
                     placeholder='Email'
@@ -56,7 +56,8 @@ export default class Login extends Component {
                     onChange={this.handleChange}
                     required
                 />
-                <input
+                
+                <input className="form-control ml-3"
                     type='password'
                     name='password'
                     placeholder='Password'
@@ -65,7 +66,7 @@ export default class Login extends Component {
                     required
                 />
 
-                <button type='submit'> Login </button>
+                <button className="btn btn-secondary ml-3" type='submit'> Login </button>
                 </form>
             </div>
         )

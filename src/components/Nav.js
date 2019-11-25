@@ -130,6 +130,7 @@ function Nav (props) {
                 }}
                 open={open}
             >
+                <img src="../public/tuesdayArtBoard 1.svg" />
                 <div className={classes.toolbar}>
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}

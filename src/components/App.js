@@ -119,7 +119,7 @@ function App(props) {
 
     return (
         <>
-        <div className={classes.root}>
+        <div className={classes.root} >
         <BrowserRouter>
         {!jwt ? <Redirect to ="/" /> : null}
 
@@ -134,7 +134,7 @@ function App(props) {
 
         render={props => (
             <Dashboard {...props} user={user}
-            handleLogout={handleLogout} loggedInStatus={loggedInStatus} />
+            handleLogout={handleLogout} loggedInStatus={loggedInStatus} style={{ display: "grid", gridColumeTemplate:"3% 10% 87%" }}/>
         )}
         />
         </Switch>

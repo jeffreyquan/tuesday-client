@@ -34,7 +34,7 @@ export default class Home extends Component {
                 <h1>Tuesday</h1>
                 <p>Status: {this.props.loggedInStatus}</p>
                 <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
-                <p>Back to <button onClick= {() => this.toggleSignUpBox()}> Log In!</button></p>
+                <p>Back to <button className="btn btn-primary p-3" onClick= {() => this.toggleSignUpBox()}> Log In!</button></p>
             </div>
         } else {
             entryBox =
@@ -42,7 +42,7 @@ export default class Home extends Component {
                 <h1>Tuesday</h1>
                 <p>Status: {this.props.loggedInStatus}</p>
                 <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
-                <p> Don't have an account? <button onClick= {() => this.toggleSignUpBox()}> Sign Up!</button> </p>
+                <p> Don't have an account? <button className="btn btn-primary pl-3" onClick= {() => this.toggleSignUpBox()}> Sign Up!</button> </p>
             </div>
         }
 

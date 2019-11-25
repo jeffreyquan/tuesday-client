@@ -93,7 +93,7 @@ function Dashboard(props) {
     return (
         <div>
         <Nav {...props} handleLogout={props.handleLogout} />
-
+        <div>
             { !groups.length ? <h3>Loading</h3> : (
                 <div>
                     <form onSubmit={saveGroupName}>
@@ -109,12 +109,12 @@ function Dashboard(props) {
                                 <button onClick={(event) => deleteGroup(event, group)}>x</button>
                                 <tr>
                                     <th>Group name: {group.name}</th>
-                                    
+
                                         <th>Owner</th>
                                         <th>Status</th>
                                         <th>Due Date</th>
                                         <th>Priority</th>
-                                    
+
                                 </tr>
 
                                 { group.tasks && group.tasks.map((task, taskIndex) => (
@@ -176,6 +176,7 @@ function Dashboard(props) {
                     )})}
                 </div>
             )}
+            </div>
         </div>
     )
 }

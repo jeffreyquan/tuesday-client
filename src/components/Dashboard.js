@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Dashboard(props) {
-
+  console.log(props);
     const [groups, setGroups] = useState([]);
     const [groupName, setGroupName] = useState('');
     const [projectId, setProjectId] = useState(1)
@@ -34,7 +34,7 @@ function Dashboard(props) {
     const classes = useStyles();
 
     useEffect(() => {
-        axios.get(SERVER_URL).then((results) => {
+        axios.get(`http://localhost:3000/projects/1`).then((results) => {
             console.log(results.data["groups"]);
 
             setGroups(results.data["groups"]);
@@ -53,7 +53,7 @@ function Dashboard(props) {
         }
 
         axios.post(URL('groups'), postRequest).then((result) => {
-            
+
             axios.get(SERVER_URL).then((results) => {
                 setGroups(results.data["groups"]);
             })
@@ -95,12 +95,12 @@ function Dashboard(props) {
                                         />
                                         <button onClick={(event) => deleteGroup(event, group)}>x</button>
                                     </th>
-                                    
+
                                         <th>Owner</th>
                                         <th>Status</th>
                                         <th>Due Date</th>
                                         <th>Priority</th>
-                                    
+
                                 </tr>
 
                                 { group.tasks && group.tasks.map((task, taskIndex) => (

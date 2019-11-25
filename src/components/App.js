@@ -3,6 +3,7 @@ import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import Home from './Home'
 import Dashboard from './Dashboard'
 import Group from './Group'
+import Registration from './auth/Registration'
 
 import axios from 'axios'
 import clsx from 'clsx';
@@ -114,6 +115,9 @@ function App(props) {
         });
     }, [])
 
+
+
+
     return (
         <>
         <div className={classes.root}>
@@ -131,6 +135,13 @@ function App(props) {
 
         render={props => (
             <Dashboard {...props} user={user}
+            handleLogout={handleLogout} loggedInStatus={loggedInStatus} />
+        )}
+        />
+        <Route exact path={"/signup"}
+
+        render={props => (
+            <Registration {...props} user={user}
             handleLogout={handleLogout} loggedInStatus={loggedInStatus} />
         )}
         />

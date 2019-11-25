@@ -1,4 +1,6 @@
-import React, {Component} from 'react'
+import React, {Component, useState, useEffect} from 'react'
+import {BrowserRouter, Switch, Route, Redirect, Link} from 'react-router-dom';
+
 import Registration from './auth/Registration'
 import Login from './auth/Login'
 import axios from 'axios'
@@ -6,6 +8,9 @@ import axios from 'axios'
 export default class Home extends Component {
     constructor(props){
         super(props);
+        this.state={
+            signUpBox: false
+        }
 
         this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
     }
@@ -16,14 +21,14 @@ export default class Home extends Component {
     }
 
 
-
     render(){
         return(
             <div>
-                <h1>Home</h1>
-                <h1>Status: {this.props.loggedInStatus}</h1>
-                <Registration handleSuccessfulAuth={this.handleSuccessfulAuth}/>
+                <h1>Tuesday</h1>
+                <p>Status: {this.props.loggedInStatus}</p>
                 <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
+                <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
+                <p> Don't have an account? <Link to="/signup"> Sign Up!</Link> </p>
 
             </div>
         )

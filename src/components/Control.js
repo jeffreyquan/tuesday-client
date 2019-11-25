@@ -16,7 +16,8 @@ class Control extends Component {
 
     console.log( props );
     const fetchMemberships = () => {
-      axios.get(`http://localhost:3000/users/1.json`).then( ( results ) => {
+      axios.get(`http://localhost:3000/memberships.json`).then( ( results ) => {
+        console.log( results );
         const memberships = results.data.memberships
         console.log( memberships );
         this.setState({

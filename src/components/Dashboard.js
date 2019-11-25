@@ -83,9 +83,9 @@ function Dashboard(props) {
     }
 
     const deleteGroup = (event, group) => {
-        axios.delete(`${SERVER_URL}/${group.id}`).then((result) => {
+        axios.delete(`http://localhost:3000/groups/${group.id}`).then((result) => {
             axios.get(SERVER_URL).then((results) => {
-                setGroups(results.data);
+                setGroups(results.data["groups"]);
             })
         })
     }
@@ -106,9 +106,9 @@ function Dashboard(props) {
                         return (
                         <div>
                             <table>
-                                <button onClick={(event) => deleteGroup(event, group)}>x</button>
                                 <tr>
-                                    <th>Group name: {group.name}</th>
+                                    <th>Group name: {group.name}<button onClick={(event) => deleteGroup(event, group)}>x</button>
+                                    </th>
                                     
                                         <th>Owner</th>
                                         <th>Status</th>

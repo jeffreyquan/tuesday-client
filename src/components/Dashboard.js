@@ -5,11 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Nav from './Nav'
 import Control from './Control'
+import GroupNameField from './GroupNameField'
 
 const SERVER_URL = "http://localhost:3000/projects/1"
 
-let URL = (model) => {
-    return `http://localhost:3000/${model}.json`
+let URL = (model, id = '') => {
+    return `http://localhost:3000/${model}/${id}`
 }; // need to fix this for later - depends what project id a user has
 // const SERVER_URL = "http://localhost:3000/groups"
 
@@ -26,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Dashboard(props) {
-
+  console.log(props);
     const [groups, setGroups] = useState([]);
     const [groupName, setGroupName] = useState('');
     const [projectId, setProjectId] = useState(1)
@@ -34,7 +35,7 @@ function Dashboard(props) {
     const classes = useStyles();
 
     useEffect(() => {
-        axios.get(SERVER_URL).then((results) => {
+        axios.get(`http://localhost:3000/projects/1`).then((results) => {
             console.log(results.data["groups"]);
 
             setGroups(results.data["groups"]);
@@ -61,33 +62,16 @@ function Dashboard(props) {
         })
     }
 
-    // When you type or edit a task it will get updated/saved
-    const onChangeHandler = (event, { id }, task, taskIndex, field) => {
-        event.persist() // Need this, read https://reactjs.org/docs/events.html#event-pooling
-
-        // NOTE TODO
-        // This should actually be done when onBlur
-        // And not onChange, only need to call it when the user leaves the field to do something else
-        // And not on every keystroke
-
-        const selectedGroupIndex = groups.findIndex((group) => group.id === id)
-
-        const updatedGroups = groups[selectedGroupIndex].tasks[taskIndex][field] = event.target.value
-
-        setGroups(updatedGroups)
-
-        const updatedGroup = groups.find((group) => group.id === id)
-
-        axios.put(`${SERVER_URL}/${id}`, updatedGroup).then((result) => {
-
+    const deleteGroup = (event, group) => {
+        axios.delete(`http://localhost:3000/groups/${group.id}`).then((result) => {
             axios.get(SERVER_URL).then((results) => {
-                setGroups(results.data);
+                setGroups(results.data["groups"]);
             })
         })
     }
 
-    const deleteGroup = (event, group) => {
-        axios.delete(`http://localhost:3000/groups/${group.id}`).then((result) => {
+    const deleteTask = (event, task) => {
+        axios.delete(`http://localhost:3000/tasks/${task.id}`).then((result) => {
             axios.get(SERVER_URL).then((results) => {
                 setGroups(results.data["groups"]);
             })
@@ -111,7 +95,9 @@ function Dashboard(props) {
                         <div>
                             <table>
                                 <tr>
-                                    <th>Group name: {group.name}</th>
+                                    <th><GroupNameField groupName={group.name} id={group.id} />
+                                        <button onClick={(event) => deleteGroup(event, group)}>x</button>
+                                    </th>
 
                                         <th>Owner</th>
                                         <th>Status</th>
@@ -123,6 +109,7 @@ function Dashboard(props) {
                                 { group.tasks && group.tasks.map((task, taskIndex) => (
                                     <tr>
                                         <td>
+                                            <button onClick={(event) => deleteTask(event, task)}>x</button>
                                             <TextField
                                                 id="filled-read-only-input"
                                                 value={task.name}

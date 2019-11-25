@@ -343,9 +343,10 @@ h1, h2, h3, h4, h5, h6 {
 
 /* basic styling for control panel */
 .control {
-  width: 300px;
+  width: 500px;
   border: 1px solid grey;
   border-radius: 2px;
+  float: left;
 }
 
 .invitation {

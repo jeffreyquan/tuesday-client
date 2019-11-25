@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Nav from './Nav'
 
 
-const SERVER_URL = 'http://localhost:3000/projects/1/groups' // need to fix this for later - depends what project id a user has
+const SERVER_URL = 'http://localhost:3000/projects/1' // need to fix this for later - depends what project id a user has
 // const SERVER_URL = "http://localhost:3000/groups"
 
 const useStyles = makeStyles(theme => ({
@@ -25,14 +25,15 @@ function Dashboard(props) {
 
     const [groups, setGroups] = useState([]);
     const [groupName, setGroupName] = useState('');
+    const [projectId, setProjectId] = useState(1)
 
     const classes = useStyles();
 
     useEffect(() => {
         axios.get(SERVER_URL).then((results) => {
-            console.log(results.data);
+            console.log(results.data["groups"]);
 
-            setGroups(results.data);
+            setGroups(results.data["groups"]);
         })
     }, [])
 
@@ -40,14 +41,17 @@ function Dashboard(props) {
         event.preventDefault();
 
         const postRequest = {
-            "name": groupName,
-            "tasks": []
-          }
+            group: {
+                "project_id": projectId,
+                "name": groupName,
+                "tasks": []
+            }
+        }
 
-        axios.post(SERVER_URL, postRequest).then((result) => {
+        axios.post("http://localhost:3000/groups.json", postRequest).then((result) => {
 
-            axios.get({SERVER_URL}).then((results) => {
-                setGroups(results.data);
+            axios.get(SERVER_URL).then((results) => {
+                setGroups(results.data["groups"]);
             })
 
         })
@@ -105,12 +109,12 @@ function Dashboard(props) {
                                 <button onClick={(event) => deleteGroup(event, group)}>x</button>
                                 <tr>
                                     <th>Group name: {group.name}</th>
-                                    {/*
+                                    
                                         <th>Owner</th>
                                         <th>Status</th>
                                         <th>Due Date</th>
                                         <th>Priority</th>
-                                    */}
+                                    
                                 </tr>
 
                                 { group.tasks && group.tasks.map((task, taskIndex) => (

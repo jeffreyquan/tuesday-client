@@ -6,8 +6,8 @@ export default class Login extends Component {
         super(props);
 
         this.state={
-            email: "",
-            password: "",
+            email: "shaneen@ga.co",
+            password: "chicken",
             loginErrors:""
         }
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -36,7 +36,7 @@ export default class Login extends Component {
             {withCredentials: true}
         ).then(response => {
             if (response.data.logged_in){
-            window.localStorage.setItem('jwt', response.data.jwt);
+            localStorage.setItem('jwt', response.data.jwt);
             this.props.handleSuccessfulAuth(response.data);
         }
         }).catch(error => {

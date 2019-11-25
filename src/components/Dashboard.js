@@ -6,8 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Nav from './Nav'
 import Control from './Control'
 
+const SERVER_URL = "http://localhost:3000/projects/1"
 
-const SERVER_URL = 'http://localhost:3000/projects/1/groups' // need to fix this for later - depends what project id a user has
+let URL = (model) => {
+    return `http://localhost:3000/${model}.json`
+}; // need to fix this for later - depends what project id a user has
 // const SERVER_URL = "http://localhost:3000/groups"
 
 const useStyles = makeStyles(theme => ({
@@ -26,14 +29,15 @@ function Dashboard(props) {
 
     const [groups, setGroups] = useState([]);
     const [groupName, setGroupName] = useState('');
+    const [projectId, setProjectId] = useState(1)
 
     const classes = useStyles();
 
     useEffect(() => {
         axios.get(SERVER_URL).then((results) => {
-            console.log(results.data);
+            console.log(results.data["groups"]);
 
-            setGroups(results.data);
+            setGroups(results.data["groups"]);
         })
     }, [])
 
@@ -41,14 +45,17 @@ function Dashboard(props) {
         event.preventDefault();
 
         const postRequest = {
-            "name": groupName,
-            "tasks": []
-          }
+            group: {
+                "project_id": projectId,
+                "name": groupName,
+                "tasks": []
+            }
+        }
 
-        axios.post(SERVER_URL, postRequest).then((result) => {
-
-            axios.get({SERVER_URL}).then((results) => {
-                setGroups(results.data);
+        axios.post(URL('groups'), postRequest).then((result) => {
+            
+            axios.get(SERVER_URL).then((results) => {
+                setGroups(results.data["groups"]);
             })
 
         })
@@ -80,9 +87,9 @@ function Dashboard(props) {
     }
 
     const deleteGroup = (event, group) => {
-        axios.delete(`${SERVER_URL}/${group.id}`).then((result) => {
+        axios.delete(`http://localhost:3000/groups/${group.id}`).then((result) => {
             axios.get(SERVER_URL).then((results) => {
-                setGroups(results.data);
+                setGroups(results.data["groups"]);
             })
         })
     }
@@ -103,15 +110,22 @@ function Dashboard(props) {
                         return (
                         <div>
                             <table>
-                                <button onClick={(event) => deleteGroup(event, group)}>x</button>
                                 <tr>
-                                    <th>Group name: {group.name}</th>
-                                    {/*
+                                    <th><TextField
+                                            id="filled-read-only-input"
+                                            value={group.name}
+                                            className={classes.textField}
+                                            margin="normal"
+                                            variant="outlined"
+                                        />
+                                        <button onClick={(event) => deleteGroup(event, group)}>x</button>
+                                    </th>
+                                    
                                         <th>Owner</th>
                                         <th>Status</th>
                                         <th>Due Date</th>
                                         <th>Priority</th>
-                                    */}
+                                    
                                 </tr>
 
                                 { group.tasks && group.tasks.map((task, taskIndex) => (

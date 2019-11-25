@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {BrowserRouter, Switch, Route, Redirect, Link} from 'react-router-dom';
 
 import axios from 'axios'
 
@@ -41,7 +42,21 @@ export default class Registration extends Component {
             {withCredentials: true}
         ).then(response => {
             if (response.data.status === 'created'){
-            this.props.handleSuccessfulAuth(response.data);
+                axios.post('http://localhost:3000/session', {
+                    user: {
+                        email: email,
+                        password: password,
+                    },
+                    },
+                    {withCredentials: true}
+                ).then(response => {
+                    if (response.data.logged_in){
+                    localStorage.setItem('jwt', response.data.jwt);
+                    this.props.handleSuccessfulAuth(response.data);
+                }
+                }).catch(error => {
+                    console.log('Login error', error);
+                })
         }
         }).catch(error => {
             console.log('Registration error', error);
@@ -78,6 +93,8 @@ export default class Registration extends Component {
                 />
                 <button type='submit'> Registration </button>
                 </form>
+
+                
             </div>
         )
     }

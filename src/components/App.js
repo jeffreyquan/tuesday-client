@@ -15,13 +15,13 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(
 function App(props) {
 
     const [loggedInStatus, setLoggedInStatus] = useState('NOT_LOGGED_IN');
-    const [jwt, setJwt] = useState("");
+    const [jwt, setJwt] = useState(localStorage.getItem('jwt'));
     const [user, setUser] = useState(null);
 
 
     const handleLogin = (data) => {
         setLoggedInStatus("LOGGED_IN")
-        setJwt(window.localStorage.getItem("jwt"))
+        setJwt(localStorage.getItem("jwt"))
         setUser(data.user)
     }
 
@@ -55,32 +55,25 @@ function App(props) {
 
 
     return (
-        <>
-        <div >
         <BrowserRouter>
         {!jwt ? <Redirect to ="/" /> : null}
 
-        <main >
         <Switch>
         <Route exact path={"/"}
         render={props => (
             <Home {...props} handleLogin={handleLogin} loggedInStatus={loggedInStatus} />
         )}
         />
-        <Route exact path={"/dashboard"}
 
+        <Route exact path={"/dashboard"}
         render={props => (
             <Dashboard {...props} user={user}
             handleLogout={handleLogout} loggedInStatus={loggedInStatus}/>
         )}
         />
         </Switch>
-        </main>
-
         </BrowserRouter>
 
-        </div>
-        </>
     )
 }
 

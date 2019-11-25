@@ -4,6 +4,42 @@ import {BrowserRouter, Switch, Route, Redirect, Link} from 'react-router-dom';
 import Registration from './auth/Registration'
 import Login from './auth/Login'
 import axios from 'axios'
+import styled from 'styled-components';
+import Logo2 from '../image/logo2.svg'
+///////////////////////////////////////////////////////////////////////////////
+const Header = styled.div`
+    padding-left: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    height: 70px;
+    background: #f7f7f7;
+    margin-bottom: 8em;
+    `;
+
+const Msg = styled.p`
+    color: gray;
+    font-size: 1.2em;
+    font-family: "Abel";
+    text-align: center;
+    height: 30px;
+`;
+
+const Goto = styled.span`
+    color: #0086C0;
+    font-size: 1em;
+    font-family: "Abel";
+    background: white;
+    border: none;
+    outline: none;
+
+    &:hover{
+        color: #0186C0;
+        background-color:transparent;
+        border: none;
+        text-decoration: underline;
+    }
+
+`;
+
 
 export default class Home extends Component {
     constructor(props){
@@ -31,24 +67,22 @@ export default class Home extends Component {
         if (this.state.signUpBox) {
             entryBox =
             <div>
-                <h1>Tuesday</h1>
-                <p>Status: {this.props.loggedInStatus}</p>
                 <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
-                <p>Back to <button className="btn btn-primary p-3" onClick= {() => this.toggleSignUpBox()}> Log In!</button></p>
+                <Msg>Back to <Goto className="btn btn-primary p-3" onClick= {() => this.toggleSignUpBox()}> Log In!</Goto></Msg>
             </div>
         } else {
             entryBox =
             <div>
-                <h1>Tuesday</h1>
-                <p>Status: {this.props.loggedInStatus}</p>
                 <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
-                <p> Don't have an account? <button className="btn btn-primary pl-3" onClick= {() => this.toggleSignUpBox()}> Sign Up!</button> </p>
+                <Msg> Don't have an account? <Goto className="btn btn-primary pl-3" onClick= {() => this.toggleSignUpBox()}> Sign Up!</Goto> </Msg>
             </div>
         }
 
         return(
             <div>
+                <Header><img src={Logo2} style={{height: "75px"}}/></Header>
                 {entryBox}
+                <p>Status: {this.props.loggedInStatus}</p>
             </div>
         )
     }

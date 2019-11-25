@@ -67,7 +67,6 @@ const useStyles = makeStyles(theme => ({
     },
     content: {
         flexGrow: 1,
-        padding: theme.spacing(3),
     },
 }));
 
@@ -134,7 +133,7 @@ function App(props) {
 
         render={props => (
             <Dashboard {...props} user={user}
-            handleLogout={handleLogout} loggedInStatus={loggedInStatus} style={{ display: "grid", gridColumeTemplate:"3% 10% 87%" }}/>
+            handleLogout={handleLogout} loggedInStatus={loggedInStatus}/>
         )}
         />
         </Switch>

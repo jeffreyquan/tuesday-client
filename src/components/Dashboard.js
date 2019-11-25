@@ -4,9 +4,13 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Nav from './Nav'
+import Control from './Control'
 
+const SERVER_URL = "http://localhost:3000/projects/1"
 
-const SERVER_URL = 'http://localhost:3000/projects/1' // need to fix this for later - depends what project id a user has
+let URL = (model) => {
+    return `http://localhost:3000/${model}.json`
+}; // need to fix this for later - depends what project id a user has
 // const SERVER_URL = "http://localhost:3000/groups"
 
 const useStyles = makeStyles(theme => ({
@@ -48,7 +52,7 @@ function Dashboard(props) {
             }
         }
 
-        axios.post("http://localhost:3000/groups.json", postRequest).then((result) => {
+        axios.post(URL('groups'), postRequest).then((result) => {
 
             axios.get(SERVER_URL).then((results) => {
                 setGroups(results.data["groups"]);
@@ -83,9 +87,9 @@ function Dashboard(props) {
     }
 
     const deleteGroup = (event, group) => {
-        axios.delete(`${SERVER_URL}/${group.id}`).then((result) => {
+        axios.delete(`http://localhost:3000/groups/${group.id}`).then((result) => {
             axios.get(SERVER_URL).then((results) => {
-                setGroups(results.data);
+                setGroups(results.data["groups"]);
             })
         })
     }
@@ -93,7 +97,7 @@ function Dashboard(props) {
     return (
         <div>
         <Nav {...props} handleLogout={props.handleLogout} />
-        <div>
+        <Control {...props} user = {props.user} loggedInStatus={props.loggedInStatus}/>
             { !groups.length ? <h3>Loading</h3> : (
                 <div>
                     <form onSubmit={saveGroupName}>
@@ -106,7 +110,6 @@ function Dashboard(props) {
                         return (
                         <div>
                             <table>
-                                <button onClick={(event) => deleteGroup(event, group)}>x</button>
                                 <tr>
                                     <th>Group name: {group.name}</th>
 
@@ -177,7 +180,6 @@ function Dashboard(props) {
                 </div>
             )}
             </div>
-        </div>
     )
 }
 

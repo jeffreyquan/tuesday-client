@@ -13,6 +13,7 @@ export default class Home extends Component {
         }
 
         this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
+        this.toggleSignUpBox = this.toggleSignUpBox.bind(this)
     }
 
     handleSuccessfulAuth(data){
@@ -20,16 +21,34 @@ export default class Home extends Component {
         this.props.history.push("/dashboard")
     }
 
+    toggleSignUpBox(){
+        this.state.signUpBox ? this.setState({signUpBox: false}) : this.setState( {signUpBox: true});
+        this.forceUpdate()
+    }
 
     render(){
-        return(
+        let entryBox
+        if (this.state.signUpBox) {
+            entryBox =
+            <div>
+                <h1>Tuesday</h1>
+                <p>Status: {this.props.loggedInStatus}</p>
+                <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
+                <p>Back to <button onClick= {() => this.toggleSignUpBox()}> Log In!</button></p>
+            </div>
+        } else {
+            entryBox =
             <div>
                 <h1>Tuesday</h1>
                 <p>Status: {this.props.loggedInStatus}</p>
                 <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
-                <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
-                <p> Don't have an account? <Link to="/signup"> Sign Up!</Link> </p>
+                <p> Don't have an account? <button onClick= {() => this.toggleSignUpBox()}> Sign Up!</button> </p>
+            </div>
+        }
 
+        return(
+            <div>
+                {entryBox}
             </div>
         )
     }

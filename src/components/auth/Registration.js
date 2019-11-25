@@ -94,7 +94,7 @@ export default class Registration extends Component {
                 <button type='submit'> Registration </button>
                 </form>
 
-                <p>Back to  <Link to="/"> Log in!</Link> </p>
+                
             </div>
         )
     }

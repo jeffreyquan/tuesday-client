@@ -3,7 +3,6 @@ import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import Home from './Home'
 import Dashboard from './Dashboard'
 import Group from './Group'
-import Control from './Control'
 import axios from 'axios'
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -134,7 +133,7 @@ function App(props) {
             handleLogout={handleLogout} loggedInStatus={loggedInStatus} />
         )}
         />
-        <Route path={"/control"} component={ Control } />
+        
         </Switch>
         </main>
 

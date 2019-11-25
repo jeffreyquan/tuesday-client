@@ -34,6 +34,7 @@ class Control extends Component {
     }
     return (
       <div className="control">
+        <h1>CONTROLLER</h1>
         <Collapsible title="Memberships">
           <Memberships memberships={ this.state.memberships } onClick={ this.fetchMemberships }/>
         </Collapsible>

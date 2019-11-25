@@ -5,8 +5,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Nav from './Nav'
 
+const SERVER_URL = "http://localhost:3000/projects/1"
 
-const SERVER_URL = 'http://localhost:3000/projects/1' // need to fix this for later - depends what project id a user has
+let URL = (model) => {
+    return `http://localhost:3000/${model}.json`
+}; // need to fix this for later - depends what project id a user has
 // const SERVER_URL = "http://localhost:3000/groups"
 
 const useStyles = makeStyles(theme => ({
@@ -48,8 +51,8 @@ function Dashboard(props) {
             }
         }
 
-        axios.post("http://localhost:3000/groups.json", postRequest).then((result) => {
-
+        axios.post(URL('groups'), postRequest).then((result) => {
+            
             axios.get(SERVER_URL).then((results) => {
                 setGroups(results.data["groups"]);
             })
@@ -107,7 +110,14 @@ function Dashboard(props) {
                         <div>
                             <table>
                                 <tr>
-                                    <th>Group name: {group.name}<button onClick={(event) => deleteGroup(event, group)}>x</button>
+                                    <th><TextField
+                                            id="filled-read-only-input"
+                                            value={group.name}
+                                            className={classes.textField}
+                                            margin="normal"
+                                            variant="outlined"
+                                        />
+                                        <button onClick={(event) => deleteGroup(event, group)}>x</button>
                                     </th>
                                     
                                         <th>Owner</th>

@@ -14,6 +14,8 @@ class Control extends Component {
       this.state.user_id = props.user.id;
     }
 
+    this._handleChange = this._handleChange.bind(this);
+
     const fetchMemberships = () => {
       axios.get(`http://localhost:3000/users/${ this.state.user_id }.json`).then( ( results ) => {
         const memberships = results.data.memberships
@@ -28,6 +30,15 @@ class Control extends Component {
     fetchMemberships();
   }
 
+  _handleChange() {
+    axios.get(`http://localhost:3000/users/${ this.state.user_id }.json`).then( ( results ) => {
+      const memberships = results.data.memberships;
+      this.setState({
+        memberships: memberships
+      });
+    });
+  }
+
   render() {
     if ( this.state.memberships === null ) {
       return '';
@@ -36,11 +47,11 @@ class Control extends Component {
       <div className="control">
         <h1>CONTROLLER</h1>
         <Collapsible title="Memberships">
-          <Memberships memberships={ this.state.memberships } onClick={ this.fetchMemberships }/>
+          <Memberships user_id={ this.state.user_id } onChange={ this._handleChange } memberships={ this.state.memberships } />
         </Collapsible>
         <h2>Projects</h2>
         <div>
-          <Projects memberships={ this.state.memberships } />
+          <Projects user_id={ this.state.user_id } onChange={ this._handleChange } memberships={ this.state.memberships } />
         </div>
       </div>
     )
@@ -51,7 +62,8 @@ class Memberships extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      memberships: this.props.memberships
+      user_id: props.user_id,
+      memberships: props.memberships
     };
   }
 
@@ -61,7 +73,7 @@ class Memberships extends Component {
         {this.state.memberships.map( (m) => {
           if ( m.invitation === false ) {
             return (
-              <Invitation membership={ m } />
+              <Invitation membership={ m } onSubmit={ this.props.onSubmit }/>
             )
           }
         })}
@@ -88,19 +100,14 @@ class Invitation extends Component {
     }
 
     axios.put(`http://localhost:3000/memberships/${ this.state.membership_id }.json`, acceptedInvitation).then(
-      (result) => {
-        this.setState({
-          status: true
-        })
-      }
-    )
+    (result) => {
+      this.props.onSubmit();
+    })
   }
 
   _declineInvite() {
     axios.delete(`http://localhost:3000/memberships/${ this.state.membership_id }.json`).then( (result) => {
-      this.setState({
-        membership_id: null
-      })
+        this.props.onSubmit();
     })
   }
 
@@ -120,7 +127,7 @@ class Projects extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      projects: this.props.memberships
+      projects: props.memberships
     };
   }
 

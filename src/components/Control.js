@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import '../index.css';
 
 class Control extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class Control extends Component {
           memberships: memberships
         });
         setTimeout( fetchMemberships, 500);
+        console.log(this.state.memberships );
       });
     }
     fetchMemberships();
@@ -31,10 +33,14 @@ class Control extends Component {
       return '';
     }
     return (
-      <div>
-        <h1> Control coming soon </h1>
-        <Projects memberships={ this.state.memberships } />
-        <Memberships memberships={ this.state.memberships } />
+      <div className="control">
+        <Collapsible title="Memberships">
+          <Memberships memberships={ this.state.memberships } onClick={ this.fetchMemberships }/>
+        </Collapsible>
+        <h2>Projects</h2>
+        <div>
+          <Projects memberships={ this.state.memberships } />
+        </div>
       </div>
     )
   }
@@ -68,6 +74,7 @@ class Invitation extends Component {
     super(props);
     this.state = {
       membership_id: this.props.membership.id,
+      status: false
     };
 
     this._acceptInvite = this._acceptInvite.bind(this);
@@ -81,7 +88,9 @@ class Invitation extends Component {
 
     axios.put(`http://localhost:3000/memberships/${ this.state.membership_id }.json`, acceptedInvitation).then(
       (result) => {
-        console.log("Successful");
+        this.setState({
+          status: true
+        })
       }
     )
   }
@@ -94,10 +103,9 @@ class Invitation extends Component {
     })
   }
 
-
   render() {
     return (
-      <div>
+      <div className="invitation">
         <p>{ this.props.membership.project.name }</p>
         <p>{ this.props.membership.project.description }</p>
         <button onClick={ this._acceptInvite }>Accept</button>
@@ -132,6 +140,36 @@ class Projects extends Component {
         })}
       </div>
     )
+  }
+}
+
+class Collapsible extends React.Component {
+  constructor(props){
+      super(props);
+      this.state = {
+          open: false
+      }
+      this.togglePanel = this.togglePanel.bind(this);
+  }
+
+  togglePanel(e){
+      this.setState({open: !this.state.open})
+  }
+
+  componentDidUpdate() {
+      // this.props.onToggle(this.props.index);
+  }
+
+  render() {
+    return (<div>
+      <div onClick={(e)=>this.togglePanel(e)} className='header'>
+          {this.props.title}</div>
+      {this.state.open ? (
+          <div className='content'>
+              {this.props.children}
+          </div>
+          ) : null}
+    </div>);
   }
 }
 

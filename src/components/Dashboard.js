@@ -61,31 +61,6 @@ function Dashboard(props) {
         })
     }
 
-    // When you type or edit a task it will get updated/saved
-    const onChangeHandler = (event, { id }, task, taskIndex, field) => {
-        event.persist() // Need this, read https://reactjs.org/docs/events.html#event-pooling
-
-        // NOTE TODO
-        // This should actually be done when onBlur
-        // And not onChange, only need to call it when the user leaves the field to do something else
-        // And not on every keystroke
-
-        const selectedGroupIndex = groups.findIndex((group) => group.id === id)
-
-        const updatedGroups = groups[selectedGroupIndex].tasks[taskIndex][field] = event.target.value
-
-        setGroups(updatedGroups)
-
-        const updatedGroup = groups.find((group) => group.id === id)
-
-        axios.put(`${SERVER_URL}/${id}`, updatedGroup).then((result) => {
-
-            axios.get(SERVER_URL).then((results) => {
-                setGroups(results.data);
-            })
-        })
-    }
-
     const deleteGroup = (event, group) => {
         axios.delete(`http://localhost:3000/groups/${group.id}`).then((result) => {
             axios.get(SERVER_URL).then((results) => {

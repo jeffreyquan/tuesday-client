@@ -337,8 +337,9 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Hind Madurai", sans-serif;
 }
 
-.makeStyles-content-10 {
-  margin-left: 5em;
+body {
+  background-color: #292F4C !important;
+  height: 100vh;
 }
 
 /* basic styling for control panel */

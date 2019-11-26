@@ -1,65 +1,94 @@
 
-import React, {Component} from 'react'
+import React from 'react'
 import Logo from '../image/logo.svg'
 import styled from 'styled-components';
-
-
 import axios from 'axios'
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 
-
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+import OfflineBoltOutlinedIcon from '@material-ui/icons/OfflineBoltOutlined';
+import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
+import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
+import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 
 function Nav (props) {
 
 
     const handleLogoutClick = () => {
         axios
-          .delete("http://localhost:3000/logout", { withCredentials: true })
-          .then(response => {
+        .delete("http://localhost:3000/logout", { withCredentials: true })
+        .then(response => {
             props.handleLogout();
             localStorage.clear();
-          })
-          .catch(error => {
+        })
+        .catch(error => {
             console.log("logout error", error);
         })
-      }
+    }
 
-     const Bar = styled.div`
+    const Bar = styled.div`
+        background-color: #292F4C;
         display: flex;
         flex-direction: column;
-     `;
+        justify-content: space-between;
+        width: 66px;
+        color:white;
+        align-item: center;
+        height: 100vh;
+    `;
+
+    const Wrapper = styled.div`
+        display: grid;
+    `;
+
+    const Button1 = styled.button`
+        border-radius: 25px;
+        width: 50px;
+        height: 50px;
+        color: white;
+        font-weight: 700;
+        font-size: 20px;
+        align-self: center;
+        background-color: transparent;
+        border: none;
+        margin: 5px;
 
 
-        return(
-            <Bar>
-            <img src={Logo} width="100%" />
+        &:hover {
+            background-color:#10121E;
+        }
+    `;
+
+    const Button2 = styled.button`
+        border-radius: 25px;
+        width: 50px;
+        height: 50px;
+        color: white;
+        background-color: #F5617F;
+        font-family: "Abel";
+        font-weight: 700;
+        font-size: 20px;
+        border: 3px solid white;
+        margin: 1em 5px ;
+
+    `;
 
 
 
-            <Divider />
-            <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-            ))}
-            </List>
-            <Divider />
-            <button onClick={() =>  handleLogoutClick()}>Logout</button>
-            </Bar>
-        )
+    return(
+        <Bar>
+        <div>
+        <img style={{flexGrow: "1"}} src={Logo} alt="Logo" width="90%" />
+        <Button1 ><NotificationsNoneIcon /></Button1>
+        </div>
+        <div>
+        <Button1 ><OfflineBoltOutlinedIcon /></Button1>
+        <Button1 ><PersonAddOutlinedIcon /></Button1>
+        <Button1 ><SearchOutlinedIcon /></Button1>
+        <Button1 ><HelpOutlineOutlinedIcon /></Button1>
+        <Button2 onClick={() =>  handleLogoutClick()}>Exit</Button2>
+        </div>
+        </Bar>
+    )
 }
 
 export default Nav

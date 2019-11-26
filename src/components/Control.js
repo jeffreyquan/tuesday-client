@@ -21,10 +21,10 @@ class Control extends Component {
     const fetchMemberships = () => {
       axios.get(`http://localhost:3000/users/${ this.state.user_id }.json`).then( ( results ) => {
         console.log( results );
-        const memberships = results.data.memberships
-        console.log( memberships );
+        // const memberships = results.data.memberships
+        // console.log( memberships );
         this.setState({
-          memberships: memberships
+          // memberships: memberships
         });
         setTimeout( fetchMemberships, 10000);
         console.log(this.state.memberships );

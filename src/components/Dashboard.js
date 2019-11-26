@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
 
 import Nav from './Nav'
@@ -14,25 +13,13 @@ let URL = (model, id = '') => {
     return `http://localhost:3000/${model}/${id}`
 };
 
-const useStyles = makeStyles(theme => ({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 200,
-    },
-}));
 
 function Dashboard(props) {
-  // console.log(props);
     const [groups, setGroups] = useState([]);
     const [groupName, setGroupName] = useState('');
-    const [projectId, setProjectId] = useState(1)
+    const [projectId, setProjectId] = useState(1);
+    const [task, setTask] = useState('');
 
-    const classes = useStyles();
 
     useEffect(() => {
         axios.get(`http://localhost:3000/projects/1`).then((results) => {
@@ -70,6 +57,15 @@ function Dashboard(props) {
         })
     }
 
+    const addTask = (event, group, task) => {
+        axios.post(`http://localhost:3000/groups/${group.id}/tasks`, { name: task, group_id: group.id }).then((result) => {
+
+            axios.get(SERVER_URL).then((results) => {
+                setGroups(results.data["groups"]);
+            })
+        })
+    }
+
     const deleteTask = (event, group, task) => {
         console.log(task, "task");
 
@@ -82,28 +78,40 @@ function Dashboard(props) {
 
       const Wrapper = styled.div`
             display: grid;
-            grid-template-columns: 10% 10% 80%;
+            grid-template-columns: 66px 255px auto;
+            height: 100vh;
+      `;
+
+      const Control = styled.div`
+            background-color: white;
+            border: 1px solid lightgrey;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            width: 255px;
+            height: 100vh;
+
       `;
     return (
         <Wrapper>
         <Nav {...props} handleLogout={props.handleLogout} />
-        <Control {...props} user = {props.user} loggedInStatus={props.loggedInStatus}/>
-        <div>
+        <Control style={{backgroundColor: 'white'}}/> {/*slot for control*/}
+        <div style={{backgroundColor: 'white', height:'100vh'}}>
             { !groups.length ? <h3>Loading</h3> : (
                 <div>
                     <form onSubmit={saveGroupName}>
-                        <input placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)} />
+                        <input value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)} />
                         <input type="submit" value="Add Group" />
                     </form>
 
                     { groups.map(group => {
                         // console.log("group", group)
                         return (
-                        <div>
                             <table>
+                                <tbody>
                                 <tr>
-                                    <th><GroupNameField groupName={group.name} id={group.id} />
+                                    <th><GroupNameField groupName={group.name} id={group.id} key={group.id}/>
                                         <button onClick={(event) => deleteGroup(event, group)}>x</button>
+                                        <button onClick={(event) => addTask(event, task)}>+</button>
                                     </th>
 
                                         <th>Owner</th>
@@ -112,12 +120,11 @@ function Dashboard(props) {
                                         <th>Priority</th>
 
                                 </tr>
-
                                 { group.tasks && group.tasks.map((task) => (
-                                    <Task task={task} group={group} deleteTask={deleteTask}/>
+                                    <Task task={task} group={group} deleteTask={deleteTask} key={task.id}/>
                                 ))}
+                                </tbody>
                             </table>
-                        </div>
                     )})}
                 </div>
             )}

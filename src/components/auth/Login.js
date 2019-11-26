@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import axios from 'axios'
 
 import React, { Component } from 'react';
-import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
+
+import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardOutlined';
 
 /////////////////////////////////////////////////////////
     const Title = styled.h1`
@@ -67,11 +68,14 @@ import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
         font-size: 18px;
         font-weight: 700;
         border-radius: 15rem;
-        line-height: 28px;
         border: none;
         border-bottom: 2px solid #0d91ca;
         background: #0fa2e2;
         color: white;
+        line-height: 0em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
         &:hover{
             background-color: #0F91CA
@@ -156,7 +160,7 @@ export default class Login extends Component {
                 </div>
                 <div style={{margin: "0", padding: "0"}}>
                 <Label></Label>
-                <Button type='submit'> Log in <i className="glyphicon glyphicon-arrow-right"></i> </Button>
+                <Button type='submit'> Log in <ArrowForwardRoundedIcon style={{fontSize:"25px", paddingLeft: '3px'}} /> </Button>
                 </div>
 
                 </LoginForm>

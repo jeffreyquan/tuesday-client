@@ -26,7 +26,7 @@ export default function Task(props) {
   const classes = useStyles();
   const [task, setTask] = useState(props.task)
   const updateTaskName = () => {
-    axios.put(`http://localhost:3000/groups/${props.group.id}/tasks/${props.task.id}`, { name: task })
+    axios.put(`http://localhost:3000/groups/${props.group.id}/tasks/${props.id}`, { name: task })
   }
 
   return (

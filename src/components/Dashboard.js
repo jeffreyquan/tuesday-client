@@ -80,8 +80,8 @@ function Dashboard(props) {
             border-bottom-left-radius: 20px;
             width: 255px;
             height: 100vh;
-
       `;
+      
     return (
         <Wrapper>
         <Nav {...props} handleLogout={props.handleLogout} />

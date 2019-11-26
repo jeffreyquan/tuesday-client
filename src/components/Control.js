@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../index.css';
 
 class Control extends Component {
   constructor(props) {
@@ -50,10 +49,11 @@ class Control extends Component {
 
   render() {
     if ( this.state.memberships === null ) {
-      return '';
+      return (<>
+          </>);
     }
     return (
-      <div className="control">
+      <div className="control" style={{display:"block", zIndex:"10"}}>
         <h1>CONTROLLER</h1>
         <Collapsible title="Memberships">
           <Memberships user_id={ this.state.user_id } memberships={ this.state.memberships } />
@@ -162,6 +162,7 @@ class NewProjectForm extends Component {
     this.props.onSubmit(this.state);
     this.setState({})
   }
+
 
   render() {
     return (

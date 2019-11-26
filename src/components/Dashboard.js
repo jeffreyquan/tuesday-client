@@ -82,7 +82,7 @@ function Dashboard(props) {
             height: 100vh;
       `;
 
-      const Control = styled.div`
+      const StyledControl = styled(Control)`
             background-color: white;
             border: 1px solid lightgrey;
             border-top-left-radius: 20px;
@@ -90,11 +90,11 @@ function Dashboard(props) {
             width: 255px;
             height: 100vh;
       `;
-      
+
     return (
         <Wrapper>
         <Nav {...props} handleLogout={props.handleLogout} />
-        <Control style={{backgroundColor: 'white'}}/> {/*slot for control*/}
+        <StyledControl {...props} />
         <div style={{backgroundColor: 'white', height:'100vh'}}>
             { !groups.length ? <h3>Loading</h3> : (
                 <div>

@@ -341,17 +341,3 @@ body {
   background-color: #292F4C !important;
   height: 100vh;
 }
-
-/* basic styling for control panel */
-.control {
-  margin-left: 500px;
-  width: 500px;
-  border: 1px solid grey;
-  border-radius: 2px;
-}
-
-.invitation {
-  background-color: #ADD8E6;
-  opacity: 0.5;
-  padding: 10px;
-}

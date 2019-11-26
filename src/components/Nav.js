@@ -1,5 +1,5 @@
 
-import React, {Component} from 'react'
+import React from 'react'
 import Logo from '../image/logo.svg'
 import styled from 'styled-components';
 import axios from 'axios'
@@ -26,35 +26,67 @@ function Nav (props) {
     }
 
     const Bar = styled.div`
-    background-color: #292F4C;
-    display: flex;
-    flex-direction: column;
-    width: 66px;
-    justify-content: flex-start;
-    fontSize: 30px;
-    color:white;
+        background-color: #292F4C;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 66px;
+        color:white;
+        align-item: center;
+        height: 100vh;
     `;
 
     const Wrapper = styled.div`
-    display: grid;
-    grid-column: 1;
-    width: 100%;
-    justify-content: center;
-    item-align: center;
-    item-self: flex-end
+        display: grid;
     `;
+
+    const Button1 = styled.button`
+        border-radius: 25px;
+        width: 50px;
+        height: 50px;
+        color: white;
+        font-weight: 700;
+        font-size: 20px;
+        align-self: center;
+        background-color: transparent;
+        border: none;
+        margin: 5px;
+
+
+        &:hover {
+            background-color:#10121E;
+        }
+    `;
+
+    const Button2 = styled.button`
+        border-radius: 25px;
+        width: 50px;
+        height: 50px;
+        color: white;
+        background-color: #F5617F;
+        font-family: "Abel";
+        font-weight: 700;
+        font-size: 20px;
+        border: 3px solid white;
+        margin: 1em 5px ;
+
+    `;
+
+
 
     return(
         <Bar>
-        <img src={Logo} width="90%" />
-        <NotificationsNoneIcon />
-        <Wrapper>
-        <OfflineBoltOutlinedIcon />
-        <PersonAddOutlinedIcon />
-        <SearchOutlinedIcon />
-        <HelpOutlineOutlinedIcon />
-        <button onClick={() =>  handleLogoutClick()}>Logout</button>
-        </Wrapper>
+        <div>
+        <img style={{flexGrow: "1"}} src={Logo} alt="Logo" width="90%" />
+        <Button1 ><NotificationsNoneIcon /></Button1>
+        </div>
+        <div>
+        <Button1 ><OfflineBoltOutlinedIcon /></Button1>
+        <Button1 ><PersonAddOutlinedIcon /></Button1>
+        <Button1 ><SearchOutlinedIcon /></Button1>
+        <Button1 ><HelpOutlineOutlinedIcon /></Button1>
+        <Button2 onClick={() =>  handleLogoutClick()}>Exit</Button2>
+        </div>
         </Bar>
     )
 }

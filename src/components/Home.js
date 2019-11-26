@@ -1,9 +1,7 @@
-import React, {Component, useState, useEffect} from 'react'
-import {BrowserRouter, Switch, Route, Redirect, Link} from 'react-router-dom';
+import React, {Component} from 'react'
 
 import Registration from './auth/Registration'
 import Login from './auth/Login'
-import axios from 'axios'
 import styled from 'styled-components';
 import Logo2 from '../image/logo2.svg'
 ///////////////////////////////////////////////////////////////////////////////
@@ -79,8 +77,8 @@ export default class Home extends Component {
         }
 
         return(
-            <div>
-                <Header><img src={Logo2} style={{height: "75px"}}/></Header>
+            <div style={{backgroundColor: 'white', minHeight: '100vh'}}>
+                <Header><img alt="logo" src={Logo2} style={{height: "75px"}}/></Header>
                 {entryBox}
                 <p>Status: {this.props.loggedInStatus}</p>
             </div>

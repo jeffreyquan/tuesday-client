@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import axios from 'axios'
 
 import React, { Component } from 'react';
-import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 
 import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardOutlined';
 

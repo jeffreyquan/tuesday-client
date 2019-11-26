@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Switch, Route, Redirect, Link} from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios'
 /////////////////////////////////////////////////////////
@@ -46,20 +45,6 @@ import axios from 'axios'
         font-family: "Abel";
         padding: 0.5em;
         text-align: right;
-    `;
-
-    const BlueP = styled.p`
-        color: #0086C0;
-        font-size: 0.8em;
-        font-family: "Abel";
-        display: inline-block;
-        width: 350px;
-        text-align: left;
-
-
-        &:hover{
-            color: #0F91CA
-        }
     `;
 
     const Button = styled.button`

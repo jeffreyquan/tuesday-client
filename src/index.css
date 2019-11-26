@@ -339,6 +339,7 @@ h1, h2, h3, h4, h5, h6 {
 
 body {
   background-color: #292F4C !important;
+  height: 100vh;
 }
 
 /* basic styling for control panel */

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
 
 import Nav from './Nav'
@@ -14,17 +13,6 @@ let URL = (model, id = '') => {
     return `http://localhost:3000/${model}/${id}`
 };
 
-const useStyles = makeStyles(theme => ({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 200,
-    },
-}));
 
 function Dashboard(props) {
   // console.log(props);
@@ -32,7 +20,6 @@ function Dashboard(props) {
     const [groupName, setGroupName] = useState('');
     const [projectId, setProjectId] = useState(1)
 
-    const classes = useStyles();
 
     useEffect(() => {
         axios.get(`http://localhost:3000/projects/1`).then((results) => {
@@ -82,13 +69,24 @@ function Dashboard(props) {
 
       const Wrapper = styled.div`
             display: grid;
-            grid-template-columns: 66px auto auto;
+            grid-template-columns: 66px 255px auto;
+            height: 100vh;
+      `;
+
+      const Control = styled.div`
+            background-color: white;
+            border: 1px solid lightgrey;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            width: 255px;
+            height: 100vh;
+
       `;
     return (
         <Wrapper>
         <Nav {...props} handleLogout={props.handleLogout} />
-        <Control {...props} user = {props.user} loggedInStatus={props.loggedInStatus}/>
-        <div style={{backgroundColor: 'white'}}>
+        <Control style={{backgroundColor: 'white'}}/> {/*slot for control*/}
+        <div style={{backgroundColor: 'white', height:'100vh'}}>
             { !groups.length ? <h3>Loading</h3> : (
                 <div>
                     <form onSubmit={saveGroupName}>
@@ -99,10 +97,10 @@ function Dashboard(props) {
                     { groups.map(group => {
                         // console.log("group", group)
                         return (
-                        <div>
                             <table>
+                                <tbody>
                                 <tr>
-                                    <th><GroupNameField groupName={group.name} id={group.id} />
+                                    <th><GroupNameField groupName={group.name} id={group.id} key={group.id}/>
                                         <button onClick={(event) => deleteGroup(event, group)}>x</button>
                                     </th>
 
@@ -112,12 +110,11 @@ function Dashboard(props) {
                                         <th>Priority</th>
 
                                 </tr>
-
                                 { group.tasks && group.tasks.map((task) => (
-                                    <Task task={task} group={group} deleteTask={deleteTask}/>
+                                    <Task task={task} group={group} deleteTask={deleteTask} key={task.id}/>
                                 ))}
+                                </tbody>
                             </table>
-                        </div>
                     )})}
                 </div>
             )}

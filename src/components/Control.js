@@ -21,10 +21,10 @@ class Control extends Component {
     const fetchMemberships = () => {
       axios.get(`http://localhost:3000/users/${ this.state.user_id }.json`).then( ( results ) => {
         console.log( results );
-        // const memberships = results.data.memberships
+        const memberships = results.data.memberships
         // console.log( memberships );
         this.setState({
-          // memberships: memberships
+          memberships: memberships
         });
         setTimeout( fetchMemberships, 10000);
         console.log(this.state.memberships );
@@ -34,7 +34,7 @@ class Control extends Component {
   }
 
   saveProject(content) {
-    axios.post(`http://localhost:3000/projects.json`, { content: content }).then((result) => {
+    axios.post(`http://localhost:3000/projects.json`, content).then((result) => {
       const newMembership = {
         user_id: this.state.user_id,
         project_id: result.id,
@@ -160,15 +160,29 @@ class NewProjectForm extends Component {
   _handleSubmit(event) {
     event.preventDefault();
     this.props.onSubmit(this.state);
-    this.setState({})
+    this.setState({
+      name: '',
+      description: ''
+    })
   }
 
   render() {
     return (
       <div>
         <form onSubmit={ this._handleSubmit }>
-          <input type="text" name="name" required onInput={ this._handleInput }/>
-          <input type="text" name="description" onInput={ this._handleInput }/>
+          <label>Name:</label>
+          <input
+            type="text"
+            name="name"
+            required
+            onInput={ this._handleInput }
+          />
+          <label>Description</label>
+          <input
+            type="text"
+            name="description"
+            onInput={ this._handleInput }
+          />
           <input type="submit" name="Submit" />
         </form>
       </div>

@@ -344,10 +344,12 @@ body {
 
 /* basic styling for control panel */
 .control {
+  background-color: grey;
   margin-left: 500px;
   width: 500px;
   border: 1px solid grey;
   border-radius: 2px;
+  z-index: 9999;
 }
 
 .invitation {

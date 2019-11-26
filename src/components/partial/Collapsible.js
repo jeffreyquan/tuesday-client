@@ -12,15 +12,13 @@ function Collapsible(props) {
     let icon
     open ? icon = <RemoveRoundedIcon /> : icon = <AddRoundedIcon />
 
-
     return (
         <div>
-        <div onClick={(e)=>togglePanel(e)} className='header'>
-        {props.title} <span> {icon} </span>
+        <div onClick={(e)=>togglePanel(e)} >
+        <span>{props.title} </span><span> {icon} </span>
         </div>
-        <ul>
-        {open ? (<li> {props.children} </li>) : null}
-        </ul>
+
+        {open ? (<div> {props.children} </div>) : null}
         </div>
         )
 }

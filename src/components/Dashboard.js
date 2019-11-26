@@ -13,6 +13,28 @@ let URL = (model, id = '') => {
     return `http://localhost:3000/${model}/${id}`
 };
 
+function SaveTaskComponent(props) {
+    const [taskName, setTaskName] = useState('');
+    const saveTaskName = async () => {
+        axios
+            .post(`http://localhost:3000/groups/${props.groupId}/tasks`,
+                { name: taskName, group_id: props.groupId })
+            .then((results) => {
+                axios
+                    .get(`http://localhost:3000/projects/1/groups`)
+                    .then(({ data }) => {
+                        props.setGroups(data);
+                    })
+            })
+    }
+
+    return (
+        <div>
+            <input value={taskName} placeholder="+Add" onChange={(event) => setTaskName(event.target.value)} />
+            <input type="button" value="Add Task" onClick={saveTaskName}/>
+        </div>
+    )
+}
 
 function Dashboard(props) {
     const [groups, setGroups] = useState([]);
@@ -20,13 +42,12 @@ function Dashboard(props) {
     const [projectId, setProjectId] = useState(1);
     const [task, setTask] = useState('');
 
-
     useEffect(() => {
-        axios.get(`http://localhost:3000/projects/1`).then((results) => {
-            // console.log(results.data["groups"]);
-
-            setGroups(results.data["groups"]);
-        })
+        axios
+            .get(`http://localhost:3000/projects/1`)
+            .then((results) => {
+                setGroups(results.data.groups);
+            })
     }, [])
 
     const saveGroupName = (event) => {
@@ -41,25 +62,14 @@ function Dashboard(props) {
         }
 
         axios.post(URL('groups'), postRequest).then((result) => {
-
             axios.get(SERVER_URL).then((results) => {
                 setGroups(results.data["groups"]);
             })
-
         })
     }
 
     const deleteGroup = (event, group) => {
-        axios.delete(`http://localhost:3000/groups/${group.id}`).then((result) => {
-            axios.get(SERVER_URL).then((results) => {
-                setGroups(results.data["groups"]);
-            })
-        })
-    }
-
-    const addTask = (event, group, task) => {
-        axios.post(`http://localhost:3000/groups/${group.id}/tasks`, { name: task, group_id: group.id }).then((result) => {
-
+        axios.delete(URL('groups', group.id)).then((result) => {
             axios.get(SERVER_URL).then((results) => {
                 setGroups(results.data["groups"]);
             })
@@ -109,9 +119,9 @@ function Dashboard(props) {
                             <table>
                                 <tbody>
                                 <tr>
-                                    <th><GroupNameField groupName={group.name} id={group.id} key={group.id}/>
-                                        <button onClick={(event) => deleteGroup(event, group)}>x</button>
-                                        <button onClick={(event) => addTask(event, task)}>+</button>
+                                    <th>
+                                        <button onClick={(event) => deleteGroup(event, group)}>Delete Group</button>
+                                        <GroupNameField groupName={group.name} id={group.id} key={group.id}/>
                                     </th>
 
                                         <th>Owner</th>
@@ -119,6 +129,11 @@ function Dashboard(props) {
                                         <th>Due Date</th>
                                         <th>Priority</th>
 
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <SaveTaskComponent groupId={group.id} setGroups={setGroups} />
+                                    </td>
                                 </tr>
                                 { group.tasks && group.tasks.map((task) => (
                                     <Task task={task} id={task.id} group={group} deleteTask={deleteTask} key={task.id}/>

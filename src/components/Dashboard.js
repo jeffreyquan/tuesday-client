@@ -24,7 +24,6 @@ function Dashboard(props) {
     useEffect(() => {
         axios.get(`http://localhost:3000/projects/1`).then((results) => {
             // console.log(results.data["groups"]);
-
             setGroups(results.data["groups"]);
         })
     }, [])
@@ -83,7 +82,7 @@ function Dashboard(props) {
       `;
 
       const StyledControl = styled(Control)`
-            background-color: white;
+            background-color: white !important;
             border: 1px solid lightgrey;
             border-top-left-radius: 20px;
             border-bottom-left-radius: 20px;
@@ -121,7 +120,7 @@ function Dashboard(props) {
 
                                 </tr>
                                 { group.tasks && group.tasks.map((task) => (
-                                    <Task task={task} group={group} deleteTask={deleteTask} key={task.id}/>
+                                    <Task task={task} id={task.id} group={group} deleteTask={deleteTask} key={task.id}/>
                                 ))}
                                 </tbody>
                             </table>

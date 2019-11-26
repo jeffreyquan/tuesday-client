@@ -15,10 +15,10 @@ let URL = (model, id = '') => {
 
 
 function Dashboard(props) {
-  // console.log(props);
     const [groups, setGroups] = useState([]);
     const [groupName, setGroupName] = useState('');
-    const [projectId, setProjectId] = useState(1)
+    const [projectId, setProjectId] = useState(1);
+    const [task, setTask] = useState('');
 
 
     useEffect(() => {
@@ -51,6 +51,15 @@ function Dashboard(props) {
 
     const deleteGroup = (event, group) => {
         axios.delete(`http://localhost:3000/groups/${group.id}`).then((result) => {
+            axios.get(SERVER_URL).then((results) => {
+                setGroups(results.data["groups"]);
+            })
+        })
+    }
+
+    const addTask = (event, group, task) => {
+        axios.post(`http://localhost:3000/groups/${group.id}/tasks`, { name: task, group_id: group.id }).then((result) => {
+
             axios.get(SERVER_URL).then((results) => {
                 setGroups(results.data["groups"]);
             })
@@ -90,7 +99,7 @@ function Dashboard(props) {
             { !groups.length ? <h3>Loading</h3> : (
                 <div>
                     <form onSubmit={saveGroupName}>
-                        <input placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)} />
+                        <input value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)} />
                         <input type="submit" value="Add Group" />
                     </form>
 
@@ -102,6 +111,7 @@ function Dashboard(props) {
                                 <tr>
                                     <th><GroupNameField groupName={group.name} id={group.id} key={group.id}/>
                                         <button onClick={(event) => deleteGroup(event, group)}>x</button>
+                                        <button onClick={(event) => addTask(event, task)}>+</button>
                                     </th>
 
                                         <th>Owner</th>

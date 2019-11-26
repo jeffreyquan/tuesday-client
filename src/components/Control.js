@@ -10,24 +10,42 @@ class Control extends Component {
       memberships: null
     };
 
+    this.saveProject = this.saveProject.bind(this);
+
     if (props.user) {
       this.state.user_id = props.user.id;
+      this.state.email = props.user.email;
     }
 
-    console.log( props );
+    // console.log( props );
     const fetchMemberships = () => {
-      axios.get(`http://localhost:3000/memberships.json`).then( ( results ) => {
+      axios.get(`http://localhost:3000/users/${ this.state.user_id }.json`).then( ( results ) => {
         console.log( results );
-        const memberships = results.data.memberships
-        console.log( memberships );
+        // const memberships = results.data.memberships
+        // console.log( memberships );
         this.setState({
-          memberships: memberships
+          // memberships: memberships
         });
-        setTimeout( fetchMemberships, 500);
+        setTimeout( fetchMemberships, 10000);
         console.log(this.state.memberships );
       });
     }
     fetchMemberships();
+  }
+
+  saveProject(content) {
+    axios.post(`http://localhost:3000/projects.json`, { content: content }).then((result) => {
+      const newMembership = {
+        user_id: this.state.user_id,
+        project_id: result.id,
+        invitation: true,
+        email: this.state.email
+      }
+
+      axios.post(`http://localhost:3000/memberships.json`, newMembership).then((result) => {
+        this.setState({memberships: [...this.state.memberships, result.data]})
+      })
+    })
   }
 
   render() {
@@ -43,6 +61,7 @@ class Control extends Component {
         <h2>Projects</h2>
         <div>
           <Projects memberships={ this.state.memberships } />
+          <NewProjectForm onSubmit={ this.saveProject } />
         </div>
       </div>
     )
@@ -120,6 +139,41 @@ function Projects(props) {
       })}
     </div>
   )
+}
+
+class NewProjectForm extends Component {
+  constructor() {
+    super();
+    this.state = {
+      name: '',
+      description: ''
+    }
+    this._handleInput = this._handleInput.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
+  }
+
+  _handleInput(event) {
+    const { name, value } = event.target
+    this.setState({ [name]: value })
+  }
+
+  _handleSubmit(event) {
+    event.preventDefault();
+    this.props.onSubmit(this.state);
+    this.setState({})
+  }
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={ this._handleSubmit }>
+          <input type="text" name="name" required onInput={ this._handleInput }/>
+          <input type="text" name="description" onInput={ this._handleInput }/>
+          <input type="submit" name="Submit" />
+        </form>
+      </div>
+    )
+  }
 }
 
 

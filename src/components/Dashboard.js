@@ -121,7 +121,7 @@ function Dashboard(props) {
 
                                 </tr>
                                 { group.tasks && group.tasks.map((task) => (
-                                    <Task task={task} group={group} deleteTask={deleteTask} key={task.id}/>
+                                    <Task task={task} id={task.id} group={group} deleteTask={deleteTask} key={task.id}/>
                                 ))}
                                 </tbody>
                             </table>

@@ -26,7 +26,7 @@ export default function Task(props) {
   const classes = useStyles();
   const [task, setTask] = useState(props.task)
   const updateTaskName = () => {
-    axios.put(`http://localhost:3000/groups/${props.group.id}/tasks/${props.id}`, { name: task })
+    axios.put(URL('tasks', props.id), { name: task, group_id: props.group_id })
   }
 
   return (
@@ -37,7 +37,7 @@ export default function Task(props) {
               onChange={(event) => setTask(event.target.value)}
               onBlur={updateTaskName}
               id="filled-read-only-input"
-              value={props.task.name}
+              value={task.name}
               className={classes.textField}
               margin="normal"
               variant="outlined"

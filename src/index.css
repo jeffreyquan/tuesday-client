@@ -349,11 +349,15 @@ body {
   width: 500px;
   border: 1px solid grey;
   border-radius: 2px;
-  z-index: 9999;
 }
 
 .invitation {
   background-color: #ADD8E6;
   opacity: 0.5;
   padding: 10px;
+}
+
+.members {
+  background-color: blue;
+  z-index: 9999;
 }

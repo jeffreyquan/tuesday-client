@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import Nav from './Nav'
 import Control from './Control'
+import Team from './Team'
 import GroupNameField from './GroupNameField'
 import Task from './Task'
 
@@ -104,7 +105,8 @@ function Dashboard(props) {
     return (
         <Wrapper>
         <Nav {...props} handleLogout={props.handleLogout} />
-        <Control {...props} style={{backgroundColor: 'white'}}/> {/*slot for control*/}
+        {/*<Control {...props} style={{backgroundColor: 'white'}}/> slot for control*/}
+        <Team />
         <div style={{backgroundColor: 'white', height:'100vh'}}>
             { !groups.length ? <h3>Loading</h3> : (
                 <div>

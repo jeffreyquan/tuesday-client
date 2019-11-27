@@ -20,7 +20,7 @@ const SelectWrap = (props) => {
       <Select
         name={props.name}
         value={props.value}
-        onChange={props.handleChange}
+        onChange={props.onChange}
         className={useStyles().selectEmpty}
         displayEmpty
         >

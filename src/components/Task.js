@@ -32,17 +32,24 @@ export default function Task(props) {
   const [priorityOptions, setPriorityOptions] = useState(['High', 'Medium', 'Low'])
   const [taskPriority, setTaskPriority] = useState(props.task.priority)
   const [owner, setOwner] = useState(props.task.owner)
+  // const [moment, setMoment] = useState(moment)
+
+  // const shortcuts = {
+  //   'Today': moment(),
+  //   'Yesterday': moment().subtract(1, 'days'),
+  //   'Clear': ''
+  // };
 
   const updateTaskName = () => {
     axios.put(URL('tasks', props.id), { name: task, group_id: props.group_id })
   }
 
-  const updateStatus = () => {
-    axios.put(URL('tasks', props.id), { status: taskStatus, group_id: props.group_id })
+  const updateStatus = (status) => {
+    axios.put(URL('tasks', props.id), { status, group_id: props.group_id })
   }
 
-  const updatePriority = () => {
-    axios.put(URL('tasks', props.id), { priority: taskPriority, group_id: props.group_id })
+  const updatePriority = (priority) => {
+    axios.put(URL('tasks', props.id), { priority, group_id: props.group_id })
   }
 
   const updateOwner = () => {
@@ -83,8 +90,7 @@ export default function Task(props) {
               options={statusOptions}
               value={taskStatus}
               placeholder={''}
-              onChange={(event => setTaskStatus(event.target.value))}
-              onBlur={updateStatus}
+              onChange={(event) => { setTaskStatus(event.target.value); updateStatus(event.target.value) }}
           />
       </td>
       <td>
@@ -102,8 +108,7 @@ export default function Task(props) {
               options={priorityOptions}
               value={taskPriority}
               placeholder={''}
-              onChange={(event => setTaskPriority(event.target.value))}
-              onBlur={updatePriority}
+              onChange={(event) => { setTaskPriority(event.target.value); updatePriority(event.target.value) }}
           />
       </td>
     </tr>

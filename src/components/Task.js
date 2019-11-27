@@ -3,6 +3,9 @@ import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Select from './Select'
+import Collapsible from './partial/Collapsible.js'
+
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 
 let URL = (model, id = '') => {
   return `http://localhost:3000/${model}/${id}`
@@ -47,10 +50,13 @@ export default function Task(props) {
   }
 
   return (
-    <tr>
+
+    <tr style={{borderBottom: "1px solid #F1F1F1"}}>
+        <td style={{width: '1em'}}>
+        <button onClick={(event) => props.deleteTask(event, props.group, props.task)}><DeleteOutlineOutlinedIcon/></button>
+        </td>
       <td>
-          <button onClick={(event) => props.deleteTask(event, props.group, props.task)}>Delete Task</button>
-          <TextField
+          <input
               onChange={(event) => setTask(event.target.value)}
               onBlur={updateTaskName}
               id="filled-read-only-input"
@@ -61,7 +67,7 @@ export default function Task(props) {
           />
       </td>
       <td>
-          <TextField
+          <input
               onChange={(event) => setOwner(event.target.value)}
               onBlur={updateOwner}
               id="filled-read-only-input"
@@ -82,7 +88,7 @@ export default function Task(props) {
           />
       </td>
       <td>
-          <TextField
+          <input
               id="filled-read-only-input"
               value={new Date(props.task.due_date)}
               className={classes.textField}

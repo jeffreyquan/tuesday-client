@@ -1,25 +1,42 @@
 import React from 'react'
+import { Select, MenuItem, FormControl } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-const Select = (props) => {
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+
+
+const SelectWrap = (props) => {
   return(
-    <div className="form-group">
-      <select
+    <FormControl className={useStyles().formControl} variant="outlined" >
+      <Select
         name={props.name}
         value={props.value}
         onChange={props.handleChange}
+        className={useStyles().selectEmpty}
+        displayEmpty
         >
-        <option value="">{props.placeholder}</option>
+        <MenuItem value="">{props.placeholder}</MenuItem>
         {props.options.map(option => {
           return(
-            <option
+            <MenuItem
               key={option}
               value={option}
               label={option}>{option}
-              </option>
+              </MenuItem>
           );
         })}
-        </select>
-    </div>)
+        </Select>
+    </FormControl>)
 }
 
-export default Select;
+
+export default SelectWrap;

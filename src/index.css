@@ -338,10 +338,39 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Hind Madurai", sans-serif;
   font-weight: 700;
   color: #333333;
-  
+
+}
+
+button {
+  border: none;
 }
 
 body {
   background-color: #292F4C !important;
   height: 100vh;
+}
+
+tr {
+  margin: 10px; 
+}
+
+th {
+  font-family: 'Abel';
+}
+
+td {
+  border: 2px inset lightgrey;
+  margin: 2px 1px;
+  padding: 0;
+  font-family: 'Abel';
+  font-size: 18px;
+}
+
+input, select {
+  font-family: 'Abel';
+  font-size: 18px;
+}
+
+table {
+  margin-top: 3em;
 }

@@ -16,7 +16,6 @@ import _ from 'underscore'
 
 const ControlStyle = styled.div`
       background-color: white !important;
-      border-right: 1px solid #F1F1F1;
       border-top-left-radius: 20px;
       width: 255px;
       height: 100vh;

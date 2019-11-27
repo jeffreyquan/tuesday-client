@@ -2,7 +2,7 @@ import React, { useState} from 'react';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import Select from './Select'
+import SelectWrap from './Select'
 import Collapsible from './partial/Collapsible.js'
 
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
@@ -56,7 +56,7 @@ export default function Task(props) {
         <button onClick={(event) => props.deleteTask(event, props.group, props.task)}><DeleteOutlineOutlinedIcon/></button>
         </td>
       <td>
-          <input
+          <TextField
               onChange={(event) => setTask(event.target.value)}
               onBlur={updateTaskName}
               id="filled-read-only-input"
@@ -67,7 +67,7 @@ export default function Task(props) {
           />
       </td>
       <td>
-          <input
+          <TextField
               onChange={(event) => setOwner(event.target.value)}
               onBlur={updateOwner}
               id="filled-read-only-input"
@@ -78,7 +78,7 @@ export default function Task(props) {
           />
       </td>
       <td>
-          <Select
+          <SelectWrap
               name={'status'}
               options={statusOptions}
               value={taskStatus}
@@ -88,7 +88,7 @@ export default function Task(props) {
           />
       </td>
       <td>
-          <input
+          <TextField
               id="filled-read-only-input"
               value={new Date(props.task.due_date)}
               className={classes.textField}
@@ -97,7 +97,7 @@ export default function Task(props) {
           />
       </td>
       <td>
-          <Select
+          <SelectWrap
               name={'priority'}
               options={priorityOptions}
               value={taskPriority}

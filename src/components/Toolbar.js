@@ -12,7 +12,6 @@ import { pink, green, blue, red, yellow, HUE } from '@material-ui/core/colors';
 
 import Team from './Team'
 
-
 function Toolbar(props){
     const [memberDropdown, setMemberDropdown] = useState(false)
     const [right, setRight] = useState(false);
@@ -78,7 +77,7 @@ function Toolbar(props){
             color: 'white',
             padding: '5px 1em',
             boxShadow: '0 0 1px rgba(255, 105, 135, .3)',
-            margin: '0 1em'
+            margin: '0 0.5em'
         },
         label: {
             textTransform: 'capitalize',
@@ -113,7 +112,7 @@ function Toolbar(props){
     return(
         <ThemeProvider theme={theme}>
         <Style>
-        <div style={{width: '40%'}}>
+        <div style={{width: '35%'}}>
         <input value="Project" style={{fontSize: '2rem', fontFamily: "Hind Madurai", fontWeight: 700, color: '#333333', border: 'none'}}/>
         <textarea style={{width: '100%', border: 'none'}}>Description</textarea>
         </div>
@@ -129,9 +128,10 @@ function Toolbar(props){
         <div style={{display: 'flex', justifyContent: 'flex-end', }}>
         <StyledButtonUI color="primary">New Task</StyledButtonUI>
         <StyledInput placeholder='Search' id="bootstrap-input"  />
+        <IconContainer><AccountCircleOutlinedIcon /></IconContainer>
+
         <IconContainer><VisibilityOffOutlinedIcon /></IconContainer>
         <IconContainer><FilterListOutlinedIcon /></IconContainer>
-        <IconContainer><AccountCircleOutlinedIcon /></IconContainer>
 
         </div>
         </div>

@@ -5,6 +5,7 @@ class Team extends Component {
   constructor() {
     super();
     this.state = {
+      emails: [],
       members: null,
       invitations: null,
     };
@@ -12,15 +13,24 @@ class Team extends Component {
     this.saveInvitation = this.saveInvitation.bind(this);
 
     const fetchMemberships = () => {
+      // link to connected to project link in Control panel or Board
       axios.get(`http://localhost:3000/projects/3.json`).then((results) => {
-        console.log(results.data.memberships)
+        console.log(results.data.memberships);
+        let emails = [];
         let members = [];
         let invitations = [];
         results.data.memberships.map( (m) => {
-          m.invitation === true ? members.push(m) : invitations.push(m);
+          if (m.invitation === true) {
+            members.push(m);
+            emails.push(m.email);
+          } else {
+            invitations.push(m);
+            emails.push(m.email);
+          }
         })
         console.log( members );
         this.setState({
+          emails: emails,
           members: members,
           invitations: invitations
         })
@@ -42,12 +52,12 @@ class Team extends Component {
     }
     return (
       <div className="members">
-        <h1>Team coming soon</h1>
+        <h1>Team</h1>
           <h2>Members</h2>
           <Display team={ this.state.members } />
           <h2>Pending Invitations</h2>
           <Display team={ this.state.invitations } />
-          <InviteForm all_memberships={this.state.all_memberships} onSubmit={ this.saveInvitation } />
+          <InviteForm emails={ this.state.emails } onSubmit={ this.saveInvitation } />
       </div>
     )
   }
@@ -68,35 +78,88 @@ function Display(props) {
 }
 
 class InviteForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      email: '',
-      admin: false,
-      project_id: 3,
-      invitation: false,
+      emails: this.props.emails,
+      form: {
+        email: '',
+        admin: false,
+        project_id: 3, // to be linked to project link in control panel
+        invitation: false,
+      },
+      formErrors: {
+        email: null,
+      }
     }
-    this._handleInput = this._handleInput.bind(this);
+    this._handleChange = this._handleChange.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
+    this.validateEmail = this.validateEmail.bind(this);
+    this.validateForm = this.validateForm.bind(this);
   }
 
-  _handleInput(event) {
-    const { name, value } = event.target
-    this.setState({ [name]: value })
+  _handleChange(event) {
+    const { name, value } = event.target;
+    const { form, formErrors } = this.state;
+    let formObj = {};
+    formObj = { ...form, [name]:value };
+    this.setState({ form: formObj }, () => {
+      let formErrorsObj = {};
+      const errorMessage = this.validateEmail(value);
+      formErrorsObj = {...formErrors, [name]: errorMessage };
+      this.setState({ formErrors: formErrorsObj });
+    });
   }
 
   _handleSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit(this.state);
-    this.setState({
-      email: '',
-      admin: false,
-      project_id: 3,
-      invitation: false,
-    })
+    const { emails, form, formErrors } = this.state;
+    const errorObj = this.validateForm(form, formErrors, this.validateEmail);
+    if ( Object.keys(errorObj) != 0 ) {
+      this.setState({ formErrors: { ...formErrors, ...errorObj } });
+      console.log(errorObj);
+      return false;
+    } else {
+      this.props.onSubmit(form);
+      this.setState({
+        emails: [...emails, form.email],
+        form: {
+          email: '',
+          admin: false,
+          project_id: 3,
+          invitation: false,
+        },
+        formErrors: {
+          email: null,
+        }
+      })
+    }
   }
 
+  validateForm = (form, formErrors, validateFunction) => {
+    const errorObj = {};
+    Object.keys(formErrors).map(x => {
+      const msg = validateFunction(form[x]);
+      if (msg) {
+        errorObj[x] = msg;
+      }
+    });
+    return errorObj;
+  }
+
+  validateEmail = (value) => {
+    let errorMessage = null;
+    let alreadyInvited = this.state.emails;
+    if (!value) {
+      errorMessage = "Please enter email.";
+    } else if (alreadyInvited.includes(value)) {
+      errorMessage = "Already invited."
+    }
+    return errorMessage;
+  };
+
   render() {
+    const { form, formErrors } = this.state;
     return (
       <div>
         <form onSubmit={ this._handleSubmit }>
@@ -105,9 +168,11 @@ class InviteForm extends Component {
             type="text"
             name="email"
             required
-            onInput={ this._handleInput }
+            onChange={ this._handleChange }
+            value={ form.email }
           />
-          <input type="submit" name="Submit" />
+          <span className="errors">{ formErrors.email }</span>
+          <input type="submit" name="Invite" value="Invite" />
         </form>
       </div>
     )

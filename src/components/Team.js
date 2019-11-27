@@ -5,7 +5,6 @@ class Team extends Component {
   constructor() {
     super();
     this.state = {
-      all_memberships: null,
       members: null,
       invitations: null,
     };
@@ -22,7 +21,6 @@ class Team extends Component {
         })
         console.log( members );
         this.setState({
-          all_memberships: members.concat(invitations),
           members: members,
           invitations: invitations
         })

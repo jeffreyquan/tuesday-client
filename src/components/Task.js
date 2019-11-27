@@ -32,7 +32,7 @@ export default function Task(props) {
   return (
     <tr>
       <td>
-          <button onClick={(event) => props.deleteTask(event, props.group, props.task)}>x</button>
+          <button onClick={(event) => props.deleteTask(event, props.group, props.task)}>Delete Task</button>
           <TextField
               onChange={(event) => setTask(event.target.value)}
               onBlur={updateTaskName}

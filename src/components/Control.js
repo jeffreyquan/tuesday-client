@@ -41,34 +41,24 @@ class Control extends Component {
 
         // console.log( props );
         const fetchMemberships = () => {
-            axios.get(`http://localhost:3000/users/${ this.state.user_id }.json`).then( ( results ) => {
-                console.log( results );
-                const memberships = results.data.memberships
-                // console.log( memberships );
-                this.setState({
-                    memberships: memberships
-                });
-                setTimeout( fetchMemberships, 10000);
-                console.log(this.state.memberships );
+          axios.get(`http://localhost:3000/users/${ this.state.user_id }.json`).then( ( results ) => {
+            const memberships = results.data.memberships;
+            console.log( memberships );
+            this.setState({
+              memberships: memberships,
             });
+            setTimeout( fetchMemberships, 10000);
+          });
         }
         fetchMemberships();
-    }
+      }
 
-    saveProject(content) {
-        axios.post(`http://localhost:3000/projects.json`, content).then((result) => {
-            const newMembership = {
-                user_id: this.state.user_id,
-                project_id: result.id,
-                invitation: true,
-                email: this.state.email
-            }
-
-            axios.post(`http://localhost:3000/memberships.json`, newMembership).then((result) => {
-                this.setState({memberships: [...this.state.memberships, result.data]})
-            })
-        })
-    }
+saveProject(content) {
+  axios.post(`http://localhost:3000/projects.json`, content).then((result) => {
+    // console.log(result.data.memberships[0]);
+    this.setState({memberships: [...this.state.memberships, result.data.memberships[0]]})
+  })
+}
 
     newForm(){
         console.log("run");

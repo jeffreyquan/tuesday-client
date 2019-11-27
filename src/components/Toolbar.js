@@ -25,7 +25,7 @@ function Toolbar(props){
     width: 100%;
     height: 200px;
     padding: 1em;
-    border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid #F1F1F1;
     display: flex;
     justify-content: space-between;
     `;
@@ -113,14 +113,14 @@ function Toolbar(props){
     return(
         <ThemeProvider theme={theme}>
         <Style>
-        <div>
-        <h2>Project</h2>
-        <textarea>Description</textarea>
+        <div style={{width: '40%'}}>
+        <input value="Project" style={{fontSize: '2rem', fontFamily: "Hind Madurai", fontWeight: 700, color: '#333333', border: 'none'}}/>
+        <textarea style={{width: '100%', border: 'none'}}>Description</textarea>
         </div>
         <div style={{display: 'flex', flexDirection:'column', justifyContent: 'space-between'}}>
         <div style={{display: 'flex', justifyContent: 'flex-end', }}>
-        <div style={{display: 'inline-block', border: '1px solid lightgrey', borderRadius: '4px'}}>
-        <ListWrapper style={{borderRight: '1px solid lightgrey'}} onClick={toggleDrawer}><PeopleAltOutlinedIcon /><span> Members / </span><span> 3 </span></ListWrapper>
+        <div style={{display: 'inline-block', border: '1px solid #F1F1F1', borderRadius: '4px'}}>
+        <ListWrapper style={{borderRight: '1px solid #F1F1F1'}} onClick={toggleDrawer}><PeopleAltOutlinedIcon /><span> Members / </span><span> 3 </span></ListWrapper>
         <ListWrapper><FormatListBulletedOutlinedIcon /> <span>Tasks / </span><span> 10 </span></ListWrapper>
         </div>
         <IconContainer><MoreHorizOutlinedIcon /></IconContainer>

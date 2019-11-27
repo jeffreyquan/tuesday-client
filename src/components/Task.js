@@ -6,6 +6,9 @@ import Select from './Select'
 // import moment from 'moment';
 // import {DatetimePicker, DatetimePickerTrigger, DatetimeRangePicker } from 'rc-datetime-picker';
 // import 'rc-datetime-picker/dist/picker.css';
+import Collapsible from './partial/Collapsible.js'
+
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 
 let URL = (model, id = '') => {
   return `http://localhost:3000/${model}/${id}`
@@ -57,10 +60,13 @@ export default function Task(props) {
   }
 
   return (
-    <tr>
+
+    <tr style={{borderBottom: "1px solid #F1F1F1"}}>
+        <td style={{width: '1em'}}>
+        <button onClick={(event) => props.deleteTask(event, props.group, props.task)}><DeleteOutlineOutlinedIcon/></button>
+        </td>
       <td>
-          <button onClick={(event) => props.deleteTask(event, props.group, props.task)}>Delete Task</button>
-          <TextField
+          <input
               onChange={(event) => setTask(event.target.value)}
               onBlur={updateTaskName}
               id="filled-read-only-input"
@@ -71,7 +77,7 @@ export default function Task(props) {
           />
       </td>
       <td>
-          <TextField
+          <input
               onChange={(event) => setOwner(event.target.value)}
               onBlur={updateOwner}
               id="filled-read-only-input"

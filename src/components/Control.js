@@ -16,7 +16,7 @@ import _ from 'underscore'
 
 const ControlStyle = styled.div`
       background-color: white !important;
-      border-right: 1px solid lightgrey;
+      border-right: 1px solid #F1F1F1;
       border-top-left-radius: 20px;
       width: 255px;
       height: 100vh;
@@ -79,7 +79,7 @@ saveProject(content) {
             return (
                 <ControlStyle>
                 <SmallTitle><MailOutlineRoundedIcon /> <span style={{marginLeft: "1em"}}>Inbox</span></SmallTitle>
-                <div style={{minHeight: '18vh'}}>
+                <div style={{minHeight: '18vh', borderBottom:'1px solid #F1F1F1'}}>
                 <Collapsible title={`Pending invites (${_.where(this.state.memberships, {invitation: false}).length})`} function="invitation" >
                 <Memberships memberships={ this.state.memberships } />
                 </Collapsible>

@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+import TemporaryDrawer from './partial/Drawer'
+
+import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
+import {Button as ButtonUI, TextField, Input as InputUI, List, ListItem, ListItemText, ListItemAvatar, Avatar, Divider } from '@material-ui/core';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+
+import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
+import SmsOutlinedIcon from '@material-ui/icons/SmsOutlined';
 
 class Team extends Component {
   constructor() {
@@ -51,29 +60,69 @@ class Team extends Component {
       return ''
     }
     return (
-      <div className="members">
-        <h1>Team</h1>
-          <h2>Members</h2>
-          <Display team={ this.state.members } />
-          <h2>Pending Invitations</h2>
-          <Display team={ this.state.invitations } />
-          <InviteForm emails={ this.state.emails } onSubmit={ this.saveInvitation } />
-      </div>
+
+      <StyledTeam className="members">
+        <h2 style={{margin: '0.3em 0 1em 0'}}>Team Members</h2>
+        <div style={{overflow: 'scroll'}}>
+        <InviteForm emails={ this.state.emails } onSubmit={ this.saveInvitation } style={{margin: '0 0 1em 1em'}}/>
+          <Display style={{height: '40vh', overflow: 'scroll'}} team={ this.state.members } />
+          <h4>Pending</h4>
+          <Display style={{height: '40vh', overflow: 'scroll'}} team={ this.state.invitations } />
+          </div>
+      </StyledTeam>
     )
   }
 }
 
+
+const IconContainer = styled.button`
+border-radius: 25px;
+width: 40px;
+height: 40px;
+font-weight: 700;
+font-size: 20px;
+background-color: transparent;
+border: none;
+margin-left: 1em;
+vertical-align: center;
+item-align: center;
+text-alignment: center;
+
+&:hover {
+    background-color:#EDEEF0;
+}
+`;
+
+
+const StyledTeam = styled.div`
+    padding: 1em;
+    height:100vh;
+    width: 30%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid lightgrey;
+    z-index: 200;
+`;
+
 function Display(props) {
   return (
-    <div>
+    <List>
       {props.team.map( (m) => {
         return(
-          <div>
-            <p>{ m.user.name} ({ m.email })</p>
-          </div>
+            <ListItem button>
+              <ListItemAvatar>
+                <Avatar>
+                  <FaceOutlinedIcon />
+                  <SmsOutlinedIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={m.user.name} secondary={m.email} />
+            </ListItem>
         )
       })}
-    </div>
+    </List>
   )
 }
 
@@ -161,22 +210,60 @@ class InviteForm extends Component {
   render() {
     const { form, formErrors } = this.state;
     return (
-      <div>
-        <form onSubmit={ this._handleSubmit }>
-          <label>Email:</label>
-          <input
+
+        <form onSubmit={ this._handleSubmit } style={{display:'flex', itemAlign:'center', padding:'5px 0'}}>
+          <StyledTextField
+          id="outlined-basic" label="Find user by email" variant="outlined"
             type="text"
             name="email"
             required
             onChange={ this._handleChange }
             value={ form.email }
           />
-          <span className="errors">{ formErrors.email }</span>
-          <input type="submit" name="Invite" value="Invite" />
+          <StyledButtonUI type="submit" name="Invite" color="primary">Invite</StyledButtonUI>
+          <div className="errors">{ formErrors.email }</div>
         </form>
-      </div>
     )
   }
 }
+
+
+const StyledButtonUI = withStyles({
+    root: {
+        background: 'linear-gradient(90deg, #3EB2F9 10%, #009AFF 90%)',
+        borderRadius: 25,
+        height:50,
+        border: 0,
+        color: 'white',
+        padding: '5px 2em',
+        boxShadow: '0 0 1px rgba(255, 105, 135, .3)',
+        margin: '4px 1em',
+    },
+    label: {
+        textTransform: 'capitalize',
+        fontWeight: 800
+    },
+})(ButtonUI);
+
+const StyledTextField = withStyles({
+    root: {
+
+        '& input:valid + fieldset': {
+            borderColor: 'lightgrey',
+            borderWidth: 1,
+            borderRadius: 25,
+        },
+        '& input:valid:focus + fieldset': {
+            borderColor: 'lightgrey',
+            borderLeftWidth: 6,
+            borderRadius: 25,
+        },
+    },
+    label: {
+        fontWeight: 800,
+        color: 'lightgrey',
+    },
+})(TextField);
+
 
 export default Team;

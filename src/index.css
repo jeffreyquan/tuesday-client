@@ -328,6 +328,7 @@ template {
   padding: 0;
   font-family: "Arial", sans-serif;
   outline: none;
+  list-style: none;
   text-decoration: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

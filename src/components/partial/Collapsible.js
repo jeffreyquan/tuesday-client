@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
+
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
+import styled from 'styled-components';
 
 function Collapsible(props) {
     const [open, setOpen] = useState(false)
@@ -10,13 +12,23 @@ function Collapsible(props) {
     }
 
     let icon
-    open ? icon = <RemoveRoundedIcon /> : icon = <AddRoundedIcon />
+    open ? icon = <CloseRoundedIcon /> : icon = <MenuRoundedIcon />
+
+    const Title = styled.h1`
+        fond-family: "Abel";
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+
+    `;
+
 
     return (
         <div>
-        <div onClick={(e)=>togglePanel(e)} >
+        <Title onClick={(e)=>togglePanel(e)} >
         <span>{props.title} </span><span> {icon} </span>
-        </div>
+        </Title>
 
         {open ? (<div> {props.children} </div>) : null}
         </div>

@@ -1,22 +1,26 @@
 import React from 'react'
-import { Select, MenuItem, FormControl } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Select, MenuItem, FormControl, ThemeProvider } from '@material-ui/core';
+import { makeStyles,  createMuiTheme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
+    minWidth: 150,
   },
   selectEmpty: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(0.5),
+    marginBottom: theme.spacing(0.5),
   },
+  selectOption: {
+      paddingTop: theme.spacing(0),
+      paddingBottom: theme.spacing(0),
+  }
 }));
 
 
 
 const SelectWrap = (props) => {
   return(
-    <FormControl className={useStyles().formControl} variant="outlined" >
+    <FormControl className={useStyles().formControl}>
       <Select
         name={props.name}
         value={props.value}

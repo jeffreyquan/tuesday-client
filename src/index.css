@@ -351,7 +351,6 @@ body {
 }
 
 tr {
-  margin: 10px; 
 }
 
 th {
@@ -360,7 +359,7 @@ th {
 
 td {
   border: 2px inset lightgrey;
-  margin: 2px 1px;
+  margin: 1px;
   padding: 0;
   font-family: 'Abel';
   font-size: 18px;
@@ -369,6 +368,8 @@ td {
 input, select {
   font-family: 'Abel';
   font-size: 18px;
+  border: none;
+  background-color: transparent;
 }
 
 table {

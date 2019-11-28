@@ -171,14 +171,12 @@ function Dashboard(props) {
         { !groups.length ? <h3>Loading</h3> : (
             <div>
             <form onSubmit={saveGroupName} style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <StyledInput value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)} />
+            <StyledInput value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)}/>
             <StyledButtonUI color="primary">Add</StyledButtonUI>
             </form>
             { groups.map((group, index) => {
                 return (
                     <div style={{width: '100%'}}>
-                    <div>{colorList[index][0]}</div>
-
                     <table style={{borderTop: "1px solid lightgrey", width: '100%'}}>
                     <tbody>
                     <tr>

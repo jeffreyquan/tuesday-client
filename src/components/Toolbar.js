@@ -40,6 +40,7 @@ function Toolbar(props){
         cursor: pointer;
     }
     `;
+    
     const theme = createMuiTheme({
       palette: {
         primary: blue,

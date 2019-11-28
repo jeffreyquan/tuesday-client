@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Nav from './Nav'
 import Control from './Control'
@@ -27,12 +28,25 @@ let URL = (model, id = '') => {
 let panelWrapWidth
 let dashboardHeight
 
+const useStyles = makeStyles(theme => ({
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    textField: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: 200,
+    },
+  }));
+
 
 function Dashboard(props) {
     const [groups, setGroups] = useState([]);
     const [groupName, setGroupName] = useState('');
     const [projectId, setProjectId] = useState(1);
     const [task, setTask] = useState('');
+    const classes = useStyles();
 
     useEffect(() => {
         axios

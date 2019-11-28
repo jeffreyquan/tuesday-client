@@ -41,7 +41,7 @@ class Control extends Component {
 
         // console.log( props );
         const fetchMemberships = () => {
-          axios.get(`http://localhost:3000/users/${ this.state.user_id }.json`).then( ( results ) => {
+          axios.get(`https://tuesday-server.herokuapp.com/users/${ this.state.user_id }.json`).then( ( results ) => {
             const memberships = results.data.memberships;
             console.log( memberships );
             this.setState({
@@ -54,7 +54,7 @@ class Control extends Component {
       }
 
 saveProject(content) {
-  axios.post(`http://localhost:3000/projects.json`, content).then((result) => {
+  axios.post(`https://tuesday-server.herokuapp.com/projects.json`, content).then((result) => {
     console.log(result.data.memberships[0]);
     this.setState({memberships: [...this.state.memberships, result.data.memberships[0]]})
   })
@@ -73,6 +73,7 @@ saveProject(content) {
         this.state.openNewForm ? renderForm=<NewProjectForm onSubmit={ this.saveProject } newForm={this.newForm}/> : renderForm=null;
 
         if ( this.state.memberships === null ) {
+            console.log( this.state.memberships === null );
             return (<>
                 </>);
             }
@@ -87,7 +88,7 @@ saveProject(content) {
 
                 <div>
                 <Title><span>Projects</span><span onClick={this.newForm}  ><AddCircleRoundedIcon style={{color: '#009AFF', fontSize:'30px'}} /></span></Title>
-                <Projects memberships={ this.state.memberships } />
+                <Projects memberships={ this.state.memberships } onClick={ this.props.onClick }/>
 
                 </div>
                 {renderForm}
@@ -129,11 +130,11 @@ saveProject(content) {
         }
 
         _acceptInvite() {
-            axios.put(`http://localhost:3000/memberships/${ this.state.membership_id }.json`, {invitation : true}).then(result => console.log('Successfully updated.'))
+            axios.put(`https://tuesday-server.herokuapp.com/memberships/${ this.state.membership_id }.json`, {invitation : true}).then(result => console.log('Successfully updated.'))
         }
 
         _declineInvite() {
-            axios.delete(`http://localhost:3000/memberships/${ this.state.membership_id }.json`).then( result => console.log('Successfully deleted.'))
+            axios.delete(`https://tuesday-server.herokuapp.com/memberships/${ this.state.membership_id }.json`).then( result => console.log('Successfully deleted.'))
         }
 
         render() {
@@ -201,16 +202,19 @@ saveProject(content) {
     `;
 
     function Projects(props) {
+      console.log( props.memberships );
         return (
             <div>
             {props.memberships.map( (p) => {
                 if ( p.invitation === true ) {
                     return (
                         <div>
-                        <Link to={{
-                            pathname: "/dashboard",
-                            state:{ project: p.project }
-                        }}>{ p.project.name }</Link>
+                          <button onClick={ () => props.onClick
+                          (p.project.id) }>{ p.project.name }</button>
+                        {/* <Link to={{
+                        //     pathname: "/dashboard",
+                        //     state:{ project: p.project }
+                        // }}>{ p.project.name }</Link> */}
                         </div>
                     )
                 }

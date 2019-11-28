@@ -11,8 +11,8 @@ import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
 import SmsOutlinedIcon from '@material-ui/icons/SmsOutlined';
 
 class Team extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       emails: [],
       members: null,
@@ -22,8 +22,7 @@ class Team extends Component {
     this.saveInvitation = this.saveInvitation.bind(this);
 
     const fetchMemberships = () => {
-      // link to connected to project link in Control panel or Board
-      axios.get(`http://localhost:3000/projects/3.json`).then((results) => {
+      axios.get(`https://tuesday-server.herokuapp.com/projects/${ props.projectId }.json`).then((results) => {
         console.log(results.data.memberships);
         let emails = [];
         let members = [];
@@ -50,7 +49,7 @@ class Team extends Component {
   }
 
   saveInvitation(content) {
-    axios.post(`http://localhost:3000/memberships.json`, content).then((result) => {
+    axios.post(`https://tuesday-server.herokuapp.com/memberships.json`, content).then((result) => {
       this.setState({invitations: [...this.state.invitations, result.data ]})
     })
   }
@@ -64,7 +63,7 @@ class Team extends Component {
       <StyledTeam className="members">
         <h2 style={{margin: '0.3em 0 1em 0'}}>Team Members</h2>
         <div style={{overflow: 'scroll'}}>
-        <InviteForm emails={ this.state.emails } onSubmit={ this.saveInvitation } style={{margin: '0 0 1em 1em'}}/>
+        <InviteForm emails={ this.state.emails } onSubmit={ this.saveInvitation } projectId={ this.props.projectId } style={{margin: '0 0 1em 1em'}}/>
           <Display style={{height: '40vh', overflow: 'scroll'}} team={ this.state.members } />
           <h4>Pending</h4>
           <Display style={{height: '40vh', overflow: 'scroll'}} team={ this.state.invitations } />
@@ -134,7 +133,7 @@ class InviteForm extends Component {
       form: {
         email: '',
         admin: false,
-        project_id: 3, // to be linked to project link in control panel
+        project_id: props.projectId,
         invitation: false,
       },
       formErrors: {
@@ -175,7 +174,7 @@ class InviteForm extends Component {
         form: {
           email: '',
           admin: false,
-          project_id: 3,
+          project_id: this.props.projectId,
           invitation: false,
         },
         formErrors: {
@@ -201,6 +200,8 @@ class InviteForm extends Component {
     let alreadyInvited = this.state.emails;
     if (!value) {
       errorMessage = "Please enter email.";
+    }  else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      errorMessage = "Please enter valid email.";
     } else if (alreadyInvited.includes(value)) {
       errorMessage = "Already invited."
     }

@@ -10,12 +10,16 @@ import {Drawer, Button as ButtonUI, TextField, Input as InputUI, InputBase, Them
 import { fade, withStyles, createMuiTheme } from '@material-ui/core/styles'
 import { pink, green, blue, red, yellow, HUE } from '@material-ui/core/colors';
 
-import Team from './Team'
+import Team from './Team';
+import axios from 'axios';
 
-function Toolbar(props){
+let URL = (model, id = '') => {
+  return `https://tuesday-server.herokuapp.com/${model}/${id}`
+}
+
+function Toolbar(props) {
     const [memberDropdown, setMemberDropdown] = useState(false)
     const [right, setRight] = useState(false);
-
     const toggleDrawer = () => {
         setRight(!right)
       }
@@ -40,7 +44,7 @@ function Toolbar(props){
         cursor: pointer;
     }
     `;
-    
+
     const theme = createMuiTheme({
       palette: {
         primary: blue,
@@ -109,14 +113,11 @@ function Toolbar(props){
       },
     }))(InputBase);
 
-
     return(
         <ThemeProvider theme={theme}>
         <Style>
-        <div style={{width: '35%'}}>
-        <input value="Project" style={{fontSize: '2rem', fontFamily: "Hind Madurai", fontWeight: 700, color: '#333333', border: 'none'}}/>
-        <textarea style={{width: '100%', border: 'none'}}>Description</textarea>
-        </div>
+        <SaveProjectName projectId={props.projectId} projectName={props.projectName} />
+        <SaveProjectDescription projectId={props.projectId} projectDescription={props.projectDescription} />
         <div style={{display: 'flex', flexDirection:'column', justifyContent: 'space-between'}}>
         <div style={{display: 'flex', justifyContent: 'flex-end', }}>
         <div style={{display: 'inline-block', border: '1px solid #F1F1F1', borderRadius: '4px'}}>
@@ -136,10 +137,40 @@ function Toolbar(props){
 
         </div>
         </div>
-        <Drawer anchor="right" open={right} onClose={toggleDrawer}><Team style={{position:'relative'}} /></Drawer>
+        <Drawer anchor="right" open={right} onClose={toggleDrawer}><Team style={{position:'relative'}} projectId={props.projectId}/></Drawer>
         </Style>
         </ThemeProvider>
     )
 }
 
-export default Toolbar
+function SaveProjectName(props) {
+  const [projectName, setProjectName] = useState(props.projectName);
+  const updateProjectName = () => {
+    axios.put(URL(`projects`, props.projectId), {     name: projectName })
+  }
+
+  return (
+    <div style={{width: '35%'}}>
+    <TextField onChange={(event) => setProjectName(event.target.value)}  onBlur={updateProjectName} value={projectName} style={{fontSize: '2rem', fontFamily: "Hind Madurai", fontWeight: 700, color: '#333333', border: 'none'}} />
+    </div>
+  )
+}
+
+
+function SaveProjectDescription(props) {
+  const [projectDescription, setProjectDescription] = useState(props.projectDescription);
+
+  const updateProjectDescription = () => {
+    axios.put(URL(`projects`, props.projectId), { description: projectDescription })
+  }
+  return (
+    <div style={{width: '35%'}}>
+      <textarea onChange={(event) => setProjectDescription(event.target.value)}
+      onBlur={updateProjectDescription} value={projectDescription} style={{width: '100%', border: 'none'}}></textarea>
+    </div>
+  )
+}
+
+
+
+export default Toolbar;

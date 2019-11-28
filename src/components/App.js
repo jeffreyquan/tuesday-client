@@ -32,7 +32,7 @@ function App(props) {
 
     useEffect(() => {
         axios
-        .get("http://localhost:3000/logged_in", { withCredentials: true })
+        .get("https://tuesday-server.herokuapp.com/logged_in", { withCredentials: true })
         .then(({ data }) => {
             if (data.logged_in && loggedInStatus === "NOT_LOGGED_IN") {
                 handleLogin(data)

@@ -55,9 +55,10 @@ class Control extends Component {
 
 saveProject(content) {
   axios.post(`http://localhost:3000/projects.json`, content).then((result) => {
-    // console.log(result.data.memberships[0]);
+    console.log(result.data.memberships[0]);
     this.setState({memberships: [...this.state.memberships, result.data.memberships[0]]})
   })
+  console.log(this.state.memberships);
 }
 
     newForm(){

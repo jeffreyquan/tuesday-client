@@ -10,6 +10,10 @@ import Task from './Task'
 import Toolbar from './Toolbar'
 import Collapsible from './partial/Collapsible.js'
 import RemoveShoppingCartOutlinedIcon from '@material-ui/icons/RemoveShoppingCartOutlined';
+import {Drawer, Button as ButtonUI, TextField, Input as InputUI, InputBase, ThemeProvider } from '@material-ui/core';
+import { fade, withStyles, createMuiTheme } from '@material-ui/core/styles'
+import { pink, green, blue, red, yellow, HUE } from '@material-ui/core/colors';
+
 
 import useWindowSize from './partial/WindowSize'
 
@@ -38,6 +42,16 @@ function Dashboard(props) {
             })
         }, []
     )
+
+    const theme = createMuiTheme({
+      palette: {
+        primary: blue,
+        secondary: yellow,
+      },
+      status: {
+        danger: red,
+      },
+    });
 
     const saveGroupName = (event) => {
         event.preventDefault();
@@ -93,7 +107,6 @@ function Dashboard(props) {
     background-color: white;
     padding-left: 1em;
     border-left: 1px solid #F1F1F1;
-
     `;
 
 
@@ -104,7 +117,51 @@ function Dashboard(props) {
     overflow: scroll;
     `;
 
+    const StyledButtonUI = withStyles({
+        root: {
+            background: 'linear-gradient(90deg, #3EB2F9 10%, #009AFF 90%)',
+            borderRadius: 25,
+            height: 40,
+            border: 0,
+            color: 'white',
+            padding: '5px 1em',
+            boxShadow: '0 0 1px rgba(255, 105, 135, .3)',
+            margin: '0 0.5em'
+        },
+        label: {
+            textTransform: 'capitalize',
+            fontWeight: 800
+        },
+    })(ButtonUI);
+
+    const StyledInput = withStyles(theme => ({
+      root: {
+        'label + &': {
+          marginTop: theme.spacing(3),
+        },
+      },
+      input: {
+        borderRadius: 25,
+        position: 'relative',
+        backgroundColor: theme.palette.common.white,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        width: 'auto',
+        padding: '10px 12px',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+
+        '&:focus': {
+          boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+          borderColor: theme.palette.primary.main,
+        },
+      },
+    }))(InputBase);
+
+    const colorList = [['rgb(225, 68, 92)', 'rgba(225, 68, 92, 0.3)'],['rgb(87, 155, 252)', 'rgba(87, 155, 252, 0.3)'],['rgb(255, 203, 1)', 'rgba(255, 203, 1, 0.3)'],['rgb(120, 74, 209)', 'rgba(120, 74, 209, 0.3)'], ['rgb(156, 211, 37)', 'rgba(156, 211, 37, 0.3)'], ['rgb(255, 21, 138)', 'rgba(255, 21, 138, 0.3)']];
+
+
     return (
+        <ThemeProvider theme={theme}>
         <Wrapper>
         <Nav {...props} handleLogout={props.handleLogout} />
         <Control {...props}/>
@@ -112,18 +169,20 @@ function Dashboard(props) {
         <Toolbar />
         <Panel>
         { !groups.length ? <h3>Loading</h3> : (
-            <div style={{width: '100%'}}>
-            <form onSubmit={saveGroupName}>
-            <input value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)} />
-            <input type="submit" value="Add Group" />
+            <div>
+            <form onSubmit={saveGroupName} style={{display: 'flex', justifyContent: 'flex-end'}}>
+            <StyledInput value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)} />
+            <StyledButtonUI color="primary">Add</StyledButtonUI>
             </form>
-            { groups.map(group => {
+            { groups.map((group, index) => {
                 return (
                     <div style={{width: '100%'}}>
+                    <div>{colorList[index][0]}</div>
+
                     <table style={{borderTop: "1px solid lightgrey", width: '100%'}}>
                     <tbody>
-                    <tr style={{backgroundColor: "white"}}>
-                    <th style={{width: '1em'}}><button onClick={(event) => deleteGroup(event, group)}><RemoveShoppingCartOutlinedIcon /></button>
+                    <tr>
+                    <th style={{width: '1em', backgroundColor:colorList[index][0]}}><button onClick={(event) => deleteGroup(event, group)} style={{backgroundColor: 'transparent'}}><RemoveShoppingCartOutlinedIcon /></button>
                     </th>
                     <th style={{width: '35em'}}>
                     <GroupNameField groupName={group.name} id={group.id} key={group.id}/>
@@ -135,7 +194,7 @@ function Dashboard(props) {
                     </tr>
 
                     { group.tasks && group.tasks.map((task) => (
-                        <Task task={task} id={task.id} group={group} deleteTask={deleteTask} key={task.id}/>
+                        <Task task={task} id={task.id} group={group} deleteTask={deleteTask} key={task.id} color={colorList[index][1]}/>
                     ))
                 }
                 </tbody>
@@ -149,6 +208,7 @@ function Dashboard(props) {
     </Panel>
     </PanelWrap>
     </Wrapper>
+    </ThemeProvider>
 )}
 
 function SaveTaskComponent(props) {

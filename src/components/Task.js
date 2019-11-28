@@ -4,6 +4,9 @@ import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import SelectWrap from './Select'
 import Collapsible from './partial/Collapsible.js'
+import moment from 'moment';
+import {DatetimePickerTrigger} from 'rc-datetime-picker'
+import 'rc-datetime-picker/dist/picker.css';
 
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 
@@ -32,13 +35,7 @@ export default function Task(props) {
   const [priorityOptions, setPriorityOptions] = useState(['High', 'Medium', 'Low'])
   const [taskPriority, setTaskPriority] = useState(props.task.priority)
   const [owner, setOwner] = useState(props.task.owner)
-  // const [moment, setMoment] = useState(moment)
 
-  // const shortcuts = {
-  //   'Today': moment(),
-  //   'Yesterday': moment().subtract(1, 'days'),
-  //   'Clear': ''
-  // };
 
   const updateTaskName = () => {
     axios.put(URL('tasks', props.id), { name: task, group_id: props.group_id })
@@ -59,8 +56,8 @@ export default function Task(props) {
   return (
 
     <tr style={{borderBottom: "1px solid #F1F1F1"}}>
-        <td style={{width: '1em'}}>
-        <button onClick={(event) => props.deleteTask(event, props.group, props.task)}><DeleteOutlineOutlinedIcon/></button>
+        <td style={{width: '1em', backgroundColor: props.color}} >
+        <button onClick={(event) => props.deleteTask(event, props.group, props.task)} style={{backgroundColor: 'transparent'}}><DeleteOutlineOutlinedIcon/></button>
         </td>
       <td>
           <TextField

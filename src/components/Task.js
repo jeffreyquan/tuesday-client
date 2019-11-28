@@ -33,6 +33,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
+
 export default function Task(props) {
   const classes = useStyles();
   const [task, setTask] = useState(props.task)
@@ -110,6 +111,8 @@ export default function Task(props) {
             shortcuts={shortcuts}
             moment={date}
             onChange={(event) => { setDate(event); updateDate(event) }}>
+            
+            
             <input type="text" value={date.format('MMM DD')} />
           </DatetimePickerTrigger>
       </td>

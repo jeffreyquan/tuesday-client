@@ -2,6 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment'
 
 import Nav from './Nav'
 import Control from './Control'
@@ -228,7 +229,7 @@ function SaveTaskComponent(props) {
     const saveTaskName = async () => {
         axios
         .post(`http://localhost:3000/groups/${props.groupId}/tasks`,
-            { name: taskName, group_id: props.groupId })
+            { name: taskName, group_id: props.groupId, due_date: moment() })
         .then((results) => {
             axios
             .get(`http://localhost:3000/projects/1/groups`)

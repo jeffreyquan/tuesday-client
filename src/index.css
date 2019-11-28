@@ -350,19 +350,13 @@ body {
   height: 100vh;
 }
 
-tr {
-}
-
 th {
   font-family: 'Abel';
 }
 
 td {
-  border: 2px inset lightgrey;
-  margin: 1px;
   padding: 0;
   font-family: 'Abel';
-  font-size: 18px;
 }
 
 input, select {

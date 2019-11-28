@@ -9,14 +9,34 @@ const useStyles = makeStyles(theme => ({
   selectEmpty: {
     marginTop: theme.spacing(0.5),
     marginBottom: theme.spacing(0.5),
+    paddingLeft: theme.spacing(2),
   },
   selectOption: {
-      paddingTop: theme.spacing(0),
-      paddingBottom: theme.spacing(0),
+
   }
 }));
 
 
+const colorList = {yellow:'rgba(251, 194, 122, 0.5)', red:'rgba(225, 68, 92, 0.5)', green: 'rgba(1, 200, 117, 0.5)', blue:'rgba(87, 155, 252, 0.5)', grey:'rgba(149, 149, 149, 0.5)'}
+
+
+
+const statusColor = (value) => {
+    switch (value) {
+        case 'Done':
+            return colorList.green;
+        case 'Working On It':
+        case 'Medium':
+            return colorList.yellow;
+        case 'Stuck':
+        case 'High':
+            return colorList.red;
+        case 'Low':
+            return colorList.blue;
+        default:
+              return "transparent";
+    }
+}
 
 const SelectWrap = (props) => {
   return(
@@ -27,6 +47,8 @@ const SelectWrap = (props) => {
         onChange={props.onChange}
         className={useStyles().selectEmpty}
         displayEmpty
+        disableUnderline
+        style={{backgroundColor: statusColor(props.value)}}
         >
         <MenuItem value="">{props.placeholder}</MenuItem>
         {props.options.map(option => {

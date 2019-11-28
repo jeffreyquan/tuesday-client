@@ -7,6 +7,7 @@ import Collapsible from './partial/Collapsible.js'
 import moment from 'moment';
 import { DatetimePicker, DatetimePickerTrigger, DatetimeRangePicker  } from 'rc-datetime-picker';
 import 'rc-datetime-picker/dist/picker.css';
+import styled from 'styled-components';
 
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 
@@ -71,49 +72,94 @@ export default function Task(props) {
     axios.put(URL('tasks', props.id), { due_date: date, group_id: props.group_id })
   }
 
+  const Button = styled.button`
+    color: transparent;
+    background-color: transparent;
+
+    &:hover {
+        color: black;
+    }
+  `;
+
+  const Tr = styled.tr`
+
+    &:hover {
+        background-color:#F5F6F8
+    }
+  `;
+
+  const Td = styled.td`
+    padding-left: 8px;
+
+      &:hover {
+           transform: scale(1.1);
+      }
+
+
+  `;
+
+  const Input = styled.input`
+    width: 80%;
+
+      &:focus-within {
+          border: 1px dashed lightgrey;
+
+      }
+  `;
+
+  const StyledDatetimePickerTrigger = styled(DatetimePickerTrigger)`
+        padding-left: 8px;
+
+        &:hover {
+            cursor: pointer;
+        }
+  `;
 
 
   return (
-    <tr style={{borderBottom: "1px solid #F1F1F1"}}>
+    <Tr style={{borderBottom: "1px solid #F1F1F1"}}>
         <td style={{width: '1em', backgroundColor: props.color}} >
-        <button onClick={(event) => props.deleteTask(event, props.group, props.task)} style={{backgroundColor: 'transparent'}}><DeleteOutlineOutlinedIcon/></button>
+        <Button onClick={(event) => props.deleteTask(event, props.group, props.task)} color={props.color} ><DeleteOutlineOutlinedIcon/></Button>
         </td>
-      <td>
-          <input
+      <Td>
+        <div style={{width: '30px', height: '100%', display: 'inline-block', backgroundColor: props.color}} > </div>
+          <Input
               onChange={(event) => setTask(event.target.value)}
               onBlur={updateTaskName}
               id="filled-read-only-input"
               value={task.name}
               margin="normal"
           />
-      </td>
-      <td>
-          <input
+      </Td>
+      <Td>
+          <Input
               onChange={(event) => setOwner(event.target.value)}
               onBlur={updateOwner}
               id="filled-read-only-input"
               value={owner}
               margin="normal"
           />
-      </td>
-      <td>
+      </Td>
+      <Td>
           <SelectWrap
               name={'status'}
               options={statusOptions}
               value={taskStatus}
               placeholder={''}
+
               onChange={(event) => { setTaskStatus(event.target.value); updateStatus(event.target.value) }}
           />
-      </td>
-      <td>
-          <DatetimePickerTrigger
+      </Td>
+      <td >
+          <StyledDatetimePickerTrigger
             shortcuts={shortcuts}
             moment={date}
+
             onChange={(event) => { setDate(event); updateDate(event) }}>
-            <input type="text" value={date.format('MMM DD')} />
-          </DatetimePickerTrigger>
+            <Input type="text" value={date.format('MMM DD')} />
+          </StyledDatetimePickerTrigger>
       </td>
-      <td>
+      <Td>
           <SelectWrap
               name={'priority'}
               options={priorityOptions}
@@ -122,7 +168,7 @@ export default function Task(props) {
               className={classes.selectWrap}
               onChange={(event) => { setTaskPriority(event.target.value); updatePriority(event.target.value) }}
           />
-      </td>
-    </tr>
+      </Td>
+    </Tr>
   )
 }

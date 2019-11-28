@@ -103,15 +103,12 @@ function Dashboard(props) {
         })
     }
 
-
     const Wrapper = styled.div`
     display: grid;
     grid-template-columns: 66px 255px auto;
     height: dashboardHeight;
     overflow: hidden;
     `;
-
-
 
     panelWrapWidth = useWindowSize().width-321
     dashboardHeight = useWindowSize().height
@@ -122,8 +119,6 @@ function Dashboard(props) {
     padding-left: 1em;
     border-left: 1px solid #F1F1F1;
     `;
-
-
 
     const Panel = styled.div`
     padding: 1em;
@@ -147,6 +142,15 @@ function Dashboard(props) {
             fontWeight: 800
         },
     })(ButtonUI);
+
+    const Button = styled.button`
+      color: transparent;
+      background-color: transparent;
+
+      &:hover {
+          color: black;
+      }
+    `;
 
     const StyledInput = withStyles(theme => ({
       root: {
@@ -173,6 +177,13 @@ function Dashboard(props) {
 
     const colorList = [['rgb(225, 68, 92)', 'rgba(225, 68, 92, 0.3)'],['rgb(87, 155, 252)', 'rgba(87, 155, 252, 0.3)'],['rgb(255, 203, 1)', 'rgba(255, 203, 1, 0.3)'],['rgb(120, 74, 209)', 'rgba(120, 74, 209, 0.3)'], ['rgb(156, 211, 37)', 'rgba(156, 211, 37, 0.3)'], ['rgb(255, 21, 138)', 'rgba(255, 21, 138, 0.3)']];
 
+    const Tr = styled.tr`
+        background-color: #F5F6F8;
+    `;
+
+    const Th = styled.th`
+        padding-left: 16px;
+    `;
 
     return (
         <ThemeProvider theme={theme}>
@@ -186,24 +197,25 @@ function Dashboard(props) {
             <div>
             <form onSubmit={saveGroupName} style={{display: 'flex', justifyContent: 'flex-end'}}>
             <StyledInput value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)}/>
-            <StyledButtonUI color="primary">Add</StyledButtonUI>
+            <StyledButtonUI type='submit' color="primary">Add</StyledButtonUI>
             </form>
             { groups.map((group, index) => {
                 return (
                     <div style={{width: '100%'}}>
-                    <table style={{borderTop: "1px solid lightgrey", width: '100%'}}>
+                    <table style={{width: '100%'}}>
                     <tbody>
-                    <tr>
-                    <th style={{width: '1em', backgroundColor:colorList[index][0]}}><button onClick={(event) => deleteGroup(event, group)} style={{backgroundColor: 'transparent'}}><RemoveShoppingCartOutlinedIcon /></button>
+                    <Tr>
+                    <th style={{width: '1em', backgroundColor:colorList[index][0]}}><Button onClick={(event) => deleteGroup(event, group)} style={{backgroundColor: 'transparent'}}><RemoveShoppingCartOutlinedIcon /></Button>
                     </th>
-                    <th style={{width: '35em'}}>
-                    <GroupNameField groupName={group.name} id={group.id} key={group.id}/>
+                    <th style={{width: '35em', backgroundColor: 'white'}}>
+                    <GroupNameField
+                    color={colorList[index][0]} groupName={group.name} id={group.id} key={group.id}/>
                     </th>
-                    <th style={{width: '8em'}}>Owner</th>
-                    <th style={{width: '12em'}}>Status</th>
-                    <th style={{width: '15em'}}>Due Date</th>
-                    <th style={{width: '8em'}}>Priority</th>
-                    </tr>
+                    <Th style={{width: '8em', borderTopLeftRadius: '15px'}}>Owner</Th>
+                    <Th style={{width: '12em'}}>Status</Th>
+                    <Th style={{width: '15em'}}>Due Date</Th>
+                    <Th style={{width: '8em', borderTopRightRadius: '15px'}}>Priority</Th>
+                    </Tr>
 
                     { group.tasks && group.tasks.map((task) => (
                         <Task task={task} id={task.id} group={group} deleteTask={deleteTask} key={task.id} color={colorList[index][1]}/>
@@ -211,7 +223,8 @@ function Dashboard(props) {
                 }
                 </tbody>
                 </table>
-                <SaveTaskComponent groupId={group.id} setGroups={setGroups} />
+                <SaveTaskComponent groupId={group.id} setGroups={setGroups} bgcolor={colorList[index][1]} btncolor={colorList[index][0]}
+                />
                 </div>
             )})
         }
@@ -237,10 +250,37 @@ function SaveTaskComponent(props) {
                 })
         })
     }
+
+
+    const Input = styled.input`
+        height: 40px;
+        display: 'inline-block';
+
+        &:hover {
+            background-color: ${props => props.bgcolor || "lightgrey"};
+        }
+    `;
+
+    const Button = styled.button`
+        height: '40px';
+        display: 'inline-block';
+        color: black;
+        font-family: 'Abel';
+        border-radius: 3px;
+        background-color: ${props => props.btncolor || "lightgrey"};
+
+        &:hover {
+            cursor: pointer;
+            background-color: ${props => props.bgcolor || "lightgrey"}
+        }
+    `;
+
     return (
-        <div style={{minWidth: '100%'}}>
-        <input style={{minWidth: '90%'}} value={taskName} placeholder="+Add" onChange={(event) => setTaskName(event.target.value)} style={{display: 'inline-block'}}/>
-        <input type="button" value="Add Task" onClick={saveTaskName} style={{display: 'inline-block'}}/>
+        <div style={{display:'flex', itemAlign: 'center'}}>
+        <Input value={taskName} placeholder="+Add" onChange={(event) => setTaskName(event.target.value)} style={{width: '90%'}}
+        bgcolor={props.bgcolor}/>
+        <Button onClick={saveTaskName} btncolor={props.btncolor} bgcolor={props.bgcolor}
+        style={{width: '10%'}}>Add Task</Button>
         </div>
     )
 }

@@ -26,7 +26,7 @@ export default function GroupNameField(props) {
   }
 
   return (
-      <TextField
+      <input
           onChange={(event) => setGroupName(event.target.value)}
           onBlur={updateGroupName}
           id="filled-read-only-input"
@@ -34,7 +34,7 @@ export default function GroupNameField(props) {
           className={classes.textField}
           margin="normal"
           variant="outlined"
-
+          style={{color: props.color, fontSize: '23px'}}
       />
   )
 }

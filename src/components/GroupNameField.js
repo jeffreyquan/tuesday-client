@@ -3,7 +3,7 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
-let URL = (model, id = '') => `http://localhost:3000/${model}/${id}`
+let URL = (model, id = '') => `https://tuesday-server.herokuapp.com/${model}/${id}`
 
 const useStyles = makeStyles(theme => ({
   container: {

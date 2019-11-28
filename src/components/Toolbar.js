@@ -14,7 +14,7 @@ import Team from './Team';
 import axios from 'axios';
 
 let URL = (model, id = '') => {
-  return `http://localhost:3000/${model}/${id}`
+  return `https://tuesday-server.herokuapp.com/${model}/${id}`
 }
 
 function Toolbar(props) {

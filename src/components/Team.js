@@ -22,7 +22,7 @@ class Team extends Component {
     this.saveInvitation = this.saveInvitation.bind(this);
 
     const fetchMemberships = () => {
-      axios.get(`http://localhost:3000/projects/${ props.projectId }.json`).then((results) => {
+      axios.get(`https://tuesday-server.herokuapp.com/projects/${ props.projectId }.json`).then((results) => {
         console.log(results.data.memberships);
         let emails = [];
         let members = [];
@@ -49,7 +49,7 @@ class Team extends Component {
   }
 
   saveInvitation(content) {
-    axios.post(`http://localhost:3000/memberships.json`, content).then((result) => {
+    axios.post(`https://tuesday-server.herokuapp.com/memberships.json`, content).then((result) => {
       this.setState({invitations: [...this.state.invitations, result.data ]})
     })
   }

@@ -41,20 +41,21 @@ class Control extends Component {
 
         // console.log( props );
         const fetchMemberships = () => {
-          axios.get(`http://localhost:3000/users/${ this.state.user_id }.json`).then( ( results ) => {
+          axios.get(`https://tuesday-server.herokuapp.com/users/${ this.state.user_id }.json`).then( ( results ) => {
             const memberships = results.data.memberships;
             console.log( memberships );
             this.setState({
               memberships: memberships,
             });
-            setTimeout( fetchMemberships, 10000);
+            setTimeout( fetchMemberships, 100000);
           });
         }
         fetchMemberships();
       }
 
 saveProject(content) {
-  axios.post(`http://localhost:3000/projects.json`, content).then((result) => {
+  axios.post(`https://tuesday-server.herokuapp.com/projects.json`, content).then((result) => {
+    debugger;
     console.log(result.data.memberships[0]);
     this.setState({memberships: [...this.state.memberships, result.data.memberships[0]]})
   })
@@ -127,11 +128,11 @@ saveProject(content) {
         }
 
         _acceptInvite() {
-            axios.put(`http://localhost:3000/memberships/${ this.state.membership_id }.json`, {invitation : true}).then(result => console.log('Successfully updated.'))
+            axios.put(`https://tuesday-server.herokuapp.com/memberships/${ this.state.membership_id }.json`, {invitation : true}).then(result => console.log('Successfully updated.'))
         }
 
         _declineInvite() {
-            axios.delete(`http://localhost:3000/memberships/${ this.state.membership_id }.json`).then( result => console.log('Successfully deleted.'))
+            axios.delete(`https://tuesday-server.herokuapp.com/memberships/${ this.state.membership_id }.json`).then( result => console.log('Successfully deleted.'))
         }
 
         render() {
@@ -254,12 +255,14 @@ saveProject(content) {
                 name="name"
                 placeholder ="Project Name"
                 required
+                value={ this.state.name }
                 onInput={ this._handleInput }
                 />
                 <TextField
                 type="text"
                 name="description"
                 placeholder ="Project Description"
+                value={ this.state.description }
                 onInput={ this._handleInput }
                 />
                 </div>

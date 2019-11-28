@@ -15,7 +15,7 @@ function Nav (props) {
 
     const handleLogoutClick = () => {
         axios
-        .delete("http://localhost:3000/logout", { withCredentials: true })
+        .delete("https://tuesday-server.herokuapp.com/logout", { withCredentials: true })
         .then(response => {
             props.handleLogout();
             localStorage.clear();

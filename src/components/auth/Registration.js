@@ -93,7 +93,7 @@ export default class Registration extends Component {
             password_confirmation
         } = this.state;
 
-        axios.post('http://localhost:3000/registrations', {
+        axios.post('https://tuesday-server.herokuapp.com/registrations', {
             user: {
                 email: email,
                 password: password,
@@ -103,7 +103,7 @@ export default class Registration extends Component {
             {withCredentials: true}
         ).then(response => {
             if (response.data.status === 'created'){
-                axios.post('http://localhost:3000/session', {
+                axios.post('https://tuesday-server.herokuapp.com/session', {
                     user: {
                         email: email,
                         password: password,

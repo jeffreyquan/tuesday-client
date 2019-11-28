@@ -20,7 +20,7 @@ import { pink, green, blue, red, yellow, HUE } from '@material-ui/core/colors';
 import useWindowSize from './partial/WindowSize'
 
 let URL = (model, id = '') => {
-    return `http://localhost:3000/${model}/${id}`
+    return `https://tuesday-server.herokuapp.com/${model}/${id}`
 };
 
 let panelWrapWidth
@@ -87,7 +87,7 @@ function Dashboard(props) {
     const deleteTask = (event, group, task) => {
         console.log(task, "task");
 
-        axios.delete(`http://localhost:3000/groups/${group.id}/tasks/${task.id}`).then((result) => {
+        axios.delete(`https://tuesday-server.herokuapp.com/groups/${group.id}/tasks/${task.id}`).then((result) => {
             axios.get(URL(`projects`, projectId)).then((results) => {
                 setGroups(results.data["groups"]);
             })
@@ -259,11 +259,11 @@ function SaveTaskComponent(props) {
   const [taskName, setTaskName] = useState('');
   const saveTaskName = async () => {
     axios
-    .post(`http://localhost:3000/groups/${ props.groupId }/tasks`,
+    .post(`https://tuesday-server.herokuapp.com/groups/${ props.groupId }/tasks`,
       { name: taskName, group_id: props.groupId })
     .then((results) => {
       axios
-      .get(`http://localhost:3000/projects/${ props.projectId }/groups`)
+      .get(`https://tuesday-server.herokuapp.com/${ props.projectId }/groups`)
         .then(({ data }) => {
           props.setGroups(data);
         })

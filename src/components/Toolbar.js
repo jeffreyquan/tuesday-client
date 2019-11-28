@@ -44,7 +44,7 @@ function Toolbar(props) {
         cursor: pointer;
     }
     `;
-    
+
     const theme = createMuiTheme({
       palette: {
         primary: blue,
@@ -137,7 +137,7 @@ function Toolbar(props) {
 
         </div>
         </div>
-        <Drawer anchor="right" open={right} onClose={toggleDrawer}><Team style={{position:'relative'}} /></Drawer>
+        <Drawer anchor="right" open={right} onClose={toggleDrawer}><Team style={{position:'relative'}} projectId={props.projectId}/></Drawer>
         </Style>
         </ThemeProvider>
     )

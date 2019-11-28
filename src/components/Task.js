@@ -118,6 +118,7 @@ export default function Task(props) {
 
 
   return (
+      
     <Tr style={{borderBottom: "1px solid #F1F1F1"}}>
         <td style={{width: '1em', backgroundColor: props.color}} >
         <Button onClick={(event) => props.deleteTask(event, props.group, props.task)} color={props.color} ><DeleteOutlineOutlinedIcon/></Button>

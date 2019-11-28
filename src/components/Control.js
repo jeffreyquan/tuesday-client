@@ -22,7 +22,6 @@ const ControlStyle = styled.div`
       padding: 1.2em;
 `;
 
-
 class Control extends Component {
     constructor(props) {
         super(props);
@@ -39,11 +38,9 @@ class Control extends Component {
             this.state.email = props.user.email;
         }
 
-        // console.log( props );
         const fetchMemberships = () => {
           axios.get(`http://localhost:3000/users/${ this.state.user_id }.json`).then( ( results ) => {
             const memberships = results.data.memberships;
-            console.log( memberships );
             this.setState({
               memberships: memberships,
             });
@@ -55,9 +52,8 @@ class Control extends Component {
 
 saveProject(content) {
   axios.post(`http://localhost:3000/projects.json`, content).then((result) => {
-    console.log(result.data.memberships[0]);
     this.setState({memberships: [...this.state.memberships, result.data.memberships[0]]})
-  })
+    })
 }
 
     newForm(){
@@ -71,7 +67,6 @@ saveProject(content) {
         this.state.openNewForm ? renderForm=<NewProjectForm onSubmit={ this.saveProject } newForm={this.newForm}/> : renderForm=null;
 
         if ( this.state.memberships === null ) {
-            console.log( this.state.memberships === null );
             return (<>
                 </>);
             }
@@ -138,7 +133,7 @@ saveProject(content) {
             return (
                 <InvitationWrap>
                 <Wrap>
-                <AccountTreeOutlinedIcon /><span>{ this.props.membership.project.name }</span>
+                <AccountTreeOutlinedIcon /><span style={{width: '130px', overflowX:'scroll'}}>{ this.props.membership.project.name }</span>
                 </Wrap>
                 <div>
                 <Button onClick={ this._acceptInvite }><CheckCircleOutlineRoundedIcon /></Button>
@@ -172,8 +167,8 @@ saveProject(content) {
         overflow-x: hidden;
 
         &:hover {
-            background-color: rgba(95, 108, 113, 0.3);
-            color: #300033;
+            background-color: rgba(95, 108, 113, 0.1);
+            color: #333333;
 
         }
     `;
@@ -197,15 +192,14 @@ saveProject(content) {
     `;
 
     function Projects(props) {
-      console.log( props.memberships );
         return (
             <div>
             {props.memberships.map( (p) => {
                 if ( p.invitation === true ) {
                     return (
                         <div>
-                          <button onClick={ () => props.onClick
-                          (p.project.id) }>{ p.project.name }</button>
+                          <button style={{color: '#009AFF', fontWeight: 'bold', fontSize: '17px', marginTop: '0.5em'}} onClick={() => { props.onClick(p.project.id);
+                           }}>{ p.project.name }</button>
                         {/* <Link to={{
                         //     pathname: "/dashboard",
                         //     state:{ project: p.project }
@@ -219,8 +213,8 @@ saveProject(content) {
     }
 
     class NewProjectForm extends Component {
-        constructor() {
-            super();
+        constructor(props) {
+            super(props);
             this.state = {
                 name: '',
                 description: ''
@@ -241,6 +235,7 @@ saveProject(content) {
                 name: '',
                 description: ''
             })
+            this.props.newForm()
         }
 
 
@@ -265,7 +260,7 @@ saveProject(content) {
                 </div>
                 <div style={{margin: '2em 0 0 12em' }}>
                 <BackLink onClick={this.props.newForm}> Cancel </BackLink>
-                <SubmitFormButton type="submit" name="Submit" onClick={this.props.newForm} >Create</SubmitFormButton>
+                <SubmitFormButton type="submit" name="Submit" >Create</SubmitFormButton>
                 </div>
                 </StyledForm>
             )

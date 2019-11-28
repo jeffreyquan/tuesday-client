@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
 import axios from 'axios';
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
@@ -41,19 +42,11 @@ const useStyles = makeStyles(theme => ({
 function Dashboard(props) {
   const [groups, setGroups] = useState([]);
   const [groupName, setGroupName] = useState('');
-  const [projectId, setProjectId] = useState('');
+  const [projectId, setProjectId] = useState(localStorage.getItem('projectId'));
+
   const [task, setTask] = useState('');
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
-  const classes = useStyles();
-    // useEffect(() => {
-    //     axios
-    //     .get(`http://localhost:3000/projects/1`)
-    //         .then((results) => {
-    //             setGroups(results.data.groups);
-    //         })
-    //     }, []
-    // )
 
   const theme = createMuiTheme({
     palette: {
@@ -66,15 +59,25 @@ function Dashboard(props) {
   });
 
   const setProject = (id) => {
-    console.log(id);
+    localStorage.setItem('projectId', id)
     setProjectId(id);
-    console.log(projectId);
     axios.get(URL(`projects`, id)).then(( results ) => {
       setGroups(results.data.groups);
       setProjectName(results.data.name);
       setProjectDescription(results.data.description);
     })
   }
+
+  const setUp = () => {
+      const id = localStorage.getItem('projectId')
+      if (id)
+      axios.get(URL(`projects`, id)).then(( results ) => {
+        setGroups(results.data.groups);
+        setProjectName(results.data.name);
+        setProjectDescription(results.data.description);
+      })
+  }
+  // setUp();
 
     const deleteGroup = (event, group) => {
         axios.delete(URL('groups', group.id)).then((result) => {
@@ -85,8 +88,6 @@ function Dashboard(props) {
     }
 
     const deleteTask = (event, group, task) => {
-        console.log(task, "task");
-
         axios.delete(`http://localhost:3000/groups/${group.id}/tasks/${task.id}`).then((result) => {
             axios.get(URL(`projects`, projectId)).then((results) => {
                 setGroups(results.data["groups"]);
@@ -116,8 +117,6 @@ function Dashboard(props) {
     height: 80vh;
     overflow: scroll;
     `;
-
-
 
     const Button = styled.button`
       color: transparent;
@@ -152,16 +151,18 @@ function Dashboard(props) {
             <SaveGroupComponent projectId={projectId} setGroups={setGroups} />
             { groups.map((group, index) => {
                 return (
-                    <div style={{width: '100%'}}>
-                    <table style={{width: '100%'}}>
+                    <Collapsible title={<GroupNameField
+                        color={colorList[index][0]}
+                        groupName={group.name} id={group.id} key={group.id}/>} open={true} color={colorList[index][1]}>
+
+                    <table style={{width: '100%', marginTop: "0.2em"}}>
                     <tbody>
                     <Tr>
                     <th style={{width: '1em', backgroundColor:colorList[index][0]}}><Button onClick={(event) => deleteGroup(event, group)} style={{backgroundColor: 'transparent'}}><RemoveShoppingCartOutlinedIcon /></Button>
                     </th>
-                    <th style={{width: '35em', backgroundColor: 'white'}}>
-                    <GroupNameField
-                    color={colorList[index][0]} groupName={group.name} id={group.id} key={group.id}/>
-                    </th>
+                    <Th style={{width: '35em', backgroundColor: 'white'}}>
+
+                    </Th>
                     <Th style={{width: '8em', borderTopLeftRadius: '15px'}}>Owner</Th>
                     <Th style={{width: '12em'}}>Status</Th>
                     <Th style={{width: '15em'}}>Due Date</Th>
@@ -174,9 +175,10 @@ function Dashboard(props) {
                 }
                 </tbody>
                 </table>
+
                 <SaveTaskComponent projectId={projectId} groupId={group.id} setGroups={setGroups} bgcolor={colorList[index][1]} btncolor={colorList[index][0]}
                 />
-                </div>
+                </Collapsible>
             )})
         }
         </div>
@@ -195,8 +197,6 @@ function SaveGroupComponent(props) {
     "tasks": []
   };
 
-  console.log(postRequest);
-
   const saveGroupName = async (event) => {
     event.preventDefault();
     axios.post(URL(`groups`), postRequest).then((result) => {
@@ -205,7 +205,6 @@ function SaveGroupComponent(props) {
       })
     })
   }
-
 
       const StyledInput = withStyles(theme => ({
         root: {
@@ -248,7 +247,7 @@ function SaveGroupComponent(props) {
       })(ButtonUI);
 
   return (
-      <form onSubmit={saveGroupName} style={{display: 'flex', justifyContent: 'flex-end'}}>
+      <form onSubmit={saveGroupName} style={{display: 'flex', justifyContent: 'flex-end', marginBottom: '2em'}}>
       <StyledInput value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)}/>
       <StyledButtonUI type='submit' color="primary">Add</StyledButtonUI>
       </form>
@@ -295,7 +294,7 @@ function SaveTaskComponent(props) {
     `;
 
     return (
-        <div style={{display:'flex', itemAlign: 'center'}}>
+        <div style={{display:'flex', itemAlign: 'center', marginBottom: '4em'}}>
         <Input value={taskName} placeholder="+Add" onChange={(event) => setTaskName(event.target.value)} style={{width: '90%'}}
         bgcolor={props.bgcolor}/>
         <Button onClick={saveTaskName} btncolor={props.btncolor} bgcolor={props.bgcolor}

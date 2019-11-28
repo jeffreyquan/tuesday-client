@@ -23,7 +23,6 @@ class Team extends Component {
 
     const fetchMemberships = () => {
       axios.get(`http://localhost:3000/projects/${ props.projectId }.json`).then((results) => {
-        console.log(results.data.memberships);
         let emails = [];
         let members = [];
         let invitations = [];

@@ -22,7 +22,7 @@ export default function GroupNameField(props) {
   const [groupName, setGroupName] = useState(props.groupName);
   const classes = useStyles();
   const updateGroupName = () => {
-      axios.put(URL('groups', props.id), { name: groupName })
+      axios.put(URL(`groups`, props.id), { name: groupName })
   }
 
   return (

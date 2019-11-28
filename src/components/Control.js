@@ -58,11 +58,9 @@ saveProject(content) {
     console.log(result.data.memberships[0]);
     this.setState({memberships: [...this.state.memberships, result.data.memberships[0]]})
   })
-  console.log(this.state.memberships);
 }
 
     newForm(){
-        console.log("run");
         this.setState({
             openNewForm: !this.state.openNewForm
         })
@@ -73,6 +71,7 @@ saveProject(content) {
         this.state.openNewForm ? renderForm=<NewProjectForm onSubmit={ this.saveProject } newForm={this.newForm}/> : renderForm=null;
 
         if ( this.state.memberships === null ) {
+            console.log( this.state.memberships === null );
             return (<>
                 </>);
             }
@@ -87,7 +86,7 @@ saveProject(content) {
 
                 <div>
                 <Title><span>Projects</span><span onClick={this.newForm}  ><AddCircleRoundedIcon style={{color: '#009AFF', fontSize:'30px'}} /></span></Title>
-                <Projects memberships={ this.state.memberships } />
+                <Projects memberships={ this.state.memberships } onClick={ this.props.onClick }/>
 
                 </div>
                 {renderForm}
@@ -102,7 +101,6 @@ saveProject(content) {
         cursor: pointer;
         display: flex;
         justify-content: flex-start;
-
     `;
 
 
@@ -160,8 +158,6 @@ saveProject(content) {
 
     `;
 
-
-
     const InvitationWrap = styled.div`
         display: flex;
         justify-content: space-between;
@@ -177,7 +173,7 @@ saveProject(content) {
 
         &:hover {
             background-color: rgba(95, 108, 113, 0.3);
-            color: #333333;
+            color: #300033;
 
         }
     `;
@@ -201,16 +197,19 @@ saveProject(content) {
     `;
 
     function Projects(props) {
+      console.log( props.memberships );
         return (
             <div>
             {props.memberships.map( (p) => {
                 if ( p.invitation === true ) {
                     return (
                         <div>
-                        <Link to={{
-                            pathname: "/dashboard",
-                            state:{ project: p.project }
-                        }}>{ p.project.name }</Link>
+                          <button onClick={ () => props.onClick
+                          (p.project.id) }>{ p.project.name }</button>
+                        {/* <Link to={{
+                        //     pathname: "/dashboard",
+                        //     state:{ project: p.project }
+                        // }}>{ p.project.name }</Link> */}
                         </div>
                     )
                 }
@@ -266,7 +265,7 @@ saveProject(content) {
                 </div>
                 <div style={{margin: '2em 0 0 12em' }}>
                 <BackLink onClick={this.props.newForm}> Cancel </BackLink>
-                <SubmitFormButton type="submit" name="Submit" >Create</SubmitFormButton>
+                <SubmitFormButton type="submit" name="Submit" onClick={this.props.newForm} >Create</SubmitFormButton>
                 </div>
                 </StyledForm>
             )

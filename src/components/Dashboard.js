@@ -2,9 +2,8 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
-
-import Nav from './Nav'
 import Control from './Control'
+import Nav from './Nav'
 import Team from './Team'
 import GroupNameField from './GroupNameField'
 import Task from './Task'
@@ -18,12 +17,9 @@ import { pink, green, blue, red, yellow, HUE } from '@material-ui/core/colors';
 
 import useWindowSize from './partial/WindowSize'
 
-const SERVER_URL = "http://localhost:3000/projects/1" // need to fix this for later - depends what project id a user has
-
 let URL = (model, id = '') => {
     return `http://localhost:3000/${model}/${id}`
 };
-
 
 let panelWrapWidth
 let dashboardHeight
@@ -40,54 +36,47 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-
 function Dashboard(props) {
-    const [groups, setGroups] = useState([]);
-    const [groupName, setGroupName] = useState('');
-    const [projectId, setProjectId] = useState(1);
-    const [task, setTask] = useState('');
-    const classes = useStyles();
+  const [groups, setGroups] = useState([]);
+  const [groupName, setGroupName] = useState('');
+  const [projectId, setProjectId] = useState('');
+  const [task, setTask] = useState('');
+  const [projectName, setProjectName] = useState('');
+  const [projectDescription, setProjectDescription] = useState('');
+  const classes = useStyles();
+    // useEffect(() => {
+    //     axios
+    //     .get(`http://localhost:3000/projects/1`)
+    //         .then((results) => {
+    //             setGroups(results.data.groups);
+    //         })
+    //     }, []
+    // )
 
-    useEffect(() => {
-        axios
-        .get(`http://localhost:3000/projects/1`)
-            .then((results) => {
-                setGroups(results.data.groups);
-            })
-        }, []
-    )
+  const theme = createMuiTheme({
+    palette: {
+      primary: blue,
+      secondary: yellow,
+    },
+    status: {
+      danger: red,
+    },
+  });
 
-    const theme = createMuiTheme({
-      palette: {
-        primary: blue,
-        secondary: yellow,
-      },
-      status: {
-        danger: red,
-      },
-    });
-
-    const saveGroupName = (event) => {
-        event.preventDefault();
-
-        const postRequest = {
-            group: {
-                "project_id": projectId,
-                "name": groupName,
-                "tasks": []
-            }
-        }
-
-        axios.post(URL('groups'), postRequest).then((result) => {
-            axios.get(SERVER_URL).then((results) => {
-                setGroups(results.data["groups"]);
-            })
-        })
-    }
+  const setProject = (id) => {
+    console.log(id);
+    setProjectId(id);
+    console.log(projectId);
+    axios.get(URL(`projects`, id)).then(( results ) => {
+      setGroups(results.data.groups);
+      setProjectName(results.data.name);
+      setProjectDescription(results.data.description);
+    })
+  }
 
     const deleteGroup = (event, group) => {
         axios.delete(URL('groups', group.id)).then((result) => {
-            axios.get(SERVER_URL).then((results) => {
+            axios.get(URL(`projects`, projectId)).then((results) => {
                 setGroups(results.data["groups"]);
             })
         })
@@ -97,7 +86,7 @@ function Dashboard(props) {
         console.log(task, "task");
 
         axios.delete(`http://localhost:3000/groups/${group.id}/tasks/${task.id}`).then((result) => {
-            axios.get(SERVER_URL).then((results) => {
+            axios.get(URL(`projects`, projectId)).then((results) => {
                 setGroups(results.data["groups"]);
             })
         })
@@ -126,22 +115,7 @@ function Dashboard(props) {
     overflow: scroll;
     `;
 
-    const StyledButtonUI = withStyles({
-        root: {
-            background: 'linear-gradient(90deg, #3EB2F9 10%, #009AFF 90%)',
-            borderRadius: 25,
-            height: 40,
-            border: 0,
-            color: 'white',
-            padding: '5px 1em',
-            boxShadow: '0 0 1px rgba(255, 105, 135, .3)',
-            margin: '0 0.5em'
-        },
-        label: {
-            textTransform: 'capitalize',
-            fontWeight: 800
-        },
-    })(ButtonUI);
+
 
     const Button = styled.button`
       color: transparent;
@@ -152,28 +126,6 @@ function Dashboard(props) {
       }
     `;
 
-    const StyledInput = withStyles(theme => ({
-      root: {
-        'label + &': {
-          marginTop: theme.spacing(3),
-        },
-      },
-      input: {
-        borderRadius: 25,
-        position: 'relative',
-        backgroundColor: theme.palette.common.white,
-        border: '1px solid #ced4da',
-        fontSize: 16,
-        width: 'auto',
-        padding: '10px 12px',
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-
-        '&:focus': {
-          boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-          borderColor: theme.palette.primary.main,
-        },
-      },
-    }))(InputBase);
 
     const colorList = [['rgb(225, 68, 92)', 'rgba(225, 68, 92, 0.3)'],['rgb(87, 155, 252)', 'rgba(87, 155, 252, 0.3)'],['rgb(255, 203, 1)', 'rgba(255, 203, 1, 0.3)'],['rgb(120, 74, 209)', 'rgba(120, 74, 209, 0.3)'], ['rgb(156, 211, 37)', 'rgba(156, 211, 37, 0.3)'], ['rgb(255, 21, 138)', 'rgba(255, 21, 138, 0.3)']];
 
@@ -189,16 +141,13 @@ function Dashboard(props) {
         <ThemeProvider theme={theme}>
         <Wrapper>
         <Nav {...props} handleLogout={props.handleLogout} />
-        <Control {...props}/>
+        <Control {...props} onClick={setProject} />
         <PanelWrap style={{width: panelWrapWidth}}>
-        <Toolbar />
+        <Toolbar projectName={projectName} projectDescription={projectDescription} projectId={projectId}/>
         <Panel>
-        { !groups.length ? <h3>Loading</h3> : (
-            <div>
-            <form onSubmit={saveGroupName} style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <StyledInput value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)}/>
-            <StyledButtonUI type='submit' color="primary">Add</StyledButtonUI>
-            </form>
+        { !groups.length ? <h3>Please select a project.</h3> : (
+            <div style={{width: '100%'}}>
+            <SaveGroupComponent projectId={projectId} setGroups={setGroups} />
             { groups.map((group, index) => {
                 return (
                     <div style={{width: '100%'}}>
@@ -223,7 +172,7 @@ function Dashboard(props) {
                 }
                 </tbody>
                 </table>
-                <SaveTaskComponent groupId={group.id} setGroups={setGroups} bgcolor={colorList[index][1]} btncolor={colorList[index][0]}
+                <SaveTaskComponent projectId={projectId} groupId={group.id} setGroups={setGroups} bgcolor={colorList[index][1]} btncolor={colorList[index][0]}
                 />
                 </div>
             )})
@@ -236,20 +185,88 @@ function Dashboard(props) {
     </ThemeProvider>
 )}
 
+function SaveGroupComponent(props) {
+  const [groupName, setGroupName] = useState('');
+  const postRequest = {
+    "project_id": props.projectId,
+    "name": groupName,
+    "tasks": []
+  };
+
+  console.log(postRequest);
+
+  const saveGroupName = async (event) => {
+    event.preventDefault();
+    axios.post(URL(`groups`), postRequest).then((result) => {
+      axios.get(URL(`projects`, props.projectId)).then((results) => {
+          props.setGroups(results.data["groups"]);
+      })
+    })
+  }
+
+
+      const StyledInput = withStyles(theme => ({
+        root: {
+          'label + &': {
+            marginTop: theme.spacing(3),
+          },
+        },
+        input: {
+          borderRadius: 25,
+          position: 'relative',
+          backgroundColor: theme.palette.common.white,
+          border: '1px solid #ced4da',
+          fontSize: 16,
+          width: 'auto',
+          padding: '10px 12px',
+          transition: theme.transitions.create(['border-color', 'box-shadow']),
+
+          '&:focus': {
+            boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+            borderColor: theme.palette.primary.main,
+          },
+        },
+      }))(InputBase);
+
+      const StyledButtonUI = withStyles({
+          root: {
+              background: 'linear-gradient(90deg, #3EB2F9 10%, #009AFF 90%)',
+              borderRadius: 25,
+              height: 40,
+              border: 0,
+              color: 'white',
+              padding: '5px 1em',
+              boxShadow: '0 0 1px rgba(255, 105, 135, .3)',
+              margin: '0 0.5em'
+          },
+          label: {
+              textTransform: 'capitalize',
+              fontWeight: 800
+          },
+      })(ButtonUI);
+
+  return (
+      <form onSubmit={saveGroupName} style={{display: 'flex', justifyContent: 'flex-end'}}>
+      <StyledInput value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)}/>
+      <StyledButtonUI type='submit' color="primary">Add</StyledButtonUI>
+      </form>
+  )
+}
+
 function SaveTaskComponent(props) {
-    const [taskName, setTaskName] = useState('');
-    const saveTaskName = async () => {
-        axios
-        .post(`http://localhost:3000/groups/${props.groupId}/tasks`,
-            { name: taskName, group_id: props.groupId })
-        .then((results) => {
-            axios
-            .get(`http://localhost:3000/projects/1/groups`)
-                .then(({ data }) => {
-                    props.setGroups(data);
-                })
+  const [taskName, setTaskName] = useState('');
+  const saveTaskName = async () => {
+    axios
+    .post(`http://localhost:3000/groups/${ props.groupId }/tasks`,
+      { name: taskName, group_id: props.groupId })
+    .then((results) => {
+      axios
+      .get(`http://localhost:3000/projects/${ props.projectId }/groups`)
+        .then(({ data }) => {
+          props.setGroups(data);
         })
-    }
+    })
+}
 
 
     const Input = styled.input`
@@ -284,6 +301,5 @@ function SaveTaskComponent(props) {
         </div>
     )
 }
-
 
 export default Dashboard;

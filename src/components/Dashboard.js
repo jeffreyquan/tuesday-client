@@ -260,7 +260,7 @@ function SaveTaskComponent(props) {
   const saveTaskName = async () => {
     axios
     .post(`http://localhost:3000/groups/${ props.groupId }/tasks`,
-      { name: taskName, group_id: props.groupId })
+      { name: taskName, group_id: props.groupId, due_date: moment() })
     .then((results) => {
       axios
       .get(`http://localhost:3000/projects/${ props.projectId }/groups`)

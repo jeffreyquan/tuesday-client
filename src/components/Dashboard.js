@@ -16,23 +16,21 @@ import useWindowSize from './partial/WindowSize'
 const SERVER_URL = "http://localhost:3000/projects/1" // need to fix this for later - depends what project id a user has
 
 let URL = (model, id = '') => {
-    return `http://localhost:3000/${model}/${id}`
+    return `https://tuesday-server.herokuapp.com/${model}/${id}`
 };
-
 
 let panelWrapWidth
 let dashboardHeight
 
-
 function Dashboard(props) {
     const [groups, setGroups] = useState([]);
     const [groupName, setGroupName] = useState('');
-    const [projectId, setProjectId] = useState(1);
+    const [projectId, setProjectId] = useState('');
     const [task, setTask] = useState('');
 
     useEffect(() => {
         axios
-        .get(`http://localhost:3000/projects/1`)
+        .get(`https://tuesday-server.herokuapp.com/projects/1`)
             .then((results) => {
                 setGroups(results.data.groups);
             })
@@ -107,7 +105,7 @@ function Dashboard(props) {
     return (
         <Wrapper>
         <Nav {...props} handleLogout={props.handleLogout} />
-        <Control {...props}/>
+        <Control {...props} />
         <PanelWrap style={{width: panelWrapWidth}}>
         <Toolbar />
         <Panel>

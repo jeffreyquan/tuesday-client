@@ -8,7 +8,7 @@ import Collapsible from './partial/Collapsible.js'
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 
 let URL = (model, id = '') => {
-  return `http://localhost:3000/${model}/${id}`
+  return `https://tuesday-server.herokuapp.com/${model}/${id}`
 }
 
 const useStyles = makeStyles(theme => ({

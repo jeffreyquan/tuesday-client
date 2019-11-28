@@ -13,8 +13,6 @@ import RemoveShoppingCartOutlinedIcon from '@material-ui/icons/RemoveShoppingCar
 
 import useWindowSize from './partial/WindowSize'
 
-const SERVER_URL = "http://localhost:3000/projects/1" // need to fix this for later - depends what project id a user has
-
 let URL = (model, id = '') => {
     return `https://tuesday-server.herokuapp.com/${model}/${id}`
 };
@@ -23,41 +21,37 @@ let panelWrapWidth
 let dashboardHeight
 
 function Dashboard(props) {
-    const [groups, setGroups] = useState([]);
-    const [groupName, setGroupName] = useState('');
-    const [projectId, setProjectId] = useState('');
-    const [task, setTask] = useState('');
+  const [groups, setGroups] = useState([]);
+  const [groupName, setGroupName] = useState('');
+  const [projectId, setProjectId] = useState('');
+  const [task, setTask] = useState('');
+  const [projectName, setProjectName] = useState('');
+  const [projectDescription, setProjectDescription] = useState('');
 
-    useEffect(() => {
-        axios
-        .get(`https://tuesday-server.herokuapp.com/projects/1`)
-            .then((results) => {
-                setGroups(results.data.groups);
-            })
-        }, []
-    )
+    // useEffect(() => {
+    //     axios
+    //     .get(`https://tuesday-server.herokuapp.com/projects/1`)
+    //         .then((results) => {
+    //             setGroups(results.data.groups);
+    //         })
+    //     }, []
+    // )
 
-    const saveGroupName = (event) => {
-        event.preventDefault();
 
-        const postRequest = {
-            group: {
-                "project_id": projectId,
-                "name": groupName,
-                "tasks": []
-            }
-        }
-
-        axios.post(URL('groups'), postRequest).then((result) => {
-            axios.get(SERVER_URL).then((results) => {
-                setGroups(results.data["groups"]);
-            })
-        })
-    }
+  const setProject = (id) => {
+    console.log(id);
+    setProjectId(id);
+    console.log(projectId);
+    axios.get(URL(`projects`, id)).then(( results ) => {
+      setGroups(results.data.groups);
+      setProjectName(results.data.name);
+      setProjectDescription(results.data.description);
+    })
+  }
 
     const deleteGroup = (event, group) => {
         axios.delete(URL('groups', group.id)).then((result) => {
-            axios.get(SERVER_URL).then((results) => {
+            axios.get(URL(`projects`, projectId)).then((results) => {
                 setGroups(results.data["groups"]);
             })
         })
@@ -66,8 +60,8 @@ function Dashboard(props) {
     const deleteTask = (event, group, task) => {
         console.log(task, "task");
 
-        axios.delete(`http://localhost:3000/groups/${group.id}/tasks/${task.id}`).then((result) => {
-            axios.get(SERVER_URL).then((results) => {
+        axios.delete(`https://tuesday-server.herokuapp.com/groups/${group.id}/tasks/${task.id}`).then((result) => {
+            axios.get(URL(`projects`, projectId)).then((results) => {
                 setGroups(results.data["groups"]);
             })
         })
@@ -105,16 +99,13 @@ function Dashboard(props) {
     return (
         <Wrapper>
         <Nav {...props} handleLogout={props.handleLogout} />
-        <Control {...props} />
+        <Control {...props} onClick={setProject} />
         <PanelWrap style={{width: panelWrapWidth}}>
-        <Toolbar />
+        <Toolbar projectName={projectName} projectDescription={projectDescription} projectId={projectId}/>
         <Panel>
         { !groups.length ? <h3>Loading</h3> : (
             <div style={{width: '100%'}}>
-            <form onSubmit={saveGroupName}>
-            <input value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)} />
-            <input type="submit" value="Add Group" />
-            </form>
+            <SaveGroupComponent projectId={projectId} setGroups={setGroups} />
             { groups.map(group => {
                 return (
                     <div style={{width: '100%'}}>
@@ -138,7 +129,7 @@ function Dashboard(props) {
                 }
                 </tbody>
                 </table>
-                <SaveTaskComponent groupId={group.id} setGroups={setGroups} />
+                <SaveTaskComponent projectId={projectId} groupId={group.id} setGroups={setGroups} />
                 </div>
             )})
         }
@@ -149,27 +140,55 @@ function Dashboard(props) {
     </Wrapper>
 )}
 
-function SaveTaskComponent(props) {
-    const [taskName, setTaskName] = useState('');
-    const saveTaskName = async () => {
-        axios
-        .post(`http://localhost:3000/groups/${props.groupId}/tasks`,
-            { name: taskName, group_id: props.groupId })
-        .then((results) => {
-            axios
-            .get(`http://localhost:3000/projects/1/groups`)
-                .then(({ data }) => {
-                    props.setGroups(data);
-                })
-        })
-    }
-    return (
-        <div style={{minWidth: '100%'}}>
-        <input style={{minWidth: '90%'}} value={taskName} placeholder="+Add" onChange={(event) => setTaskName(event.target.value)} style={{display: 'inline-block'}}/>
-        <input type="button" value="Add Task" onClick={saveTaskName} style={{display: 'inline-block'}}/>
-        </div>
-    )
+function SaveGroupComponent(props) {
+  const [groupName, setGroupName] = useState('');
+  const postRequest = {
+    "project_id": props.projectId,
+    "name": groupName,
+    "tasks": []
+  };
+
+  console.log(postRequest);
+
+  const saveGroupName = async (event) => {
+    event.preventDefault();
+    axios.post(URL(`groups`), postRequest).then((result) => {
+      axios.get(URL(`projects`, props.projectId)).then((results) => {
+          props.setGroups(results.data["groups"]);
+      })
+    })
+  }
+
+  return (
+    <div style={{minWidth: '100%'}}>
+      <form onSubmit={saveGroupName}>
+      <input value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)} />
+      <input type="submit" value="Add Group" />
+      </form>
+    </div>
+  )
 }
 
+function SaveTaskComponent(props) {
+  const [taskName, setTaskName] = useState('');
+  const saveTaskName = async () => {
+    axios
+    .post(`https://tuesday-server.herokuapp.com/groups/${ props.groupId }/tasks`,
+      { name: taskName, group_id: props.groupId })
+    .then((results) => {
+      axios
+      .get(`https://tuesday-server.herokuapp.com/projects/${ props.projectId }/groups`)
+        .then(({ data }) => {
+          props.setGroups(data);
+        })
+    })
+  }
+  return (
+    <div style={{minWidth: '100%'}}>
+    <input style={{minWidth: '90%'}} value={taskName} placeholder="+Add" onChange={(event) => setTaskName(event.target.value)} style={{display: 'inline-block'}}/>
+    <input type="button" value="Add Task" onClick={saveTaskName} style={{display: 'inline-block'}}/>
+    </div>
+  )
+}
 
 export default Dashboard;

@@ -88,7 +88,7 @@ saveProject(content) {
 
                 <div>
                 <Title><span>Projects</span><span onClick={this.newForm}  ><AddCircleRoundedIcon style={{color: '#009AFF', fontSize:'30px'}} /></span></Title>
-                <Projects memberships={ this.state.memberships } />
+                <Projects memberships={ this.state.memberships } onClick={ this.props.onClick }/>
 
                 </div>
                 {renderForm}
@@ -209,10 +209,12 @@ saveProject(content) {
                 if ( p.invitation === true ) {
                     return (
                         <div>
-                        <Link to={{
-                            pathname: "/dashboard",
-                            state:{ project: p.project }
-                        }}>{ p.project.name }</Link>
+                          <button onClick={ () => props.onClick
+                          (p.project.id) }>{ p.project.name }</button>
+                        {/* <Link to={{
+                        //     pathname: "/dashboard",
+                        //     state:{ project: p.project }
+                        // }}>{ p.project.name }</Link> */}
                         </div>
                     )
                 }

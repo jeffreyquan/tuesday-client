@@ -172,7 +172,7 @@ function Dashboard(props) {
         <PanelWrap style={{width: panelWrapWidth}}>
         <Toolbar projectName={projectName} projectDescription={projectDescription} projectId={projectId}/>
         <Panel>
-        { !groups.length ? <h3>Loading</h3> : (
+        { !groups.length ? <h3>Please select a project.</h3> : (
             <div style={{width: '100%'}}>
             <SaveGroupComponent projectId={projectId} setGroups={setGroups} />
             { groups.map(group => {

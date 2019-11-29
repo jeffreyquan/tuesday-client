@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
 
+let URL = (model, id = '') => `https://tuesday-server.herokuapp.com/${model}/${id}`
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -17,7 +18,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-let URL = (model, id = '') => `http://localhost:3000/${model}/${id}`
 
 export default function GroupNameField(props) {
 

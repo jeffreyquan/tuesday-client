@@ -21,7 +21,7 @@ import { pink, green, blue, red, yellow, HUE } from '@material-ui/core/colors';
 import useWindowSize from './partial/WindowSize'
 
 let URL = (model, id = '') => {
-    return `http://localhost:3000/${model}/${id}`
+    return `https://tuesday-server.herokuapp.com/${model}/${id}`
 };
 
 let panelWrapWidth
@@ -88,7 +88,9 @@ function Dashboard(props) {
     }
 
     const deleteTask = (event, group, task) => {
-        axios.delete(`http://localhost:3000/groups/${group.id}/tasks/${task.id}`).then((result) => {
+        console.log(task, "task");
+
+        axios.delete(`https://tuesday-server.herokuapp.com/groups/${group.id}/tasks/${task.id}`).then((result) => {
             axios.get(URL(`projects`, projectId)).then((results) => {
                 setGroups(results.data["groups"]);
             })
@@ -151,9 +153,11 @@ function Dashboard(props) {
             <SaveGroupComponent projectId={projectId} setGroups={setGroups} />
             { groups.map((group, index) => {
                 return (
-                    <Collapsible title={<GroupNameField
-                        color={colorList[index][0]}
-                        groupName={group.name} id={group.id} key={group.id}/>} open={true} color={colorList[index][1]}>
+                  <>
+                  <GroupNameField
+                      color={colorList[index][0]}
+                      groupName={group.name} id={group.id} key={group.id}/>
+                    <Collapsible open={true}>
 
                     <table style={{width: '100%', marginTop: "0.2em"}}>
                     <tbody>
@@ -179,6 +183,7 @@ function Dashboard(props) {
                 <SaveTaskComponent projectId={projectId} groupId={group.id} setGroups={setGroups} bgcolor={colorList[index][1]} btncolor={colorList[index][0]}
                 />
                 </Collapsible>
+                </>
             )})
         }
         </div>
@@ -189,6 +194,47 @@ function Dashboard(props) {
     </ThemeProvider>
 )}
 
+const StyledInput = withStyles(theme => ({
+  root: {
+    'label + &': {
+      marginTop: theme.spacing(3),
+    },
+  },
+  input: {
+    borderRadius: 25,
+    position: 'relative',
+    backgroundColor: theme.palette.common.white,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    width: 'auto',
+    padding: '10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+
+    '&:focus': {
+      boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+      borderColor: theme.palette.primary.main,
+    },
+  },
+}))(InputBase);
+
+const StyledButtonUI = withStyles({
+    root: {
+        background: 'linear-gradient(90deg, #3EB2F9 10%, #009AFF 90%)',
+        borderRadius: 25,
+        height: 40,
+        border: 0,
+        color: 'white',
+        padding: '5px 1em',
+        boxShadow: '0 0 1px rgba(255, 105, 135, .3)',
+        margin: '0 0.5em'
+    },
+    label: {
+        textTransform: 'capitalize',
+        fontWeight: 800
+    },
+})(ButtonUI);
+
+
 function SaveGroupComponent(props) {
   const [groupName, setGroupName] = useState('');
   const postRequest = {
@@ -196,6 +242,7 @@ function SaveGroupComponent(props) {
     "name": groupName,
     "tasks": []
   };
+  console.log(groupName);
 
   const saveGroupName = async (event) => {
     event.preventDefault();
@@ -206,67 +253,13 @@ function SaveGroupComponent(props) {
     })
   }
 
-      const StyledInput = withStyles(theme => ({
-        root: {
-          'label + &': {
-            marginTop: theme.spacing(3),
-          },
-        },
-        input: {
-          borderRadius: 25,
-          position: 'relative',
-          backgroundColor: theme.palette.common.white,
-          border: '1px solid #ced4da',
-          fontSize: 16,
-          width: 'auto',
-          padding: '10px 12px',
-          transition: theme.transitions.create(['border-color', 'box-shadow']),
-
-          '&:focus': {
-            boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-            borderColor: theme.palette.primary.main,
-          },
-        },
-      }))(InputBase);
-
-      const StyledButtonUI = withStyles({
-          root: {
-              background: 'linear-gradient(90deg, #3EB2F9 10%, #009AFF 90%)',
-              borderRadius: 25,
-              height: 40,
-              border: 0,
-              color: 'white',
-              padding: '5px 1em',
-              boxShadow: '0 0 1px rgba(255, 105, 135, .3)',
-              margin: '0 0.5em'
-          },
-          label: {
-              textTransform: 'capitalize',
-              fontWeight: 800
-          },
-      })(ButtonUI);
 
   return (
       <form onSubmit={saveGroupName} style={{display: 'flex', justifyContent: 'flex-end', marginBottom: '2em'}}>
-      <StyledInput value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)}/>
+      <StyledInput value={groupName} placeholder="Group Name" onChange={(event) => {setGroupName(event.target.value); }} autofocus/>
       <StyledButtonUI type='submit' color="primary">Add</StyledButtonUI>
       </form>
   )
-}
-
-function SaveTaskComponent(props) {
-  const [taskName, setTaskName] = useState('');
-  const saveTaskName = async () => {
-    axios
-    .post(`http://localhost:3000/groups/${ props.groupId }/tasks`,
-      { name: taskName, group_id: props.groupId, due_date: moment() })
-    .then((results) => {
-      axios
-      .get(`http://localhost:3000/projects/${ props.projectId }/groups`)
-        .then(({ data }) => {
-          props.setGroups(data);
-        })
-    })
 }
 
 
@@ -292,6 +285,22 @@ function SaveTaskComponent(props) {
             background-color: ${props => props.bgcolor || "lightgrey"}
         }
     `;
+
+function SaveTaskComponent(props) {
+  const [taskName, setTaskName] = useState('');
+  const saveTaskName = async () => {
+    axios
+    .post(`https://tuesday-server.herokuapp.com/groups/${ props.groupId }/tasks`,
+      { name: taskName, group_id: props.groupId })
+    .then((results) => {
+      axios
+      .get(`https://tuesday-server.herokuapp.com/${ props.projectId }/groups`)
+        .then(({ data }) => {
+          props.setGroups(data);
+        })
+    })
+}
+
 
     return (
         <div style={{display:'flex', itemAlign: 'center', marginBottom: '4em'}}>

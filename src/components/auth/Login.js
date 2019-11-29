@@ -88,7 +88,7 @@ export default class Login extends Component {
         super(props);
 
         this.state={
-            email: "shaneen@ga.co",
+            email: '',
             password: "chicken",
             loginErrors:""
         }
@@ -109,7 +109,7 @@ export default class Login extends Component {
             password,
         } = this.state;
 
-        axios.post('http://localhost:3000/session', {
+        axios.post('https://tuesday-server.herokuapp.com/session', {
             user: {
                 email: email,
                 password: password,

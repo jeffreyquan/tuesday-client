@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 
 let URL = (model, id = '') => {
-  return `http://localhost:3000/${model}/${id}`
+  return `https://tuesday-server.herokuapp.com/${model}/${id}`
 }
 
 const useStyles = makeStyles(theme => ({
@@ -33,45 +33,6 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-
-
-export default function Task(props) {
-  const classes = useStyles();
-  const [task, setTask] = useState(props.task)
-  const [statusOptions, setStatusOptions] = useState(['Done', 'Working On It', 'Stuck'])
-  const [taskStatus, setTaskStatus] = useState(props.task.status)
-  const [priorityOptions, setPriorityOptions] = useState(['High', 'Medium', 'Low'])
-  const [taskPriority, setTaskPriority] = useState(props.task.priority)
-  const [owner, setOwner] = useState(props.task.owner)
-  const [date, setDate] = useState(moment(props.task.due_date))
-
-  const shortcuts = {
-    'Today': moment(),
-    'Yesterday': moment().subtract(1, 'days'),
-    'Clear': ''
-  };
-
-  const updateTaskName = () => {
-    axios.put(URL('tasks', props.id), { name: task, group_id: props.group_id })
-  }
-
-  const updateStatus = (status) => {
-    axios.put(URL('tasks', props.id), { status, group_id: props.group_id })
-  }
-
-  const updatePriority = (priority) => {
-    axios.put(URL('tasks', props.id), { priority, group_id: props.group_id })
-  }
-
-  const updateOwner = () => {
-    axios.put(URL('tasks', props.id), { owner: owner, group_id: props.group_id })
-  }
-
-  const updateDate = (date) => {
-    console.log('date', date);
-
-    axios.put(URL('tasks', props.id), { due_date: date, group_id: props.group_id })
-  }
 
   const Button = styled.button`
     color: transparent;
@@ -117,8 +78,47 @@ export default function Task(props) {
   `;
 
 
+
+export default function Task(props) {
+  const classes = useStyles();
+  const [task, setTask] = useState(props.task)
+  const [statusOptions, setStatusOptions] = useState(['Done', 'Working On It', 'Stuck'])
+  const [taskStatus, setTaskStatus] = useState(props.task.status)
+  const [priorityOptions, setPriorityOptions] = useState(['High', 'Medium', 'Low'])
+  const [taskPriority, setTaskPriority] = useState(props.task.priority)
+  const [owner, setOwner] = useState(props.task.owner)
+  const [date, setDate] = useState(moment(props.task.due_date))
+
+  const shortcuts = {
+    'Today': moment(),
+    'Yesterday': moment().subtract(1, 'days'),
+    'Clear': ''
+  };
+
+  const updateTaskName = () => {
+    axios.put(URL('tasks', props.id), { name: task, group_id: props.group_id })
+  }
+
+  const updateStatus = (status) => {
+    axios.put(URL('tasks', props.id), { status, group_id: props.group_id })
+  }
+
+  const updatePriority = (priority) => {
+    axios.put(URL('tasks', props.id), { priority, group_id: props.group_id })
+  }
+
+  const updateOwner = () => {
+    axios.put(URL('tasks', props.id), { owner: owner, group_id: props.group_id })
+  }
+
+  const updateDate = (date) => {
+    console.log('date', date);
+
+    axios.put(URL('tasks', props.id), { due_date: date, group_id: props.group_id })
+  }
+
   return (
-      
+
     <Tr style={{borderBottom: "1px solid #F1F1F1"}}>
         <td style={{width: '1em', backgroundColor: props.color}} >
         <Button onClick={(event) => props.deleteTask(event, props.group, props.task)} color={props.color} ><DeleteOutlineOutlinedIcon/></Button>

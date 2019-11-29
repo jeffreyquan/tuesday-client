@@ -16,7 +16,7 @@ import Team from './Team';
 import axios from 'axios';
 
 let URL = (model, id = '') => {
-  return `http://localhost:3000/${model}/${id}`
+  return `https://tuesday-server.herokuapp.com/${model}/${id}`
 }
 
 function Toolbar(props) {
@@ -30,7 +30,7 @@ function Toolbar(props) {
       }
 
   const fetchStats= () => {
-    axios.get(`http://localhost:3000/projects/${ props.projectId }.json`).then((results) => {
+    axios.get(`http://tuesday-server.herokuapp.com/projects/${ props.projectId }.json`).then((results) => {
         setMemberNo(_.where(results.data.memberships, {invitation: true}).length)
         setTaskNo(_.pluck(results.data.groups, 'tasks').flat().length)
         })

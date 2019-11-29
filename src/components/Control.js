@@ -44,7 +44,7 @@ class Control extends Component {
             this.setState({
               memberships: memberships,
             });
-            setTimeout( fetchMemberships, 100000);
+            setTimeout( fetchMemberships, 10000);
           });
         }
         fetchMemberships();

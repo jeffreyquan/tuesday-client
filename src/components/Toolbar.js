@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import _ from 'underscore'
+
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 import FormatListBulletedOutlinedIcon from '@material-ui/icons/FormatListBulletedOutlined';
 import MoreHorizOutlinedIcon from '@material-ui/icons/MoreHorizOutlined';
@@ -20,9 +22,21 @@ let URL = (model, id = '') => {
 function Toolbar(props) {
     const [memberDropdown, setMemberDropdown] = useState(false)
     const [right, setRight] = useState(false);
+    const [memberNo, setMemberNo] = useState("");
+    const [taskNo, setTaskNo] = useState("");
+
     const toggleDrawer = () => {
         setRight(!right)
       }
+
+  const fetchStats= () => {
+    axios.get(`http://tuesday-server.herokuapp.com/projects/${ props.projectId }.json`).then((results) => {
+        setMemberNo(_.where(results.data.memberships, {invitation: true}).length)
+        setTaskNo(_.pluck(results.data.groups, 'tasks').flat().length)
+        })
+    }
+    fetchStats()
+
 
     const Style = styled.div`
     width: 100%;
@@ -123,8 +137,8 @@ function Toolbar(props) {
         <div style={{display: 'flex', flexDirection:'column', justifyContent: 'space-between'}}>
         <div style={{display: 'flex', justifyContent: 'flex-end', }}>
         <div style={{display: 'inline-block', border: '1px solid #F1F1F1', borderRadius: '4px'}}>
-        <ListWrapper style={{borderRight: '1px solid #F1F1F1'}} onClick={toggleDrawer}><PeopleAltOutlinedIcon /><span> Members / </span><span> ? </span></ListWrapper>
-        <ListWrapper><FormatListBulletedOutlinedIcon /> <span>Tasks / </span><span> ? </span></ListWrapper>
+        <ListWrapper style={{borderRight: '1px solid #F1F1F1'}} onClick={toggleDrawer}><PeopleAltOutlinedIcon /><span> Members / </span><span> {memberNo} </span></ListWrapper>
+        <ListWrapper><FormatListBulletedOutlinedIcon /> <span>Tasks / </span><span> {taskNo} </span></ListWrapper>
         </div>
         <IconContainer><MoreHorizOutlinedIcon /></IconContainer>
         </div>
@@ -153,7 +167,7 @@ function SaveProjectName(props) {
 
   return (
     <div style={{width: '100%', }}>
-    <input onChange={(event) => setProjectName(event.target.value)}  onBlur={updateProjectName} value={projectName} style={{fontSize: '2rem', fontFamily: "Hind Madurai", fontWeight: 700, fontSize: '40px', padding:'0.1em', color: '#300033', border: 'none'}} />
+    <input onChange={(event) => setProjectName(event.target.value)}  onBlur={updateProjectName} value={projectName} style={{fontSize: '2rem', fontFamily: "Hind Madurai", fontWeight: 700, fontSize: '40px', padding:'0.1em', color: '#333333', border: 'none'}} />
     </div>
   )
 }

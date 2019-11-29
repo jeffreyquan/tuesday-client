@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
 import axios from 'axios';
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
@@ -41,19 +42,11 @@ const useStyles = makeStyles(theme => ({
 function Dashboard(props) {
   const [groups, setGroups] = useState([]);
   const [groupName, setGroupName] = useState('');
-  const [projectId, setProjectId] = useState('');
+  const [projectId, setProjectId] = useState(localStorage.getItem('projectId'));
+
   const [task, setTask] = useState('');
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
-  const classes = useStyles();
-    // useEffect(() => {
-    //     axios
-    //     .get(`http://localhost:3000/projects/1`)
-    //         .then((results) => {
-    //             setGroups(results.data.groups);
-    //         })
-    //     }, []
-    // )
 
   const theme = createMuiTheme({
     palette: {
@@ -66,15 +59,25 @@ function Dashboard(props) {
   });
 
   const setProject = (id) => {
-    console.log(id);
+    localStorage.setItem('projectId', id)
     setProjectId(id);
-    console.log(projectId);
     axios.get(URL(`projects`, id)).then(( results ) => {
       setGroups(results.data.groups);
       setProjectName(results.data.name);
       setProjectDescription(results.data.description);
     })
   }
+
+  const setUp = () => {
+      const id = localStorage.getItem('projectId')
+      if (id)
+      axios.get(URL(`projects`, id)).then(( results ) => {
+        setGroups(results.data.groups);
+        setProjectName(results.data.name);
+        setProjectDescription(results.data.description);
+      })
+  }
+  // setUp();
 
     const deleteGroup = (event, group) => {
         axios.delete(URL('groups', group.id)).then((result) => {
@@ -117,8 +120,6 @@ function Dashboard(props) {
     overflow: scroll;
     `;
 
-
-
     const Button = styled.button`
       color: transparent;
       background-color: transparent;
@@ -152,16 +153,20 @@ function Dashboard(props) {
             <SaveGroupComponent projectId={projectId} setGroups={setGroups} />
             { groups.map((group, index) => {
                 return (
-                    <div style={{width: '100%'}}>
-                    <table style={{width: '100%'}}>
+                  <>
+                  <GroupNameField
+                      color={colorList[index][0]}
+                      groupName={group.name} id={group.id} key={group.id}/>
+                    <Collapsible >
+
+                    <table style={{width: '100%', marginTop: "0.2em"}}>
                     <tbody>
                     <Tr>
                     <th style={{width: '1em', backgroundColor:colorList[index][0]}}><Button onClick={(event) => deleteGroup(event, group)} style={{backgroundColor: 'transparent'}}><RemoveShoppingCartOutlinedIcon /></Button>
                     </th>
-                    <th style={{width: '35em', backgroundColor: 'white'}}>
-                    <GroupNameField
-                    color={colorList[index][0]} groupName={group.name} id={group.id} key={group.id}/>
-                    </th>
+                    <Th style={{width: '35em', backgroundColor: 'white'}}>
+
+                    </Th>
                     <Th style={{width: '8em', borderTopLeftRadius: '15px'}}>Owner</Th>
                     <Th style={{width: '12em'}}>Status</Th>
                     <Th style={{width: '15em'}}>Due Date</Th>
@@ -174,9 +179,11 @@ function Dashboard(props) {
                 }
                 </tbody>
                 </table>
+
                 <SaveTaskComponent projectId={projectId} groupId={group.id} setGroups={setGroups} bgcolor={colorList[index][1]} btncolor={colorList[index][0]}
                 />
-                </div>
+                </Collapsible>
+                </>
             )})
         }
         </div>
@@ -187,6 +194,47 @@ function Dashboard(props) {
     </ThemeProvider>
 )}
 
+const StyledInput = withStyles(theme => ({
+  root: {
+    'label + &': {
+      marginTop: theme.spacing(3),
+    },
+  },
+  input: {
+    borderRadius: 25,
+    position: 'relative',
+    backgroundColor: theme.palette.common.white,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    width: 'auto',
+    padding: '10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+
+    '&:focus': {
+      boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+      borderColor: theme.palette.primary.main,
+    },
+  },
+}))(InputBase);
+
+const StyledButtonUI = withStyles({
+    root: {
+        background: 'linear-gradient(90deg, #3EB2F9 10%, #009AFF 90%)',
+        borderRadius: 25,
+        height: 40,
+        border: 0,
+        color: 'white',
+        padding: '5px 1em',
+        boxShadow: '0 0 1px rgba(255, 105, 135, .3)',
+        margin: '0 0.5em'
+    },
+    label: {
+        textTransform: 'capitalize',
+        fontWeight: 800
+    },
+})(ButtonUI);
+
+
 function SaveGroupComponent(props) {
   const [groupName, setGroupName] = useState('');
   const postRequest = {
@@ -194,8 +242,7 @@ function SaveGroupComponent(props) {
     "name": groupName,
     "tasks": []
   };
-
-  console.log(postRequest);
+  console.log(groupName);
 
   const saveGroupName = async (event) => {
     event.preventDefault();
@@ -207,67 +254,12 @@ function SaveGroupComponent(props) {
   }
 
 
-      const StyledInput = withStyles(theme => ({
-        root: {
-          'label + &': {
-            marginTop: theme.spacing(3),
-          },
-        },
-        input: {
-          borderRadius: 25,
-          position: 'relative',
-          backgroundColor: theme.palette.common.white,
-          border: '1px solid #ced4da',
-          fontSize: 16,
-          width: 'auto',
-          padding: '10px 12px',
-          transition: theme.transitions.create(['border-color', 'box-shadow']),
-
-          '&:focus': {
-            boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-            borderColor: theme.palette.primary.main,
-          },
-        },
-      }))(InputBase);
-
-      const StyledButtonUI = withStyles({
-          root: {
-              background: 'linear-gradient(90deg, #3EB2F9 10%, #009AFF 90%)',
-              borderRadius: 25,
-              height: 40,
-              border: 0,
-              color: 'white',
-              padding: '5px 1em',
-              boxShadow: '0 0 1px rgba(255, 105, 135, .3)',
-              margin: '0 0.5em'
-          },
-          label: {
-              textTransform: 'capitalize',
-              fontWeight: 800
-          },
-      })(ButtonUI);
-
   return (
-      <form onSubmit={saveGroupName} style={{display: 'flex', justifyContent: 'flex-end'}}>
-      <StyledInput value={groupName} placeholder="Group Name" onChange={(event) => setGroupName(event.target.value)}/>
+      <form onSubmit={saveGroupName} style={{display: 'flex', justifyContent: 'flex-end', marginBottom: '2em'}}>
+      <StyledInput value={groupName} placeholder="Group Name" onChange={(event) => {setGroupName(event.target.value); }} autofocus/>
       <StyledButtonUI type='submit' color="primary">Add</StyledButtonUI>
       </form>
   )
-}
-
-function SaveTaskComponent(props) {
-  const [taskName, setTaskName] = useState('');
-  const saveTaskName = async () => {
-    axios
-    .post(`https://tuesday-server.herokuapp.com/groups/${ props.groupId }/tasks`,
-      { name: taskName, group_id: props.groupId })
-    .then((results) => {
-      axios
-      .get(`https://tuesday-server.herokuapp.com/${ props.projectId }/groups`)
-        .then(({ data }) => {
-          props.setGroups(data);
-        })
-    })
 }
 
 
@@ -294,8 +286,24 @@ function SaveTaskComponent(props) {
         }
     `;
 
+function SaveTaskComponent(props) {
+  const [taskName, setTaskName] = useState('');
+  const saveTaskName = async () => {
+    axios
+    .post(`https://tuesday-server.herokuapp.com/groups/${ props.groupId }/tasks`,
+      { name: taskName, group_id: props.groupId })
+    .then((results) => {
+      axios
+      .get(`https://tuesday-server.herokuapp.com/${ props.projectId }/groups`)
+        .then(({ data }) => {
+          props.setGroups(data);
+        })
+    })
+}
+
+
     return (
-        <div style={{display:'flex', itemAlign: 'center'}}>
+        <div style={{display:'flex', itemAlign: 'center', marginBottom: '4em'}}>
         <Input value={taskName} placeholder="+Add" onChange={(event) => setTaskName(event.target.value)} style={{width: '90%'}}
         bgcolor={props.bgcolor}/>
         <Button onClick={saveTaskName} btncolor={props.btncolor} bgcolor={props.bgcolor}

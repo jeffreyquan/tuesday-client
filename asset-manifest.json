@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/tuesday-client/static/css/main.19b37a54.chunk.css",
-    "main.js": "/tuesday-client/static/js/main.ca3931f9.chunk.js",
-    "main.js.map": "/tuesday-client/static/js/main.ca3931f9.chunk.js.map",
+    "main.js": "/tuesday-client/static/js/main.e38f8954.chunk.js",
+    "main.js.map": "/tuesday-client/static/js/main.e38f8954.chunk.js.map",
     "runtime-main.js": "/tuesday-client/static/js/runtime-main.fe4e3bd8.js",
     "runtime-main.js.map": "/tuesday-client/static/js/runtime-main.fe4e3bd8.js.map",
     "static/css/2.c946ee25.chunk.css": "/tuesday-client/static/css/2.c946ee25.chunk.css",
-    "static/js/2.24b7a4b5.chunk.js": "/tuesday-client/static/js/2.24b7a4b5.chunk.js",
-    "static/js/2.24b7a4b5.chunk.js.map": "/tuesday-client/static/js/2.24b7a4b5.chunk.js.map",
+    "static/js/2.dcf223bb.chunk.js": "/tuesday-client/static/js/2.dcf223bb.chunk.js",
+    "static/js/2.dcf223bb.chunk.js.map": "/tuesday-client/static/js/2.dcf223bb.chunk.js.map",
     "index.html": "/tuesday-client/index.html",
-    "precache-manifest.fa262ccde868621beb6a705c299c97b4.js": "/tuesday-client/precache-manifest.fa262ccde868621beb6a705c299c97b4.js",
+    "precache-manifest.d0a2c8f1f056554e4bf8ef2dfcc9424a.js": "/tuesday-client/precache-manifest.d0a2c8f1f056554e4bf8ef2dfcc9424a.js",
     "service-worker.js": "/tuesday-client/service-worker.js",
     "static/css/2.c946ee25.chunk.css.map": "/tuesday-client/static/css/2.c946ee25.chunk.css.map",
     "static/css/main.19b37a54.chunk.css.map": "/tuesday-client/static/css/main.19b37a54.chunk.css.map",
@@ -19,8 +19,8 @@
   "entrypoints": [
     "static/js/runtime-main.fe4e3bd8.js",
     "static/css/2.c946ee25.chunk.css",
-    "static/js/2.24b7a4b5.chunk.js",
+    "static/js/2.dcf223bb.chunk.js",
     "static/css/main.19b37a54.chunk.css",
-    "static/js/main.ca3931f9.chunk.js"
+    "static/js/main.e38f8954.chunk.js"
   ]
 }

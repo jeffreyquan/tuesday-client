@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/tuesday/static/css/main.19b37a54.chunk.css",
-    "main.js": "/tuesday/static/js/main.b8f478d4.chunk.js",
-    "main.js.map": "/tuesday/static/js/main.b8f478d4.chunk.js.map",
-    "runtime-main.js": "/tuesday/static/js/runtime-main.5271b0f9.js",
-    "runtime-main.js.map": "/tuesday/static/js/runtime-main.5271b0f9.js.map",
-    "static/css/2.c946ee25.chunk.css": "/tuesday/static/css/2.c946ee25.chunk.css",
-    "static/js/2.0fcd126a.chunk.js": "/tuesday/static/js/2.0fcd126a.chunk.js",
-    "static/js/2.0fcd126a.chunk.js.map": "/tuesday/static/js/2.0fcd126a.chunk.js.map",
-    "index.html": "/tuesday/index.html",
-    "precache-manifest.f6cc46a66782d2e59587e4ad27443fbd.js": "/tuesday/precache-manifest.f6cc46a66782d2e59587e4ad27443fbd.js",
-    "service-worker.js": "/tuesday/service-worker.js",
-    "static/css/2.c946ee25.chunk.css.map": "/tuesday/static/css/2.c946ee25.chunk.css.map",
-    "static/css/main.19b37a54.chunk.css.map": "/tuesday/static/css/main.19b37a54.chunk.css.map",
-    "static/media/logo.svg": "/tuesday/static/media/logo.abb7a539.svg",
-    "static/media/logo2.svg": "/tuesday/static/media/logo2.b73cbbf9.svg"
+    "main.css": "/client-tuesday/static/css/main.19b37a54.chunk.css",
+    "main.js": "/client-tuesday/static/js/main.2d5512c1.chunk.js",
+    "main.js.map": "/client-tuesday/static/js/main.2d5512c1.chunk.js.map",
+    "runtime-main.js": "/client-tuesday/static/js/runtime-main.854a037c.js",
+    "runtime-main.js.map": "/client-tuesday/static/js/runtime-main.854a037c.js.map",
+    "static/css/2.c946ee25.chunk.css": "/client-tuesday/static/css/2.c946ee25.chunk.css",
+    "static/js/2.95187835.chunk.js": "/client-tuesday/static/js/2.95187835.chunk.js",
+    "static/js/2.95187835.chunk.js.map": "/client-tuesday/static/js/2.95187835.chunk.js.map",
+    "index.html": "/client-tuesday/index.html",
+    "precache-manifest.493453873955ffd95479dde909a4e519.js": "/client-tuesday/precache-manifest.493453873955ffd95479dde909a4e519.js",
+    "service-worker.js": "/client-tuesday/service-worker.js",
+    "static/css/2.c946ee25.chunk.css.map": "/client-tuesday/static/css/2.c946ee25.chunk.css.map",
+    "static/css/main.19b37a54.chunk.css.map": "/client-tuesday/static/css/main.19b37a54.chunk.css.map",
+    "static/media/logo.svg": "/client-tuesday/static/media/logo.abb7a539.svg",
+    "static/media/logo2.svg": "/client-tuesday/static/media/logo2.b73cbbf9.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.5271b0f9.js",
+    "static/js/runtime-main.854a037c.js",
     "static/css/2.c946ee25.chunk.css",
-    "static/js/2.0fcd126a.chunk.js",
+    "static/js/2.95187835.chunk.js",
     "static/css/main.19b37a54.chunk.css",
-    "static/js/main.b8f478d4.chunk.js"
+    "static/js/main.2d5512c1.chunk.js"
   ]
 }

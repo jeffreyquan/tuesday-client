@@ -1,8 +1,8 @@
 {
-  "name": "tuesday-client",
+  "name": "client-tuesday",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://JinSeal.github.io/tuesday/",
+  "homepage": "https://JinSeal.github.io/client-tuesday/",
   "dependencies": {
     "@material-ui/core": "^4.6.1",
     "@material-ui/icons": "^4.5.1",

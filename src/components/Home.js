@@ -80,7 +80,7 @@ export default class Home extends Component {
             <div style={{backgroundColor: 'white', minHeight: '100vh'}}>
                 <Header><img alt="logo" src={Logo2} style={{height: "75px"}}/></Header>
                 {entryBox}
-                <p>Status: {this.props.loggedInStatus}</p>
+                <></>
             </div>
         )
     }

@@ -6,10 +6,10 @@ import Dashboard from './Dashboard'
 import axios from 'axios'
 
 let URL = (model, id = '') => {
-    return `https://tuesday-server.herokuapp.com/${model}/${id}`
+    return `https://tuesday-server.herokuapp.com/${ model }/${ id }`
 };
 
-axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`;
+axios.defaults.headers.common['Authorization'] = `Bearer ${ localStorage.getItem('jwt') }`;
 
 function App(props) {
 
@@ -54,13 +54,13 @@ function App(props) {
         <Switch>
         <Route exact path={"/"}
         render={props => (
-            <Home {...props} handleLogin={handleLogin} loggedInStatus={loggedInStatus} />
+            <Home { ...props } handleLogin={ handleLogin } loggedInStatus={ loggedInStatus } />
         )}
         />
         <Route exact path={"/dashboard"}
         render={props => (
-            <Dashboard {...props} user={user}
-            handleLogout={handleLogout} loggedInStatus={loggedInStatus}/>
+            <Dashboard { ...props } user={ user }
+            handleLogout={ handleLogout } loggedInStatus={ loggedInStatus }/>
         )}
         />
         </Switch>

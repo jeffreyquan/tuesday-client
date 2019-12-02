@@ -84,25 +84,26 @@ import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardOutlined';
     `;
 
 let URL = (model, id = '') => {
-    return `https://tuesday-server.herokuapp.com/${model}/${id}`
+    return `https://tuesday-server.herokuapp.com/${ model }/${ id }`
 };
 
 export default class Login extends Component {
     constructor(props){
         super(props);
 
-        this.state={
-            email: '',
-            password: "chicken",
-            loginErrors:""
+        this.state = {
+            email: "",
+            password: "",
+            loginErrors: ""
         }
+
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
 
     }
     handleChange(event){
         this.setState({
-            [event.target.name]:event.target.value
+            [event.target.name]: event.target.value
         })
     }
 
@@ -121,7 +122,6 @@ export default class Login extends Component {
             },
             {withCredentials: true}
         ).then(response => {
-          console.log(response);
             if (response.data.logged_in){
             localStorage.setItem('jwt', response.data.jwt);
             this.props.handleSuccessfulAuth(response.data);
@@ -134,7 +134,7 @@ export default class Login extends Component {
     render(){
         return(
             <div>
-                <LoginForm onSubmit={this.handleSubmit}>
+                <LoginForm onSubmit={ this.handleSubmit }>
 
                 <Title> <span style={{fontWeight: "700", paddingLeft: "120px"}}>Log</span> In</Title>
                 <InputBox>
@@ -143,8 +143,8 @@ export default class Login extends Component {
                     type='email'
                     name='email'
                     placeholder='Email'
-                    value={this.state.email}
-                    onChange={this.handleChange}
+                    value={ this.state.email }
+                    onChange={ this.handleChange }
                     required
                 />
                 </InputBox>
@@ -154,8 +154,8 @@ export default class Login extends Component {
                     type='password'
                     name='password'
                     placeholder='Password'
-                    value={this.state.password}
-                    onChange={this.handleChange}
+                    value={ this.state.password }
+                    onChange={ this.handleChange }
                     required
                 />
                 </InputBox>

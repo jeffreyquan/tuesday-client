@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/tuesday-client/static/css/main.19b37a54.chunk.css",
+    "main.js": "/tuesday-client/static/js/main.1852d25c.chunk.js",
+    "main.js.map": "/tuesday-client/static/js/main.1852d25c.chunk.js.map",
+    "runtime-main.js": "/tuesday-client/static/js/runtime-main.f9d1e1ac.js",
+    "runtime-main.js.map": "/tuesday-client/static/js/runtime-main.f9d1e1ac.js.map",
+    "static/css/2.c946ee25.chunk.css": "/tuesday-client/static/css/2.c946ee25.chunk.css",
+    "static/js/2.2e76e393.chunk.js": "/tuesday-client/static/js/2.2e76e393.chunk.js",
+    "static/js/2.2e76e393.chunk.js.map": "/tuesday-client/static/js/2.2e76e393.chunk.js.map",
+    "index.html": "/tuesday-client/index.html",
+    "precache-manifest.d62e129bf6f51f89b9cec25f1e2c5f7e.js": "/tuesday-client/precache-manifest.d62e129bf6f51f89b9cec25f1e2c5f7e.js",
+    "service-worker.js": "/tuesday-client/service-worker.js",
+    "static/css/2.c946ee25.chunk.css.map": "/tuesday-client/static/css/2.c946ee25.chunk.css.map",
+    "static/css/main.19b37a54.chunk.css.map": "/tuesday-client/static/css/main.19b37a54.chunk.css.map",
+    "static/media/logo.svg": "/tuesday-client/static/media/logo.abb7a539.svg",
+    "static/media/logo2.svg": "/tuesday-client/static/media/logo2.b73cbbf9.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f9d1e1ac.js",
+    "static/css/2.c946ee25.chunk.css",
+    "static/js/2.2e76e393.chunk.js",
+    "static/css/main.19b37a54.chunk.css",
+    "static/js/main.1852d25c.chunk.js"
+  ]
+}

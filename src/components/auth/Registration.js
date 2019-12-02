@@ -65,7 +65,7 @@ import axios from 'axios'
     `;
 
 let URL = (model, id = '') => {
-    return `https://tuesday-server.herokuapp.com/${model}/${id}`
+    return `https://tuesday-server.herokuapp.com/${ model }/${ id }`
 };
 
 export default class Registration extends Component {

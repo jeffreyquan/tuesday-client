@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/tuesday-client/precache-manifest.d62e129bf6f51f89b9cec25f1e2c5f7e.js"
+  "/tuesday-client/precache-manifest.9231104e78d3e6afe15f145767afa929.js"
 );
 
 self.addEventListener('message', (event) => {

@@ -64,6 +64,10 @@ import axios from 'axios'
         }
     `;
 
+let URL = (model, id = '') => {
+    return `https://tuesday-server.herokuapp.com/${model}/${id}`
+};
+
 export default class Registration extends Component {
     constructor(props){
         super(props);
@@ -93,7 +97,7 @@ export default class Registration extends Component {
             password_confirmation
         } = this.state;
 
-        axios.post('https://tuesday-server.herokuapp.com/registrations', {
+        axios.post(URL('registrations'), {
             user: {
                 email: email,
                 password: password,
@@ -103,7 +107,7 @@ export default class Registration extends Component {
             {withCredentials: true}
         ).then(response => {
             if (response.data.status === 'created'){
-                axios.post('https://tuesday-server.herokuapp.com/session', {
+                axios.post(URL('session'), {
                     user: {
                         email: email,
                         password: password,

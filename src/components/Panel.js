@@ -99,11 +99,11 @@ function SaveTaskComponent(props) {
   const [taskName, setTaskName] = useState('');
   const saveTaskName = async () => {
     axios
-    .post(`http://localhost:3000/groups/${ props.groupId }/tasks`,
+    .post(`https://tuesday-server.herokuapp.com/groups/${ props.groupId }/tasks`,
       { name: taskName, group_id: props.groupId, due_date: moment() })
     .then((results) => {
       axios
-      .get(`http://localhost:3000/projects/${ props.projectId }/groups`)
+      .get(`https://tuesday-server.herokuapp.com/projects/${ props.projectId }/groups`)
         .then(({ data }) => {
           props.setGroups(data);
         })
@@ -154,8 +154,8 @@ function SaveGroupComponent(props) {
 
   const saveGroupName = async (event) => {
     event.preventDefault();
-    axios.post(URL(`groups`), postRequest).then((result) => {
-      axios.get(URL(`projects`, props.projectId)).then((results) => {
+    axios.post('http://localhost:3000/groups', postRequest).then((result) => {
+      axios.get(`http://localhost:3000/${ props.projectId }`).then((results) => {
           props.setGroups(results.data["groups"]);
       })
     })

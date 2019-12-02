@@ -294,7 +294,7 @@ function SaveTaskComponent(props) {
       { name: taskName, group_id: props.groupId })
     .then((results) => {
       axios
-      .get(`https://tuesday-server.herokuapp.com/${ props.projectId }/groups`)
+      .get(`https://tuesday-server.herokuapp.com/projects/${ props.projectId }/groups`)
         .then(({ data }) => {
           props.setGroups(data);
         })

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
+import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Home from './Home'
 import Dashboard from './Dashboard'
 
 import axios from 'axios'
 
-
+let URL = (model, id = '') => {
+    return `https://tuesday-server.herokuapp.com/${model}/${id}`
+};
 
 axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`;
 
@@ -32,8 +34,9 @@ function App(props) {
 
     useEffect(() => {
         axios
-        .get("https://tuesday-server.herokuapp.com/logged_in", { withCredentials: true })
+        .get(URL(`logged_in`), { withCredentials: true })
         .then(({ data }) => {
+          console.log( data );
             if (data.logged_in && loggedInStatus === "NOT_LOGGED_IN") {
                 handleLogin(data)
             } else {
@@ -46,7 +49,7 @@ function App(props) {
     }, [])
 
     return (
-        <BrowserRouter>
+        <HashRouter>
         {!jwt ? <Redirect to ="/" /> : null}
         <Switch>
         <Route exact path={"/"}
@@ -61,7 +64,7 @@ function App(props) {
         )}
         />
         </Switch>
-        </BrowserRouter>
+        </HashRouter>
 
     )
 }

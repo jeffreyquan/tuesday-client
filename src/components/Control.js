@@ -22,6 +22,10 @@ const ControlStyle = styled.div`
       padding: 1.2em;
 `;
 
+let URL = (model, id = '') => {
+    return `https://tuesday-server.herokuapp.com/${model}/${id}`
+};
+
 class Control extends Component {
     constructor(props) {
         super(props);
@@ -39,7 +43,7 @@ class Control extends Component {
         }
 
         const fetchMemberships = () => {
-          axios.get(`https://tuesday-server.herokuapp.com/users/${ this.state.user_id }.json`).then( ( results ) => {
+          axios.get(URL(`users`,`${ this.state.user_id }`)).then( ( results ) => {
             const memberships = results.data.memberships;
             this.setState({
               memberships: memberships,
@@ -51,7 +55,7 @@ class Control extends Component {
       }
 
 saveProject(content) {
-  axios.post(`https://tuesday-server.herokuapp.com/projects.json`, content).then((result) => {
+  axios.post(URL(`projects.json`), content).then((result) => {
     debugger;
     console.log(result.data.memberships[0]);
     this.setState({memberships: [...this.state.memberships, result.data.memberships[0]]})
@@ -124,11 +128,11 @@ saveProject(content) {
         }
 
         _acceptInvite() {
-            axios.put(`https://tuesday-server.herokuapp.com/memberships/${ this.state.membership_id }.json`, {invitation : true}).then(result => console.log('Successfully updated.'))
+            axios.put(URL(`memberships`,`${ this.state.membership_id }.json`), {invitation : true}).then(result => console.log('Successfully updated.'))
         }
 
         _declineInvite() {
-            axios.delete(`https://tuesday-server.herokuapp.com/memberships/${ this.state.membership_id }.json`).then( result => console.log('Successfully deleted.'))
+            axios.delete(URL(`memberships`, `${ this.state.membership_id }.json`)).then( result => console.log('Successfully deleted.'))
         }
 
         render() {
@@ -202,10 +206,6 @@ saveProject(content) {
                         <div>
                           <button style={{color: '#009AFF', fontWeight: 'bold', fontSize: '17px', marginTop: '0.5em'}} onClick={() => { props.onClick(p.project.id);
                            }}>{ p.project.name }</button>
-                        {/* <Link to={{
-                        //     pathname: "/dashboard",
-                        //     state:{ project: p.project }
-                        // }}>{ p.project.name }</Link> */}
                         </div>
                     )
                 }

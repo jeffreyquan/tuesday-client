@@ -83,6 +83,10 @@ import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardOutlined';
         }
     `;
 
+let URL = (model, id = '') => {
+    return `https://tuesday-server.herokuapp.com/${model}/${id}`
+};
+
 export default class Login extends Component {
     constructor(props){
         super(props);
@@ -109,7 +113,7 @@ export default class Login extends Component {
             password,
         } = this.state;
 
-        axios.post('https://tuesday-server.herokuapp.com/session', {
+        axios.post(URL('session'), {
             user: {
                 email: email,
                 password: password,

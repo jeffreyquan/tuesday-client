@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0e2c2427a138fae4ccfd84b064bde0d1",
+    "revision": "2d0367ae399cc7691635bf44943f7cd5",
     "url": "/tuesday-client/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/tuesday-client/static/css/2.c946ee25.chunk.css"
   },
   {
-    "revision": "9beebeb633f004e11d17",
+    "revision": "161d3293c7db08f5fc45",
     "url": "/tuesday-client/static/css/main.19b37a54.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/tuesday-client/static/js/2.2e76e393.chunk.js"
   },
   {
-    "revision": "9beebeb633f004e11d17",
-    "url": "/tuesday-client/static/js/main.1852d25c.chunk.js"
+    "revision": "161d3293c7db08f5fc45",
+    "url": "/tuesday-client/static/js/main.ba4240c8.chunk.js"
   },
   {
     "revision": "675e2a92619cdb911192",

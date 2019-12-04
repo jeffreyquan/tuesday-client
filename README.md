@@ -1,68 +1,83 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Tuesday
 
-## Available Scripts
+This project is a simplified clone of [Monday.com](https://monday.com/). It allows teams to collaborate on projects, where you can group tasks and track the status of each task.
 
-In the project directory, you can run:
+Free free to test out our app at https://jeffreyquan.github.io/tuesday-client/#/.
 
-### `yarn start`
+The server repository is located at https://github.com/jeffreyquan/tuesday-server.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Getting started
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+#### Using our site
 
-### `yarn test`
+1. Create an account at https://jeffreyquan.github.io/tuesday-client/#/
+2. Create a new project.
+3. Ask your team members to sign up.
+4. Invite your team members using the emails they used to sign up.
+5. Once they accept your invitation, you can collaborate!
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+#### To test locally
+Feel free to fork the repository or download locally.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**In the client directory:**
+1. Run `npm install`
+2. Run `PORT=3333 npm run start`
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+This will run using our server which was deployed to Heroku.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Motivation
 
-### `yarn eject`
+We wanted to build a practical tool that can utilised by many people. We were inspired by Monday.com because of their diverse range of features and smooth functionality.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The aim of this project was to deliver an app that has the following core requirements:
+* **Models** - have at least 3 models, associated correctly.
+* **Views** - use partials to DRY (Don't Repeat Yourself) up views.
+* **Handles invalid data** - forms should validate data and handle correct inputs.
+* **Use Gems** - use a GEM that talks to an API to add functionality to the app.
+* **User Login** - basic authentication and authorisation.
+* **Heroku** - deploy to Heroku.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This was our third project at General Assembly's Software Engineering Immersive course at Sydney.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Technologies
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+* React - front-end
+* Ruby on Rails - back-end
+* [Material UI](https://material-ui.com/) - a React framework for styling
 
-## Learn More
+## Packages (React)
+* [axios](https://github.com/axios/axios) - used for requests to the Rails API
+* [underscore](https://underscorejs.org/)
+* [rc-datepicker](https://github.com/buildo/rc-datepicker) - enable elegant selection of due date for tasks
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Gems (Rails)
+* [Bcrypt](https://github.com/codahale/bcrypt-ruby) - for user authentication
+* [jwt](https://github.com/jwt/ruby-jwt) - used for logging in and creating sessions
+* [rack-cors](https://github.com/cyu/rack-cors) - used to enable Cross-Origin Resource Sharing(CORS)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contributors
 
-### Code Splitting
+* [@JinSeal](https://github.com/JinSeal/)
+* [@shaneenvitug](https://github.com/shaneenvitug)
+* [@jeffreyquan](https://github.com/jeffreyquan)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Key Features
 
-### Analyzing the Bundle Size
+* Create custom groups for tasks
+* Add and delete tasks
+* Select status, priority, due date and owner of each task
+* Invite members to join the project
+* Switch between various project dashboards
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Learnings
 
-### Making a Progressive Web App
+* User authentication
+* React front-end working with a Rails API
+* Styling with Material UI
+* Using [React hooks](https://reactjs.org/docs/hooks-intro.html) - using state without writing classes
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+## Future Developments
 
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* **Inbox** - allow users to send messages to each other
+* **Chat** - allow a group chat feature for teams working on the same project

@@ -45,6 +45,7 @@ This was our third project at General Assembly's Software Engineering Immersive 
 * React - front-end
 * Ruby on Rails - back-end
 * [Material UI](https://material-ui.com/) - a React framework for styling
+* [styled-components](https://www.styled-components.com/) - also used for styling
 
 ## Packages (React)
 * [axios](https://github.com/axios/axios) - used for requests to the Rails API
@@ -54,7 +55,7 @@ This was our third project at General Assembly's Software Engineering Immersive 
 ## Gems (Rails)
 * [Bcrypt](https://github.com/codahale/bcrypt-ruby) - for user authentication
 * [jwt](https://github.com/jwt/ruby-jwt) - used for logging in and creating sessions
-* [rack-cors](https://github.com/cyu/rack-cors) - used to enable Cross-Origin Resource Sharing(CORS)
+* [rack-cors](https://github.com/cyu/rack-cors) - used to enable Cross-Origin Resource Sharing (CORS)
 
 ## Contributors
 
@@ -67,7 +68,7 @@ This was our third project at General Assembly's Software Engineering Immersive 
 * Create custom groups for tasks
 * Add and delete tasks
 * Select status, priority, due date and owner of each task
-* Invite members to join the project
+* Invite members to join a project
 * Switch between various project dashboards
 
 ## Learnings
@@ -81,3 +82,18 @@ This was our third project at General Assembly's Software Engineering Immersive 
 
 * **Inbox** - allow users to send messages to each other
 * **Chat** - allow a group chat feature for teams working on the same project
+
+## Screenshots
+
+
+#### Home
+![Home Page](/screenshots/tuesday-home.png)
+
+#### Sample Project 1
+![Project 1 - Wallstreet Hub](/screenshots/tuesday-project-1.png)
+
+#### Sample Project 2
+![Project 2 - Local Food Festival](/screenshots/tuesday-project-2.png)
+
+#### Team - Members and Invitees
+![Team Members and Invitees](/screenshots/tuesday-team.png)

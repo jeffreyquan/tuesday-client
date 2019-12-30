@@ -92,6 +92,9 @@ This was our third project at General Assembly's Software Engineering Immersive 
 #### Sample Project 1
 ![Project 1 - Wallstreet Hub](/screenshots/tuesday-project-1.png)
 
+#### Instructions
+![Instructions](/screenshots/instructions.png)
+
 #### Sample Project 2
 ![Project 2 - Local Food Festival](/screenshots/tuesday-project-2.png)
 
